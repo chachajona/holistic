@@ -10,10 +10,10 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        roboto: ["var(--font-roboto)", ...fontFamily.roboto],
+        roboto: ["var(--font-roboto)", ...fontFamily.sans],
         robotoSerif: ["var(--font-serif)", ...fontFamily.serif],
         robotoMono: ["var(--font-mono)", ...fontFamily.mono],
-        robotoSlab: ["var(--font-slab)", ...fontFamily.slab],
+        robotoSlab: ["var(--font-slab)", ...fontFamily.sans],
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
