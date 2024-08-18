@@ -7,7 +7,7 @@ import logo from "@/assets/images/Logo_Opacity_Light.png";
 const Banner = () => {
   return (
     <div className="bg-primary-background py-2">
-      <div className="container mx-auto flex items-center justify-between px-5 md:px-16">
+      <div className="container mx-auto flex items-center justify-between md:px-16">
         <Image
           src={logo}
           alt="Holistic"
@@ -44,7 +44,7 @@ const Banner = () => {
               <FaFacebook size={16} />
             </a>
             <a
-              href="https://www.instagram.com/hawthorneskinandbeauty/"
+              href="https://www.instagram.com/holisticrep/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary-text hover:text-primary-hover"
