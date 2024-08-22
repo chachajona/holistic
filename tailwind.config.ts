@@ -75,6 +75,10 @@ const config = {
         "primary-text": "#744D40",
         "primary-hover": "#2B2321",
         "primary-background": "#DDD5D1",
+        "navbar-background": "#2B2321",
+        "navbar-accent-background": "#90776E",
+        "navbar-text": "#DDD5D1",
+        "navbar-accent-text": "#2B2321",
       },
       borderRadius: {
         lg: "var(--radius)",
