@@ -8,19 +8,21 @@ const Banner = () => {
   return (
     <div className="bg-primary-background py-2">
       <div className="container mx-auto flex items-center justify-between md:px-16">
-        <Image
-          src={logo}
-          alt="Holistic"
-          width={50}
-          height={50}
-          className="hidden p-1 md:block"
-        />
-        <div className="flex flex-col text-left font-robotoSlab font-normal lg:flex-row-reverse lg:items-center lg:gap-5">
+        <a href="/" about="Home">
+          <Image
+            src={logo}
+            alt="Holistic"
+            width={50}
+            height={50}
+            className="hidden p-1 md:block"
+          />
+        </a>
+        <div className="flex w-full flex-row-reverse justify-between text-left font-robotoSlab font-normal md:justify-normal lg:items-center lg:gap-5">
           <a
             href=""
             target="_blank"
             rel="noopener noreferrer"
-            className="text-primary-text hover:text-primary-hover flex items-center font-robotoSlab text-sm font-semibold"
+            className="hidden items-center font-robotoSlab text-sm font-semibold text-primary-text hover:text-primary-hover md:flex"
           >
             <MapPin size={16} className="mr-2 hidden md:block" />
             <span>
@@ -29,12 +31,12 @@ const Banner = () => {
           </a>
           <a
             href="tel:0828959598"
-            className="text-primary-text hover:text-primary-hover flex items-center text-sm"
+            className="flex items-center text-sm text-primary-text hover:text-primary-hover"
           >
-            <Phone size={16} className="mr-2 hidden md:block" />
+            <Phone size={16} className="mr-2" />
             <span>Hotline: 0828959598</span>
           </a>
-          <div className="mb-1 mt-2 flex gap-4 md:hidden">
+          <div className="flex items-center justify-center gap-4 align-middle md:hidden">
             <a
               href="https://www.facebook.com/holisticrep/"
               target="_blank"
