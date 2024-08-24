@@ -8,24 +8,29 @@ import {
 import "./globals.css";
 
 const roboto = Roboto({
-  weight: "100",
+  weight: ["100", "300", "400", "500", "700", "900"],
+  style: ["normal", "italic"],
   subsets: ["latin"],
   variable: "--font-roboto",
+  display: "swap",
 });
 const robotoSerif = Roboto_Serif({
-  weight: "400",
+  weight: ["100", "300", "400", "500", "700", "900"],
   subsets: ["latin"],
   variable: "--font-serif",
+  display: "swap",
 });
 const robotoMono = Roboto_Mono({
-  weight: "400",
+  weight: ["100", "300", "400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-mono",
+  display: "swap",
 });
 const robotoSlab = Roboto_Slab({
-  weight: "400",
+  weight: ["100", "300", "400", "500", "700", "900"],
   subsets: ["latin"],
   variable: "--font-slab",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -41,7 +46,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${roboto.variable} ${robotoSerif.variable} ${robotoMono.variable} ${robotoSlab.variable} bg-[ #F5F5F5 ] overflow-x-hidden overflow-y-scroll`}
+        className={`${roboto.variable} ${robotoSerif.variable} ${robotoSlab.variable} ${robotoMono.variable} bg-[ #F5F5F5 ] overflow-x-hidden overflow-y-scroll`}
       >
         {children}
       </body>

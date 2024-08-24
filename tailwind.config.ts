@@ -20,10 +20,13 @@ const config = {
     },
     extend: {
       fontFamily: {
-        roboto: ["var(--font-roboto)", ...fontFamily.sans],
-        robotoSerif: ["var(--font-serif)", ...fontFamily.serif],
-        robotoMono: ["var(--font-mono)", ...fontFamily.mono],
-        robotoSlab: ["var(--font-slab)", ...fontFamily.sans],
+        roboto: ["var(--font-roboto)"],
+        robotoSerif: ["var(--font-serif)"],
+        robotoMono: ["var(--font-mono)"],
+        robotoSlab: ["var(--font-slab)"],
+      },
+      backgroundImage: {
+        "hero-pattern": "url('/Hero.png')",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -94,10 +97,19 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        shimmer: {
+          from: {
+            "backgroundPosition": "0 0"
+          },
+          to: {
+            "backgroundPosition": "-200% 0"
+          }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        shimmer: "shimmer 2s linear infinite",
       },
     },
   },
