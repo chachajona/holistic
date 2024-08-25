@@ -1,6 +1,7 @@
 import Banner from "@/components/Banner";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
+import QuickLinks from "@/components/QuickLinks";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
       <Navbar />
       <div className="content-normal">
         <Hero />
+        <QuickLinks />
       </div>
     </main>
   );
