@@ -10,7 +10,7 @@ const Team: React.FC<Props> = ({ className }) => {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       enableBackground="new 0 0 262.667 215.874"
-      viewBox="-5 -10 110 135"
+      viewBox="0 0 262.667 269.842"
       className={cn(className)}
       fill="currentColor"
 

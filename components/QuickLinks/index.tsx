@@ -43,24 +43,24 @@ const QuickLinkCard: React.FC<QuickLinkCardProps> = ({
 const quickLinks = [
   {
     title: "Dịch vụ",
-    icon: <Service className="h-20 w-20" />,
+    icon: <Service className="h-14 w-14" />,
     bgImage: link1,
   },
   {
     title: "Phương pháp",
-    icon: <Treatment className="h-20 w-20" />,
+    icon: <Treatment className="w-36" />,
     bgImage: link2,
   },
   {
     title: "Đội ngũ",
-    icon: <Team className="h-20 w-20" />,
+    icon: <Team className="w-36" />,
     bgImage: link3,
   },
 ];
 
 export default function QuickLinkSection() {
   return (
-    <section className="container mx-auto bg-primary-background px-4 py-8">
+    <section className="container mx-auto bg-primary-background px-4 py-8 md:px-16">
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
         {quickLinks.map((link) => (
           <QuickLinkCard key={link.title} {...link} />
