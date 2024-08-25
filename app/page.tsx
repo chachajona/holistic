@@ -7,14 +7,12 @@ import Testimonial from "@/components/Testimonimal";
 
 export default function Home() {
   return (
-    <main className="flex max-h-screen min-h-screen min-w-full flex-col bg-background">
+    <main className="relative flex min-h-screen min-w-full flex-col bg-background">
       <Banner />
       <Navbar />
-      <div className="content-normal">
-        <Hero />
-        <QuickLinks />
-        <Testimonial />
-      </div>
+      <Hero />
+      <QuickLinks />
+      <Testimonial />
       <Footer />
     </main>
   );

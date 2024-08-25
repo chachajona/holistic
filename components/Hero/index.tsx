@@ -5,11 +5,11 @@ import { Send, CalendarCheck, CircleCheckBig } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative w-full bg-hero-pattern bg-cover bg-center py-12 md:py-[85px]">
+    <section className="relative w-full max-[100dvh] bg-hero-pattern bg-cover bg-center py-16 md:py-[85px]">
       <div className="absolute inset-0 bg-black bg-opacity-60"></div>
       <div className="container relative md:px-16">
         <div className="grid gap-6 lg:grid-cols-[1fr_200px] lg:gap-12 xl:grid-cols-[1fr_400px]">
-          <div className="flex flex-col justify-center space-y-5">
+          <div className="flex flex-col justify-center space-y-5 gap-12 md:gap-0">
             <h1 className="font-robotoSerif text-4xl font-bold tracking-normal text-brown-50 text-primary-foreground md:text-6xl xl:text-[64px] xl:leading-[64px]">
               Giúp mọi người{" "}
               <span className="font-robotoSlab font-light">
@@ -20,7 +20,7 @@ const Hero = () => {
 
             <div className="flex flex-col gap-4 min-[400px]:flex-row">
               <div className="flex w-full flex-col space-y-3 rounded-xl bg-primary-background/80 p-6 shadow-lg backdrop-blur-sm transition-all duration-300 hover:shadow-xl md:max-w-md lg:max-w-lg">
-                <h3 className="font-robotoSerif text-2xl font-bold uppercase text-primary-text">
+                <h3 className="font-robotoSerif text-lg md:text-2xl font-bold uppercase text-primary-text">
                   Tư vấn ngay trong 30 giây
                 </h3>
                 <div className="flex flex-wrap items-center gap-4 font-robotoSlab text-sm text-primary-text">

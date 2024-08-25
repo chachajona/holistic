@@ -51,33 +51,10 @@ const methods = [
     description:
       "For sighted users to preview content available behind a link.",
   },
-  {
-    title: "Progress",
-    href: "/docs/primitives/progress",
-    description:
-      "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-  },
-  {
-    title: "Scroll-area",
-    href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
-  },
-  {
-    title: "Tabs",
-    href: "/docs/primitives/tabs",
-    description:
-      "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-  },
-  {
-    title: "Tooltip",
-    href: "/docs/primitives/tooltip",
-    description:
-      "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-  },
 ];
 
 const MainNavBar: React.FC = () => (
-  <nav className="bg-navbar-background font-robotoSerif text-sm text-navbar-text shadow-md">
+  <nav className="sticky top-0 z-50 bg-navbar-background font-robotoSerif text-sm text-navbar-text shadow-md">
     <div className="container mx-auto px-0 md:pl-12 md:pr-16">
       <div className="flex max-h-[72px] items-center justify-between py-6">
         <div className="flex items-center gap-11">
@@ -193,7 +170,7 @@ const NavItem = React.forwardRef<
       <a
         ref={ref}
         className={cn(
-          "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-navbar-accent-background/25 hover:text-navbar-accent-text focus:bg-navbar-accent-background/25 focus:text-navbar-accent-text group",
+          "group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-navbar-accent-background/25 hover:text-navbar-accent-text focus:bg-navbar-accent-background/25 focus:text-navbar-accent-text",
           className,
         )}
         {...props}

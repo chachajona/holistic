@@ -154,17 +154,17 @@ export const MobileNav: React.FC = () => {
             <CollapsibleNavItem title="Dịch vụ">
               <SubLink
                 href="#"
-                title="Shoes"
+                title="Tư vấn chuyên sâu"
                 description="Browse our collection of stylish shoes."
               />
               <SubLink
                 href="#"
-                title="Apparel"
+                title="Thư giãn cơ"
                 description="Check out our latest clothing items."
               />
               <SubLink
                 href="#"
-                title="Accessories"
+                title="Tập luyện cơ bản"
                 description="Explore our selection of accessories."
               />
             </CollapsibleNavItem>

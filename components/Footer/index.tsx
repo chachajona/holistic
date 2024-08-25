@@ -15,12 +15,12 @@ const Footer: React.FC = () => {
           </p>
           <p className="mb-1 font-robotoSlab text-sm font-semibold">Hotline:</p>
           <Link href="tel:+842862653030">
-            <p className="mb-2 hover:text-stone-700 hover:underline">
+            <p className="mb-1 font-robotoMono text-sm font-normal hover:text-stone-700 hover:underline">
               (+84) 286 265 3030
             </p>
           </Link>
           <Link href="mailto:info@holistic.vn">
-            <p className="mb-4 hover:text-stone-700 hover:underline">
+            <p className="mb-4 font-robotoMono text-sm font-normal hover:text-stone-700 hover:underline">
               info@holistic.vn
             </p>
           </Link>
