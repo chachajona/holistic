@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Phone, MapPin } from "lucide-react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 import logo from "@/assets/images/Logo_Opacity_Light.png";
@@ -29,30 +30,30 @@ const Banner = () => {
               Địa chỉ: 70 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3
             </span>
           </a>
-          <a
+          <Link
             href="tel:0828959598"
             className="flex items-center text-sm text-primary-text hover:text-primary-hover"
           >
             <Phone size={16} className="mr-2" />
             <span>Hotline: 0828959598</span>
-          </a>
+          </Link>
           <div className="flex items-center justify-center gap-4 align-middle md:hidden">
-            <a
+            <Link
               href="https://www.facebook.com/holisticrep/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary-text hover:text-primary-hover"
             >
               <FaFacebook size={16} />
-            </a>
-            <a
+            </Link>
+            <Link
               href="https://www.instagram.com/holisticrep/"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary-text hover:text-primary-hover"
             >
               <FaInstagram size={16} />
-            </a>
+            </Link>
           </div>
         </div>
       </div>

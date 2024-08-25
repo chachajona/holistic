@@ -1,4 +1,5 @@
 import Banner from "@/components/Banner";
+import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import QuickLinks from "@/components/QuickLinks";
@@ -14,6 +15,7 @@ export default function Home() {
         <QuickLinks />
         <Testimonial />
       </div>
+      <Footer />
     </main>
   );
 }
