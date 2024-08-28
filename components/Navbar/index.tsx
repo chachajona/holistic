@@ -98,7 +98,7 @@ const DesktopNavigation: React.FC = () => (
     <NavigationMenuList>
       <NavigationMenuItem>
         <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text data-[active]:bg-navbar-accent-background/35 data-[state=open]:bg-navbar-accent-background/35">
-          Dịch vụ
+          <Link href="/services" >Dịch vụ</Link>
         </NavigationMenuTrigger>
         <NavigationMenuContent className="bg-primary-background">
           <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">

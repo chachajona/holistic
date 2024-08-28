@@ -150,7 +150,7 @@ export const MobileNav: React.FC = () => {
         </MobileLink>
         <ScrollArea className="h-[calc(100vh-8rem)]">
           <div className="grid gap-2 py-4">
-            <NavLink href="#">Trang chủ</NavLink>
+            <NavLink href="/">Trang chủ</NavLink>
             <CollapsibleNavItem title="Dịch vụ">
               <SubLink
                 href="#"
