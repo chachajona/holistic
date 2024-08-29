@@ -5,12 +5,12 @@ import { Send, CalendarCheck, CircleCheckBig } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative w-full max-[100dvh] bg-hero-pattern bg-cover bg-center py-16 md:py-[85px]">
+    <section className="relative w-full min-h-[calc(100dvh-92px)] md:min-h-[calc(100dvh-250px)] max-h-screen bg-hero-pattern bg-cover bg-center py-16 md:py-[85px]">
       <div className="absolute inset-0 bg-black bg-opacity-60"></div>
       <div className="container relative md:px-16">
         <div className="grid gap-6 lg:grid-cols-[1fr_200px] lg:gap-12 xl:grid-cols-[1fr_400px]">
-          <div className="flex flex-col justify-center space-y-5 gap-12 md:gap-0">
-            <h1 className="font-robotoSerif text-4xl font-bold tracking-normal text-brown-50 text-primary-foreground md:text-6xl xl:text-[64px] xl:leading-[64px]">
+          <div className="flex flex-col justify-center items-left space-y-5 gap-12 md:gap-0">
+            <h1 className="font-robotoSerif text-5xl font-bold tracking-normal text-brown-50 text-primary-foreground md:text-6xl xl:text-[64px] xl:leading-[64px]">
               Giúp mọi người{" "}
               <span className="font-robotoSlab font-light">
                 cải thiện sức khoẻ vận động một cách
