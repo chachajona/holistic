@@ -62,7 +62,7 @@ const Footer: React.FC = () => {
           <a href="/services" className="hover:text-stone-700">
             Dịch vụ
           </a>
-          <a href="#" className="hover:text-stone-700">
+          <a href="/treatments" className="hover:text-stone-700">
             Phương pháp
           </a>
           <a href="#" className="hover:text-stone-700">

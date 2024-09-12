@@ -1,7 +1,11 @@
 "use client";
 import { motion } from "framer-motion";
 
-const Header = () => {
+const Header = ({ title, subtitle, backgroundImage }: {
+  title: string,
+  subtitle?: string,
+  backgroundImage: string
+}) => {
   return (
     <motion.header
       className="relative h-96 max-h-96 overflow-hidden bg-black text-white"
@@ -12,7 +16,7 @@ const Header = () => {
       <motion.div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: "url('/Hero.png')",
+          backgroundImage,
           filter: "brightness(40%)",
         }}
         initial={{ scale: 1.2 }}
@@ -26,7 +30,7 @@ const Header = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
         >
-          Dịch Vụ
+          {title}
         </motion.h1>
         <motion.p
           className="mt-4 max-w-3xl text-left font-robotoSlab text-base md:text-lg font-light"
@@ -34,8 +38,7 @@ const Header = () => {
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}
         >
-          Tự thưởng cho bản thân một gói dịch vụ và tiết kiệm hoặc kiểm tra các
-          ưu đãi hiện tại.
+          {subtitle}
         </motion.p>
       </div>
     </motion.header>
