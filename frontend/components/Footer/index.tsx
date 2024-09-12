@@ -65,7 +65,7 @@ const Footer: React.FC = () => {
           <a href="/treatments" className="hover:text-stone-700">
             Phương pháp
           </a>
-          <a href="#" className="hover:text-stone-700">
+          <a href="/about" className="hover:text-stone-700">
             Giới thiệu
           </a>
           <a href="#" className="hover:text-stone-700">
@@ -77,13 +77,13 @@ const Footer: React.FC = () => {
         <p>&copy; 2024 Holistic. All rights reserved.</p>
         <div className="mt-4 flex flex-col space-x-0 sm:mt-0 md:flex-row md:space-x-4">
           <Link href="#" className="hover:underline">
-            Privacy Policy
+            Chính sách bảo mật
           </Link>
           <Link href="#" className="hover:underline">
-            Terms and Conditions
+            Điều khoản và điều kiện
           </Link>
           <Link href="#" className="hover:underline">
-            Cookie Policy
+            Chính sách cookie
           </Link>
         </div>
       </div>
