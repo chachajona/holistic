@@ -3,26 +3,30 @@ import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import React from "react";
 
-import stretching from "@/assets/images/Stretching.jpg"
-import exercise from "@/assets/images/Exercise.jpg"
+import stretching from "@/assets/images/Stretching.jpg";
+import exercise from "@/assets/images/Exercise.jpg";
+import acupuncture from "@/assets/images/acupuncture.jpg";
 
 const treatments = [
     {
-        title: 'Công cụ giải quyết công việc',
-        description: 'Các phương pháp tuyển tập giúp bạn có thể nhanh chóng giải quyết công việc một cách hiệu quả. Đồng thời giúp bạn tiết kiệm thời gian, công sức và chi phí đáng kể.',
-        image: stretching
+        title: "Công cụ giải quyết công việc",
+        description:
+            "Các phương pháp tuyển tập giúp bạn có thể nhanh chóng giải quyết công việc một cách hiệu quả. Đồng thời giúp bạn tiết kiệm thời gian, công sức và chi phí đáng kể.",
+        image: stretching,
     },
     {
-        title: 'Tập luyện',
-        description: 'Các phương pháp tuyển tập giúp bạn có thể nhanh chóng tập luyện một cách hiệu quả. Đồng thời giúp bạn tiết kiệm thời gian, công sức và chi phí đáng kể.',
-        image: exercise
+        title: "Tập luyện",
+        description:
+            "Các phương pháp tuyển tập giúp bạn có thể nhanh chóng tập luyện một cách hiệu quả. Đồng thời giúp bạn tiết kiệm thời gian, công sức và chi phí đáng kể.",
+        image: exercise,
     },
     {
-        title: 'Điện châm',
-        description: 'Các phương pháp tuyển tập giúp bạn có thể nhanh chóng xử lý dữ liệu điện tử một cách hiệu quả. Đồng thời giúp bạn tiết kiệm thời gian, công sức và chi phí đáng kể.',
-        image: stretching
-    }
-]
+        title: "Điện châm",
+        description:
+            "Các phương pháp tuyển tập giúp bạn có thể nhanh chóng xử lý dữ liệu điện tử một cách hiệu quả. Đồng thời giúp bạn tiết kiệm thời gian, công sức và chi phí đáng kể.",
+        image: acupuncture,
+    },
+];
 
 export default function TreatmentsPage() {
     return (
