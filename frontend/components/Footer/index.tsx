@@ -2,13 +2,16 @@ import React from "react";
 import Image from "next/image";
 import logo from "@/assets/images/Symbol+FullName_Variant3.png";
 import Link from "next/link";
+import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-primary-background py-8 font-light text-primary-text md:px-16">
       <div className="container mx-auto flex flex-col items-start justify-between md:flex-row">
         <div className="mb-6 md:mb-0">
-          <Image src={logo} alt="Holistic" width={300} height={100} />
+          <AspectRatio ratio={16 / 9}>
+            <Image src={logo} alt="Holistic" fill className="object-contain" />
+          </AspectRatio>
           <p className="mb-1 font-robotoSlab text-sm font-semibold">Địa chỉ:</p>
           <p className="mb-2 font-robotoMono text-sm font-normal">
             79 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3, TP.HCM
@@ -26,7 +29,10 @@ const Footer: React.FC = () => {
           </Link>
 
           <div className="flex space-x-4">
-            <a href="#" className="hover:text-stone-700">
+            <Link
+              href="https://www.facebook.com/holisticrep/"
+              className="hover:text-stone-700"
+            >
               <span className="sr-only">Facebook</span>
               <svg
                 className="h-6 w-6"
@@ -40,8 +46,11 @@ const Footer: React.FC = () => {
                   clipRule="evenodd"
                 />
               </svg>
-            </a>
-            <a href="#" className="hover:text-stone-700">
+            </Link>
+            <Link
+              href="https://www.instagram.com/holisticrep/"
+              className="hover:text-stone-700"
+            >
               <span className="sr-only">Instagram</span>
               <svg
                 className="h-6 w-6"
@@ -55,27 +64,39 @@ const Footer: React.FC = () => {
                   clipRule="evenodd"
                 />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
-        <div className="flex flex-col space-y-4 font-robotoSlab font-medium md:flex-row md:space-x-12 md:space-y-0">
-          <a href="/services" className="hover:text-stone-700">
+        <div className="flex flex-col space-y-4 font-robotoSlab font-medium md:space-y-0 lg:flex-row lg:space-x-12">
+          <Link
+            href="/services"
+            className="text-left hover:text-stone-700 lg:text-right"
+          >
             Dịch vụ
-          </a>
-          <a href="/treatments" className="hover:text-stone-700">
+          </Link>
+          <Link
+            href="/treatments"
+            className="text-left hover:text-stone-700 lg:text-right"
+          >
             Phương pháp
-          </a>
-          <a href="/about" className="hover:text-stone-700">
+          </Link>
+          <Link
+            href="/about"
+            className="text-left hover:text-stone-700 lg:text-right"
+          >
             Giới thiệu
-          </a>
-          <a href="#" className="hover:text-stone-700">
+          </Link>
+          <Link
+            href="#"
+            className="text-left hover:text-stone-700 lg:text-right"
+          >
             Blogs
-          </a>
+          </Link>
         </div>
       </div>
       <div className="container mt-12 flex flex-col-reverse items-start justify-between gap-10 border-t border-[#8c7e75] font-robotoMono text-sm font-normal md:flex-row md:items-center md:pt-8">
-        <p>&copy; 2024 Holistic. All rights reserved.</p>
-        <div className="mt-4 flex flex-col space-x-0 sm:mt-0 md:flex-row md:space-x-4">
+        <p>&copy; 2024 Holistic. Mọi quyền được bảo lưu.</p>
+        <div className="mt-4 flex flex-col space-x-0 space-y-2 sm:mt-0 md:flex-row md:space-x-4">
           <Link href="#" className="hover:underline">
             Chính sách bảo mật
           </Link>

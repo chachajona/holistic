@@ -63,10 +63,10 @@ export default function ServicesPage() {
         <span className="mb-4 inline-block rounded-lg bg-primary-text/10 px-3 py-1 font-robotoMono text-base font-light">
           Gói dịch vụ
         </span>
-        <h2 className="mb-6 max-w-2xl font-robotoSerif text-3xl font-bold capitalize">
+        <h2 className="mb-6 max-w-2xl p-1 font-robotoSerif text-3xl font-bold capitalize">
           Dịch vụ Vật lý Trị liệu Toàn diện cho Mọi Nhu cầu
         </h2>
-        <p className="mb-8 max-w-xl font-robotoSlab font-normal text-primary-text/50">
+        <p className="mb-8 max-w-xl p-1 font-robotoSlab font-normal text-primary-text/50">
           Dịch vụ vật lý trị liệu của chúng tôi đáp ứng nhu cầu đa dạng, bao gồm
           vật lý trị liệu chỉnh hình, phục hồi chức năng thể thao và phục hồi
           sau phẫu thuật. Chúng tôi cam kết cung cấp dịch vụ chăm sóc toàn diện
@@ -114,7 +114,7 @@ export default function ServicesPage() {
           className="group flex flex-row text-primary-text"
         >
           Đặt lịch hẹn
-          <ChevronRight className="animate-shake ml-2 h-4 w-4" />
+          <ChevronRight className="ml-2 h-4 w-4 animate-shake" />
         </Button>
       </motion.div>
     </div>
