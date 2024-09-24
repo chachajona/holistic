@@ -96,7 +96,7 @@ const Footer: React.FC = () => {
       </div>
       <div className="container mt-12 flex flex-col-reverse items-start justify-between gap-10 border-t border-[#8c7e75] font-robotoMono text-sm font-normal md:flex-row md:items-center md:pt-8">
         <p>&copy; 2024 Holistic. Mọi quyền được bảo lưu.</p>
-        <div className="mt-4 flex flex-col space-x-0 space-y-2 sm:mt-0 md:flex-row md:space-x-4">
+        <div className="mt-4 flex flex-col gap-0 items-center sm:mt-0 md:flex-row md:gap-3">
           <Link href="#" className="hover:underline">
             Chính sách bảo mật
           </Link>

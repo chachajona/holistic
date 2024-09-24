@@ -145,7 +145,7 @@ const DesktopNavigation: React.FC = () => (
       </NavigationMenuItem>
       {["Giới thiệu", "Blog"].map((item) => (
         <NavigationMenuItem key={item}>
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/about" legacyBehavior passHref>
             <NavigationMenuLink
               className={cn(
                 navigationMenuTriggerStyle(),
