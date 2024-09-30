@@ -2,7 +2,7 @@ import React from "react";
 import Image from "next/image";
 import logo from "@/assets/images/Symbol+FullName_Variant3.png";
 import Link from "next/link";
-import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const Footer: React.FC = () => {
   return (

@@ -153,39 +153,39 @@ export const MobileNav: React.FC = () => {
             <NavLink href="/">Trang chủ</NavLink>
             <CollapsibleNavItem title="Dịch vụ">
               <SubLink
-                href="#"
+                href="/services"
                 title="Tư vấn chuyên sâu"
                 description="Browse our collection of stylish shoes."
               />
               <SubLink
-                href="#"
+                href="/services"
                 title="Thư giãn cơ"
                 description="Check out our latest clothing items."
               />
               <SubLink
-                href="#"
+                href="/services"
                 title="Tập luyện cơ bản"
                 description="Explore our selection of accessories."
               />
             </CollapsibleNavItem>
             <CollapsibleNavItem title="Phương pháp">
               <SubLink
-                href="#"
+                href="/treatments"
                 title="Blog"
                 description="Read our latest blog posts."
               />
               <SubLink
-                href="#"
+                href="/treatments"
                 title="Documentation"
                 description="Learn how to use our products."
               />
               <SubLink
-                href="#"
+                href="/treatments"
                 title="Support"
                 description="Get help with our products."
               />
             </CollapsibleNavItem>
-            <NavLink href="#">Giới thiệu</NavLink>
+            <NavLink href="/about">Giới thiệu</NavLink>
             <NavLink href="#">Blog</NavLink>
           </div>
         </ScrollArea>
