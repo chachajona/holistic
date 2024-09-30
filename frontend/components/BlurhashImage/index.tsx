@@ -1,6 +1,7 @@
 "use client";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Blurhash } from "react-blurhash";
 
@@ -47,7 +48,7 @@ export function BlurhashImage({
                     width={width}
                 />
             ) : null}
-            <img
+            <Image
                 src={imageUrl}
                 alt="Loaded Image"
                 style={{ display: isLoading ? "none" : "block" }}

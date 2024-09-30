@@ -50,7 +50,7 @@ const teamMembers: TeamMember[] = [
     },
 ];
 
-async function Showcase() {
+function Showcase() {
     // const processedMembers = await Promise.all(
     //     teamMembers.map(async member => {
     //         const optimizedImage = await getOptimizedImageData(member.image);
@@ -75,10 +75,7 @@ async function Showcase() {
 
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {teamMembers.map((member, index) => (
-                    <div
-                        key={index}
-                        className="overflow-hidden bg-transparent"
-                    >
+                    <div key={index} className="overflow-hidden bg-transparent">
                         {/* {member.optimizedImage ? (
                             <BlurhashImage
                                 imageUrl={member.optimizedImage.webPDataUrl}
@@ -94,11 +91,11 @@ async function Showcase() {
                                 fill
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                 priority={index === 0}
-                                className="object-cover rounded-lg"
+                                className="rounded-lg object-cover"
                             />
                         </AspectRatio>
                         {/* )} */}
-                        <div className="py-4 flex flex-col gap-1">
+                        <div className="flex flex-col gap-1 py-4">
                             <h2 className="font-robotoSlab text-xl font-semibold text-primary-text">
                                 {member.name}
                             </h2>
