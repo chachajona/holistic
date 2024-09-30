@@ -45,7 +45,7 @@ export default function AboutPage() {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex space-x-4 text-sm text-primary-text">
+                        <div className="flex space-x-4 font-robotoSerif text-sm text-primary-text">
                             <Button
                                 variant={"outline"}
                                 className="border-primary-text bg-transparent text-primary-text hover:bg-primary-text hover:text-white"

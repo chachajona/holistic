@@ -14,20 +14,6 @@ const nextConfig = {
             },
         },
     },
-    webpack: (config, { isServer }) => {
-        if (!isServer) {
-            config.resolve.fallback = {
-                ...config.resolve.fallback,
-                fallback: {
-                    fs: false,
-                    path: false,
-                    os: false,
-                    child_process: false,
-                },
-            };
-        }
-        return config;
-    },
 };
 
 export default withPlaiceholder(nextConfig);
