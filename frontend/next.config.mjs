@@ -14,6 +14,9 @@ const nextConfig = {
             },
         },
     },
+    images: {
+        domains: ["images.unsplash.com"],
+    },
 };
 
 export default withPlaiceholder(nextConfig);
