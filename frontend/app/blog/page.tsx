@@ -3,12 +3,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
-    Accordion,
-    AccordionContent,
-    AccordionItem,
-    AccordionTrigger,
-} from "@/components/ui/accordion";
-import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -17,6 +11,8 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Input } from "@/components/ui/input";
+import { PopularBlogPosts, RecentBlogPosts } from "@/components/Post";
+import FAQ from "@/components/FAQ";
 
 const BlogPage = () => {
     return (
@@ -24,17 +20,24 @@ const BlogPage = () => {
             {/* Main Blog Post */}
             <section className="container mx-auto w-full py-6 md:px-16 md:py-8">
                 <div className="flex flex-col gap-8 md:flex-row">
-                    <div className="flex flex-col items-start gap-5 justify-start md:w-1/3">
+                    <div className="flex flex-col items-start justify-start gap-5 md:w-1/3">
                         <Breadcrumb className="font-robotoSlab text-primary-text">
                             <BreadcrumbList>
                                 <BreadcrumbItem>
                                     <BreadcrumbLink asChild>
-                                        <Link href="/">Trang chủ</Link>
+                                        <Link
+                                            href="/"
+                                            className="text-primary-text/70 hover:text-primary-text"
+                                        >
+                                            Trang chủ
+                                        </Link>
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
-                                <BreadcrumbSeparator />
+                                <BreadcrumbSeparator className="text-primary-text/70" />
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage className="text-primary-text">Blog</BreadcrumbPage>
+                                    <BreadcrumbPage className="font-semibold text-primary-text">
+                                        Blog
+                                    </BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
@@ -43,10 +46,12 @@ const BlogPage = () => {
                                 Khám phá những hiểu biết mới nhất về Vật lý trị
                                 liệu
                             </h1>
-                            <p className="mb-2 text-sm">
+                            <p className="mb-2 text-sm text-primary-text">
                                 bởi John Doe • 11 tháng 1 năm 2023 • đọc 3 phút
                             </p>
-                            <p>Chia sẻ bài đăng này</p>
+                            <p className="font-semibold text-primary-text">
+                                Chia sẻ bài đăng này
+                            </p>
                         </div>
                     </div>
                     <div className="md:w-2/3">
@@ -62,132 +67,43 @@ const BlogPage = () => {
             </section>
 
             {/* Recent Blog Posts */}
-            <section className="container mx-auto w-full py-6 md:px-16 md:py-8">
-                <h2 className="mb-6 font-robotoSerif text-3xl font-bold capitalize text-primary-text">
-                    Khám phá các blog gần đây của chúng tôi
-                </h2>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                    {[1, 2, 3].map(i => (
-                        <div
-                            key={i}
-                            className="overflow-hidden rounded-lg bg-white shadow-md"
-                        >
-                            <Image
-                                src="https://images.unsplash.com/photo-1586401100295-7a8096fd231a?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt={`Blog post ${i}`}
-                                width={400}
-                                height={200}
-                                className="h-48 w-full object-cover"
-                            />
-                            <div className="p-4">
-                                <h3 className="mb-2 text-xl font-semibold">
-                                    Tiêu đề blog post
-                                </h3>
-                                <p className="mb-4 text-sm">
-                                    Mô tả ngắn về bài viết...
-                                </p>
-                                <p className="text-xs">
-                                    11 tháng 1 năm 2023 • đọc 5 phút
-                                </p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <div className="mt-8 text-center">
-                    <Button variant="outline">Xem tất cả</Button>
-                </div>
-            </section>
+            <RecentBlogPosts />
 
             {/* Popular Blog Posts */}
-            <section className="container mx-auto w-full py-6 md:px-16 md:py-8">
-                <h2 className="mb-6 font-robotoSerif text-3xl font-bold capitalize text-primary-text">
-                    Khám phá các blog phổ biến của chúng tôi
-                </h2>
-                <div className="mb-6 flex gap-4 overflow-x-auto">
-                    <Button variant="outline">Xem tất cả</Button>
-                    <Button variant="outline">Vật lý trị liệu</Button>
-                    <Button variant="outline">Phục hồi chức năng</Button>
-                    <Button variant="outline">Phòng chống thương tích</Button>
-                    <Button variant="outline">Y học thể thao</Button>
-                </div>
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-                    {[1, 2, 3, 4, 5, 6].map(i => (
-                        <div
-                            key={i}
-                            className="overflow-hidden rounded-lg bg-white shadow-md"
-                        >
-                            <Image
-                                src="https://images.unsplash.com/photo-1522898467493-49726bf28798?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt={`Popular blog post ${i}`}
-                                width={400}
-                                height={200}
-                                className="h-48 w-full object-cover"
-                            />
-                            <div className="p-4">
-                                <h3 className="mb-2 text-xl font-semibold">
-                                    Tiêu đề blog post phổ biến
-                                </h3>
-                                <p className="mb-4 text-sm">
-                                    Mô tả ngắn về bài viết phổ biến...
-                                </p>
-                                <p className="text-xs">Đọc 3 phút</p>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
+            <PopularBlogPosts />
 
             {/* FAQ Section */}
-            <section className="container mx-auto w-full py-6 md:px-16 md:py-8">
-                <h2 className="mb-6 text-3xl font-bold">
-                    Các câu hỏi thường gặp
-                </h2>
-                <Accordion type="single" collapsible className="w-full">
-                    {[1, 2, 3, 4, 5].map(i => (
-                        <AccordionItem key={i} value={`item-${i}`}>
-                            <AccordionTrigger>
-                                Câu hỏi thường gặp {i}?
-                            </AccordionTrigger>
-                            <AccordionContent>
-                                Đây là câu trả lời cho câu hỏi thường gặp {i}.
-                                Chúng tôi cung cấp thông tin chi tiết và hữu ích
-                                để giải đáp thắc mắc của bạn.
-                            </AccordionContent>
-                        </AccordionItem>
-                    ))}
-                </Accordion>
-                <div className="mt-8 text-center">
-                    <Button>Liên hệ</Button>
-                </div>
-            </section>
+            <FAQ />
 
             {/* Newsletter Signup */}
             <section className="container mx-auto w-full py-6 md:px-16 md:py-8">
-                <div className="flex flex-col items-center gap-8 rounded-lg bg-white p-8 shadow-md md:flex-row">
-                    <div className="md:w-1/2">
-                        <h2 className="mb-4 text-3xl font-bold">
+                <div className="flex flex-col items-center gap-8 rounded-lg border border-primary-text bg-transparent shadow-md md:flex-row">
+                    <div className="p-8 md:w-1/2">
+                        <h2 className="mb-4 font-robotoSerif text-5xl font-bold leading-tight text-primary-text">
                             Cập nhật thông tin với Blog của chúng tôi
                         </h2>
-                        <p className="mb-4">
+                        <p className="mb-4 font-robotoSlab text-base text-primary-text/60">
                             Đăng ký blog hàng tuần của chúng tôi để nhận thông
                             tin cập nhật thường xuyên về các chủ đề sức khỏe.
                         </p>
                         <div className="flex gap-4">
                             <Input
-                                type="email"
-                                placeholder="Địa chỉ email của bạn"
-                                className="flex-grow"
+                                type="phone"
+                                placeholder="Nhập số điện thoại của bạn"
+                                className="flex-grow font-robotoSlab text-sm"
                             />
-                            <Button>Đăng ký</Button>
+                            <Button className="bg-primary-text font-robotoSerif text-base hover:bg-brown-950">
+                                Đăng ký
+                            </Button>
                         </div>
                     </div>
                     <div className="md:w-1/2">
                         <Image
-                            src="https://images.unsplash.com/photo-1572341396754-c8b300b56292?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                            src="https://images.unsplash.com/photo-1523966211575-eb4a01e7dd51?q=80&w=1420&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
                             alt="Newsletter signup"
-                            width={500}
-                            height={300}
-                            className="rounded-lg"
+                            width={1000}
+                            height={100}
+                            className="max-h-fit rounded-lg"
                         />
                     </div>
                 </div>
