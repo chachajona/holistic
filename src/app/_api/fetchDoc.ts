@@ -1,9 +1,9 @@
 import type { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 
 import type { Config } from '../../payload/payload-types'
-import { ORDER } from '../_graphql/orders'
 import { PAGE } from '../_graphql/pages'
-import { PRODUCT } from '../_graphql/products'
+import { POST } from '../_graphql/posts'
+import { PROJECT } from '../_graphql/projects'
 import { GRAPHQL_API_URL } from './shared'
 import { payloadToken } from './token'
 
@@ -12,13 +12,13 @@ const queryMap = {
     query: PAGE,
     key: 'Pages',
   },
-  products: {
-    query: PRODUCT,
-    key: 'Products',
+  posts: {
+    query: POST,
+    key: 'Posts',
   },
-  orders: {
-    query: ORDER,
-    key: 'Orders',
+  projects: {
+    query: PROJECT,
+    key: 'Projects',
   },
 }
 

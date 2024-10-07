@@ -1,4 +1,6 @@
-export const image1 = {
+import type { Media } from '../payload-types'
+
+export const image1: Omit<Media, 'id' | 'createdAt' | 'updatedAt'> = {
   alt: 'Shirts',
   caption: [
     {
@@ -9,11 +11,11 @@ export const image1 = {
         {
           type: 'link',
           linkType: 'custom',
-          url: 'https://unsplash.com/@henmankk?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
+          url: 'https://unsplash.com/@cerpow?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
           newTab: true,
           children: [
             {
-              text: 'Keagan Henman',
+              text: 'Voicu Apostol',
             },
           ],
         },
@@ -23,7 +25,7 @@ export const image1 = {
         {
           type: 'link',
           linkType: 'custom',
-          url: 'https://unsplash.com/photos/Won79_9oUEk?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
+          url: 'https://unsplash.com/photos/a-close-up-of-a-pine-tree-branch-Cy1F3H1X3WI?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
           newTab: true,
           children: [
             {

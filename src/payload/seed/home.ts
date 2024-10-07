@@ -5,9 +5,9 @@ export const home: Partial<Page> = {
   slug: 'home',
   _status: 'published',
   meta: {
-    title: 'Payload E-Commerce Template',
-    description: 'An open-source e-commerce store built with Payload and Next.js.',
-    image: '{{PRODUCT1_IMAGE}}',
+    title: 'Payload Website Template',
+    description: 'An open-source website built with Payload and Next.js.',
+    image: '{{IMAGE_1}}',
   },
   hero: {
     type: 'highImpact',
@@ -15,7 +15,7 @@ export const home: Partial<Page> = {
       {
         children: [
           {
-            text: 'Payload E-Commerce Store',
+            text: 'Payload Website Template',
           },
         ],
         type: 'h1',
@@ -23,7 +23,7 @@ export const home: Partial<Page> = {
       {
         children: [
           {
-            text: 'Welcome to your store! ',
+            text: 'Welcome to your website! ',
           },
           {
             type: 'link',
@@ -41,7 +41,7 @@ export const home: Partial<Page> = {
           {
             type: 'link',
             linkType: 'custom',
-            url: 'https://github.com/payloadcms/payload/tree/main/templates/ecommerce',
+            url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
             newTab: true,
             children: [
               {
@@ -63,24 +63,26 @@ export const home: Partial<Page> = {
           appearance: 'primary',
           reference: {
             relationTo: 'pages',
-            value: '{{PRODUCTS_PAGE_ID}}',
+            value: '{{POSTS_PAGE_ID}}',
           },
-          label: 'Shop now',
+          label: 'All posts',
           url: '',
         },
       },
       {
         link: {
-          type: 'custom',
+          type: 'reference',
           appearance: 'secondary',
-          reference: null,
-          label: 'View on GitHub',
-          url: 'https://github.com/payloadcms/payload/tree/main/templates/ecommerce',
-          newTab: true,
+          reference: {
+            relationTo: 'pages',
+            value: '{{PROJECTS_PAGE_ID}}',
+          },
+          label: 'All projects',
+          url: '',
         },
       },
     ],
-    media: '{{PRODUCT1_IMAGE}}',
+    media: '{{IMAGE_1}}',
   },
   layout: [
     {
@@ -93,7 +95,7 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'Core Features',
+                  text: 'Core features',
                 },
               ],
               type: 'h2',
@@ -121,7 +123,7 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: "Manage this site's users, pages, products, and more from the ",
+                  text: "Manage this site's pages, posts, projects and more from the ",
                 },
                 {
                   type: 'link',
@@ -160,7 +162,7 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'User ',
+                  text: 'Complete user ',
                 },
                 {
                   type: 'link',
@@ -186,59 +188,7 @@ export const home: Partial<Page> = {
                   ],
                 },
                 {
-                  text: ' flows are complete with email verification and password reset.',
-                },
-              ],
-            },
-          ],
-          enableLink: false,
-          link: {
-            reference: null,
-            url: '',
-            label: '',
-          },
-        },
-        {
-          size: 'oneThird',
-          richText: [
-            {
-              children: [
-                {
-                  text: 'Customer Accounts',
-                },
-              ],
-              type: 'h3',
-            },
-            {
-              children: [
-                {
-                  text: 'Customers can ',
-                },
-                {
-                  type: 'link',
-                  linkType: 'custom',
-                  url: '/account',
-                  children: [
-                    {
-                      text: 'manage their account',
-                    },
-                  ],
-                },
-                {
-                  text: ', ',
-                },
-                {
-                  type: 'link',
-                  linkType: 'custom',
-                  url: '/orders',
-                  children: [
-                    {
-                      text: 'view their order history',
-                    },
-                  ],
-                },
-                {
-                  text: ', and more without leaving the site.',
+                  text: ' flows with email verification and password reset.',
                 },
               ],
             },
@@ -257,7 +207,7 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'Paywall',
+                  text: 'Preview',
                 },
               ],
               type: 'h3',
@@ -265,7 +215,7 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'Easily gate digital content behind a paywall or require users to be logged in to access it.',
+                  text: 'Using versions, drafts, and preview, editors can review and share their changes before publishing them.',
                 },
               ],
             },
@@ -283,7 +233,7 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'Shopping Cart',
+                  text: 'Comments',
                 },
               ],
               type: 'h3',
@@ -291,7 +241,20 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'Shopping carts persist between sessions, can be saved for later, and are accessible from any device.',
+                  text: 'Users can comment on posts and editors can moderate comments directly from the ',
+                },
+                {
+                  type: 'link',
+                  linkType: 'custom',
+                  url: '/admin/collections/comments',
+                  children: [
+                    {
+                      text: 'admin dashboard',
+                    },
+                  ],
+                },
+                {
+                  text: '.',
                 },
               ],
             },
@@ -309,7 +272,7 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'Checkout',
+                  text: 'User Accounts',
                 },
               ],
               type: 'h3',
@@ -317,7 +280,46 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'Secure in-app checkout powered by Stripe means your customers never have to leave your site.',
+                  text: 'Users can ',
+                },
+                {
+                  type: 'link',
+                  linkType: 'custom',
+                  url: '/account',
+                  children: [
+                    {
+                      text: 'manage their account',
+                    },
+                  ],
+                },
+                {
+                  text: ', view their comment history, and more without leaving the site.',
+                },
+              ],
+            },
+          ],
+          enableLink: false,
+          link: {
+            reference: null,
+            url: '',
+            label: '',
+          },
+        },
+        {
+          size: 'oneThird',
+          richText: [
+            {
+              children: [
+                {
+                  text: 'Premium Content',
+                },
+              ],
+              type: 'h3',
+            },
+            {
+              children: [
+                {
+                  text: 'Easily restrict access to premium content to only authenticated members of your site.',
                 },
               ],
             },
@@ -343,7 +345,7 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'Custom page builder allows you to create unique page and product layouts for any type of content.',
+                  text: 'Custom page builder allows you to create unique page, post, and project layouts for any type of content.',
                 },
               ],
             },
@@ -408,7 +410,7 @@ export const home: Partial<Page> = {
             {
               children: [
                 {
-                  text: 'Users will experience this site in their preferred color scheme, and each block can be inverted.',
+                  text: 'Users will experience this site in their preferred color scheme and each block can be inverted.',
                 },
               ],
             },
@@ -426,7 +428,7 @@ export const home: Partial<Page> = {
       blockType: 'mediaBlock',
       blockName: 'Media Block',
       position: 'default',
-      media: '{{PRODUCT2_IMAGE}}',
+      media: '{{IMAGE_2}}',
     },
     {
       blockName: 'Archive Block',
@@ -436,7 +438,7 @@ export const home: Partial<Page> = {
           type: 'h4',
           children: [
             {
-              text: 'Recent Products',
+              text: 'Recent posts',
             },
           ],
         },
@@ -444,13 +446,38 @@ export const home: Partial<Page> = {
           type: 'p',
           children: [
             {
-              text: 'The products below are displayed in an "Archive" layout building block which is an extremely powerful way to display documents on a page. It can be auto-populated by collection or by category, or products can be individually selected. Pagination controls will automatically appear if the number of results exceeds the number of items per page.',
+              text: 'The posts below are displayed in an "Archive" layout building block which is an extremely powerful way to display documents on a page. It can be auto-populated by collection or by category, or posts can be individually selected. Pagination controls will automatically appear if the number of results exceeds the number of items per page.',
             },
           ],
         },
       ],
       populateBy: 'collection',
-      relationTo: 'products',
+      relationTo: 'posts',
+      categories: [],
+    },
+    {
+      blockName: 'Archive Block',
+      blockType: 'archive',
+      introContent: [
+        {
+          type: 'h4',
+          children: [
+            {
+              text: 'Recent projects',
+            },
+          ],
+        },
+        {
+          type: 'p',
+          children: [
+            {
+              text: 'The projects below are displayed in an "Archive" layout building block which is an extremely powerful way to display documents on a page. It can be auto-populated by collection or by category, or projects can be individually selected. Pagination controls will automatically appear if the number of results exceeds the number of items per page.',
+            },
+          ],
+        },
+      ],
+      populateBy: 'collection',
+      relationTo: 'projects',
       categories: [],
     },
     {
@@ -460,7 +487,7 @@ export const home: Partial<Page> = {
         {
           children: [
             {
-              text: 'Shop now',
+              text: 'This is a call to action',
             },
           ],
           type: 'h4',
@@ -491,10 +518,22 @@ export const home: Partial<Page> = {
           link: {
             type: 'reference',
             url: '',
-            label: 'Shop now',
+            label: 'All posts',
             appearance: 'primary',
             reference: {
-              value: '{{PRODUCTS_PAGE_ID}}',
+              value: '{{POSTS_PAGE_ID}}',
+              relationTo: 'pages',
+            },
+          },
+        },
+        {
+          link: {
+            type: 'reference',
+            url: '',
+            label: 'All projects',
+            appearance: 'secondary',
+            reference: {
+              value: '{{PROJECTS_PAGE_ID}}',
               relationTo: 'pages',
             },
           },

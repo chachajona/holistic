@@ -16,7 +16,6 @@ query Header {
 
 export const FOOTER = `
   Footer {
-    copyright
     navItems {
       link ${LINK_FIELDS({ disableAppearance: true })}
 		}
@@ -31,7 +30,10 @@ query Footer {
 
 export const SETTINGS = `
   Settings {
-    productsPage {
+    postsPage {
+      slug
+    }
+    projectsPage {
       slug
     }
   }

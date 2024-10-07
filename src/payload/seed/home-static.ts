@@ -7,16 +7,17 @@ export const staticHome: Page = {
   createdAt: '',
   updatedAt: '',
   meta: {
-    title: 'Payload E-Commerce Template',
-    description: 'An open-source e-commerce store built with Payload and Next.js.',
+    title: 'Payload Website Template',
+    description: 'An open-source website built with Payload and Next.js.',
   },
   hero: {
     type: 'lowImpact',
+    links: null,
     richText: [
       {
         children: [
           {
-            text: 'Payload E-commerce Template',
+            text: 'Payload Website Template',
           },
         ],
         type: 'h1',
@@ -24,14 +25,14 @@ export const staticHome: Page = {
       {
         children: [
           {
-            text: 'Welcome to your e-commerce store! ',
+            text: 'Welcome to your website! ',
           },
           {
             text: 'Your database is currently empty.',
             bold: true,
           },
           {
-            text: ' To seed your database with a few products and pages, ',
+            text: ' To seed your database with a few pages, posts, and projects, ',
           },
           {
             type: 'link',
@@ -60,7 +61,7 @@ export const staticHome: Page = {
           {
             type: 'link',
             linkType: 'custom',
-            url: 'https://github.com/payloadcms/payload/tree/main/templates/ecommerce',
+            url: 'https://github.com/payloadcms/payload/tree/main/templates/website',
             newTab: true,
             children: [
               {

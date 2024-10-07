@@ -1,4 +1,6 @@
-export const image2 = {
+import type { Media } from '../payload-types'
+
+export const image2: Omit<Media, 'id' | 'createdAt' | 'updatedAt'> = {
   alt: 'E-Book',
   caption: [
     {
@@ -9,11 +11,11 @@ export const image2 = {
         {
           type: 'link',
           linkType: 'custom',
-          url: 'https://unsplash.com/@jamestarbotton?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
+          url: 'https://unsplash.com/@sebastiansvenson?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
           newTab: true,
           children: [
             {
-              text: 'James Tarbotton',
+              text: 'Sebastian Svenson',
             },
           ],
         },
@@ -23,7 +25,7 @@ export const image2 = {
         {
           type: 'link',
           linkType: 'custom',
-          url: 'https://unsplash.com/photos/PkyL3p9Kx8c?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
+          url: 'https://unsplash.com/photos/d2w-_1LJioQ?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
           newTab: true,
           children: [
             {

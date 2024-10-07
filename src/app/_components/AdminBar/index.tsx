@@ -9,6 +9,21 @@ import { Gutter } from '../Gutter'
 
 import classes from './index.module.scss'
 
+const collectionLabels = {
+  pages: {
+    singular: 'Page',
+    plural: 'Pages',
+  },
+  posts: {
+    singular: 'Post',
+    plural: 'Posts',
+  },
+  projects: {
+    singular: 'Project',
+    plural: 'Projects',
+  },
+}
+
 const Title: React.FC = () => <span>Dashboard</span>
 
 export const AdminBar: React.FC<{
@@ -16,7 +31,7 @@ export const AdminBar: React.FC<{
 }> = props => {
   const { adminBarProps } = props || {}
   const segments = useSelectedLayoutSegments()
-  const collection = segments?.[1] === 'products' ? 'products' : 'pages'
+  const collection = collectionLabels?.[segments?.[1]] ? segments?.[1] : 'pages'
   const [show, setShow] = React.useState(false)
 
   const { user } = useAuth()
@@ -38,8 +53,8 @@ export const AdminBar: React.FC<{
           {...adminBarProps}
           collection={collection}
           collectionLabels={{
-            singular: collection === 'products' ? 'Product' : 'Page',
-            plural: collection === 'products' ? 'Products' : 'Pages',
+            singular: collectionLabels[collection]?.singular || 'Page',
+            plural: collectionLabels[collection]?.plural || 'Pages',
           }}
           key={user?.id} // use key to get the admin bar to re-run its `me` request
           cmsURL={process.env.NEXT_PUBLIC_SERVER_URL}

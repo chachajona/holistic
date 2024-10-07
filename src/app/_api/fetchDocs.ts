@@ -1,10 +1,9 @@
 import type { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 
 import type { Config } from '../../payload/payload-types'
-import { CATEGORIES } from '../_graphql/categories'
-import { ORDERS } from '../_graphql/orders'
 import { PAGES } from '../_graphql/pages'
-import { PRODUCTS } from '../_graphql/products'
+import { POSTS } from '../_graphql/posts'
+import { PROJECTS } from '../_graphql/projects'
 import { GRAPHQL_API_URL } from './shared'
 import { payloadToken } from './token'
 
@@ -13,23 +12,20 @@ const queryMap = {
     query: PAGES,
     key: 'Pages',
   },
-  products: {
-    query: PRODUCTS,
-    key: 'Products',
+  posts: {
+    query: POSTS,
+    key: 'Posts',
   },
-  orders: {
-    query: ORDERS,
-    key: 'Orders',
-  },
-  categories: {
-    query: CATEGORIES,
-    key: 'Categories',
+  projects: {
+    query: PROJECTS,
+    key: 'Projects',
   },
 }
 
 export const fetchDocs = async <T>(
   collection: keyof Config['collections'],
   draft?: boolean,
+  variables?: Record<string, unknown>,
 ): Promise<T[]> => {
   if (!queryMap[collection]) throw new Error(`Collection ${collection} not found`)
 
@@ -50,6 +46,7 @@ export const fetchDocs = async <T>(
     next: { tags: [collection] },
     body: JSON.stringify({
       query: queryMap[collection].query,
+      variables,
     }),
   })
     ?.then(res => res.json())
