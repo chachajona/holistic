@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react'
 import Link from 'next/link'
+import React, { Fragment } from 'react'
 
-import { Post } from '../../../payload/payload-types'
+import type { Category, Post } from '../../../payload/payload-types'
+
 import { Gutter } from '../../_components/Gutter'
 import { Media } from '../../_components/Media'
 import RichText from '../../_components/RichText'
 import { formatDateTime } from '../../_utilities/formatDateTime'
-
 import classes from './index.module.scss'
 
 export const PostHero: React.FC<{
@@ -14,11 +14,11 @@ export const PostHero: React.FC<{
 }> = ({ post }) => {
   const {
     id,
-    title,
     categories,
-    meta: { image: metaImage, description } = {},
-    publishedAt,
+    meta: { description, image: metaImage } = {},
     populatedAuthors,
+    publishedOn,
+    title,
   } = post
 
   return (
@@ -28,21 +28,18 @@ export const PostHero: React.FC<{
           <div className={classes.leader}>
             <div className={classes.categories}>
               {categories?.map((category, index) => {
-                if (typeof category === 'object' && category !== null) {
-                  const { title: categoryTitle } = category
+                const { title: categoryTitle } = category as Category
 
-                  const titleToUse = categoryTitle || 'Untitled category'
+                const titleToUse = categoryTitle || 'Untitled category'
 
-                  const isLast = index === categories.length - 1
+                const isLast = index === categories.length - 1
 
-                  return (
-                    <Fragment key={index}>
-                      {titleToUse}
-                      {!isLast && <Fragment>, &nbsp;</Fragment>}
-                    </Fragment>
-                  )
-                }
-                return null
+                return (
+                  <Fragment key={index}>
+                    {titleToUse}
+                    {!isLast && <Fragment>, &nbsp;</Fragment>}
+                  </Fragment>
+                )
               })}
             </div>
           </div>
@@ -68,20 +65,22 @@ export const PostHero: React.FC<{
                 })}
               </Fragment>
             )}
-            {publishedAt && (
+            {publishedOn && (
               <Fragment>
                 {' on '}
-                {formatDateTime(publishedAt)}
+                {formatDateTime(publishedOn)}
               </Fragment>
             )}
           </p>
           <div>
-            <p className={classes.description}>
-              {`${description ? `${description} ` : ''}To edit this post, `}
+            <p className={classes.description}>{`${description ? `${description} ` : ''}`}</p>
+            <p>
+              Disclaimer: This content is fabricated and for demonstration purposes only. To edit
+              this post,&nbsp;
               <Link href={`${process.env.NEXT_PUBLIC_SERVER_URL}/admin/collections/posts/${id}`}>
                 navigate to the admin dashboard
               </Link>
-              {'.'}
+              .
             </p>
           </div>
         </div>
@@ -89,11 +88,11 @@ export const PostHero: React.FC<{
           <div className={classes.mediaWrapper}>
             {!metaImage && <div className={classes.placeholder}>No image</div>}
             {metaImage && typeof metaImage !== 'string' && (
-              <Media imgClassName={classes.image} resource={metaImage} fill />
+              <Media fill imgClassName={classes.image} priority resource={metaImage} />
             )}
           </div>
           {metaImage && typeof metaImage !== 'string' && metaImage?.caption && (
-            <RichText content={metaImage.caption} className={classes.caption} />
+            <RichText className={classes.caption} content={metaImage.caption} />
           )}
         </div>
       </Gutter>

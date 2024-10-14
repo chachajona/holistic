@@ -1,8 +1,7 @@
 import React from 'react'
 
-import serialize from './serialize'
-
 import classes from './index.module.scss'
+import { serializeLexical } from './serialize'
 
 const RichText: React.FC<{ className?: string; content: any }> = ({ className, content }) => {
   if (!content) {
@@ -11,7 +10,11 @@ const RichText: React.FC<{ className?: string; content: any }> = ({ className, c
 
   return (
     <div className={[classes.richText, className].filter(Boolean).join(' ')}>
-      {serialize(content)}
+      {content &&
+        !Array.isArray(content) &&
+        typeof content === 'object' &&
+        'root' in content &&
+        serializeLexical({ nodes: content?.root?.children })}
     </div>
   )
 }

@@ -1,19 +1,20 @@
-import React from 'react'
-import { StaticImageData } from 'next/image'
+import type { StaticImageData } from 'next/image'
 
-import { Page } from '../../../payload/payload-types'
+import React from 'react'
+
+import type { Page } from '../../../payload/payload-types'
+
 import { Gutter } from '../../_components/Gutter'
 import { Media } from '../../_components/Media'
 import RichText from '../../_components/RichText'
-
 import classes from './index.module.scss'
 
 type Props = Extract<Page['layout'][0], { blockType: 'mediaBlock' }> & {
-  staticImage?: StaticImageData
   id?: string
+  staticImage?: StaticImageData
 }
 
-export const MediaBlock: React.FC<Props> = props => {
+export const MediaBlock: React.FC<Props> = (props) => {
   const { media, position = 'default', staticImage } = props
 
   let caption
@@ -23,7 +24,7 @@ export const MediaBlock: React.FC<Props> = props => {
     <div className={classes.mediaBlock}>
       {position === 'fullscreen' && (
         <div className={classes.fullscreen}>
-          <Media resource={media} src={staticImage} />
+          <Media priority resource={media} src={staticImage} />
         </div>
       )}
       {position === 'default' && (

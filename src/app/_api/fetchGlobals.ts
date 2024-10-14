@@ -1,25 +1,25 @@
 import type { Footer, Header, Settings } from '../../payload/payload-types'
+
 import { FOOTER_QUERY, HEADER_QUERY, SETTINGS_QUERY } from '../_graphql/globals'
-import { GRAPHQL_API_URL } from './shared'
 
 export async function fetchSettings(): Promise<Settings> {
-  if (!GRAPHQL_API_URL) throw new Error('NEXT_PUBLIC_SERVER_URL not found')
+  if (!process.env.NEXT_PUBLIC_SERVER_URL) throw new Error('NEXT_PUBLIC_SERVER_URL not found')
 
-  const settings = await fetch(`${GRAPHQL_API_URL}/api/graphql`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    cache: 'no-store',
+  const settings = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/graphql`, {
     body: JSON.stringify({
       query: SETTINGS_QUERY,
     }),
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
   })
-    ?.then(res => {
+    ?.then((res) => {
       if (!res.ok) throw new Error('Error fetching doc')
       return res.json()
     })
-    ?.then(res => {
+    ?.then((res) => {
       if (res?.errors) throw new Error(res?.errors[0]?.message || 'Error fetching settings')
       return res.data?.Settings
     })
@@ -28,23 +28,23 @@ export async function fetchSettings(): Promise<Settings> {
 }
 
 export async function fetchHeader(): Promise<Header> {
-  if (!GRAPHQL_API_URL) throw new Error('NEXT_PUBLIC_SERVER_URL not found')
+  if (!process.env.NEXT_PUBLIC_SERVER_URL) throw new Error('NEXT_PUBLIC_SERVER_URL not found')
 
-  const header = await fetch(`${GRAPHQL_API_URL}/api/graphql`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    cache: 'no-store',
+  const header = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/graphql`, {
     body: JSON.stringify({
       query: HEADER_QUERY,
     }),
+    cache: 'no-store',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
   })
-    ?.then(res => {
+    ?.then((res) => {
       if (!res.ok) throw new Error('Error fetching doc')
       return res.json()
     })
-    ?.then(res => {
+    ?.then((res) => {
       if (res?.errors) throw new Error(res?.errors[0]?.message || 'Error fetching header')
       return res.data?.Header
     })
@@ -53,22 +53,22 @@ export async function fetchHeader(): Promise<Header> {
 }
 
 export async function fetchFooter(): Promise<Footer> {
-  if (!GRAPHQL_API_URL) throw new Error('NEXT_PUBLIC_SERVER_URL not found')
+  if (!process.env.NEXT_PUBLIC_SERVER_URL) throw new Error('NEXT_PUBLIC_SERVER_URL not found')
 
-  const footer = await fetch(`${GRAPHQL_API_URL}/api/graphql`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+  const footer = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/graphql`, {
     body: JSON.stringify({
       query: FOOTER_QUERY,
     }),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    method: 'POST',
   })
-    .then(res => {
+    .then((res) => {
       if (!res.ok) throw new Error('Error fetching doc')
       return res.json()
     })
-    ?.then(res => {
+    ?.then((res) => {
       if (res?.errors) throw new Error(res?.errors[0]?.message || 'Error fetching footer')
       return res.data?.Footer
     })
@@ -77,9 +77,9 @@ export async function fetchFooter(): Promise<Footer> {
 }
 
 export const fetchGlobals = async (): Promise<{
-  settings: Settings
-  header: Header
   footer: Footer
+  header: Header
+  settings: Settings
 }> => {
   // initiate requests in parallel, then wait for them to resolve
   // this will eagerly start to the fetch requests at the same time
@@ -95,8 +95,8 @@ export const fetchGlobals = async (): Promise<{
   ])
 
   return {
-    settings,
-    header,
     footer,
+    header,
+    settings,
   }
 }

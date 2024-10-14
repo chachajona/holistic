@@ -1,25 +1,29 @@
-# Payload Website Template
+# Payload Public Demo
 
-This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
+This is the code that powers the official public demo of [Payload CMS](https://github.com/payloadcms/payload).
 
-This template is right for you if you are working on:
-
-- A personal or enterprise-grade website, blog, or portfolio
-- A content publishing platform with a fully featured publication workflow
-- A lead generation website with premium content gated behind authentication
+This demo utilizes the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
 
 Core features:
 
-- [Pre-configured Payload Config](#how-it-works)
-- [Authentication](#users-authentication)
-- [Access Control](#access-control)
-- [Premium Content](#premium-content)
-- [Comments](#comments)
-- [Layout Builder](#layout-builder)
-- [Draft Preview](#draft-preview)
-- [Redirects](#redirects)
-- [SEO](#seo)
-- [Website](#website)
+- [Payload Public Demo](#payload-public-demo)
+  - [Quick Start](#quick-start)
+    - [Clone](#clone)
+        - [Local installation steps:](#local-installation-steps)
+  - [How it works](#how-it-works)
+    - [Collections](#collections)
+    - [Globals](#globals)
+  - [Access control](#access-control)
+  - [Premium Content](#premium-content)
+  - [Comments](#comments)
+  - [Layout Builder](#layout-builder)
+  - [Draft Preview](#draft-preview)
+  - [SEO](#seo)
+  - [Redirects](#redirects)
+  - [Website](#website)
+    - [Cache](#cache)
+    - [Eject](#eject)
+  - [Questions](#questions)
 
 ## Quick Start
 
@@ -27,32 +31,35 @@ To spin up this example locally, follow these steps:
 
 ### Clone
 
-If you have not done so already, you need to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
+You can clone this repo to your own computer and play around super easily.
 
-#### Method 1 (recommended)
+To do so, you'll need the following software:
 
-  Go to Payload Cloud and [clone this template](https://payloadcms.com/new/clone/website). This will create a new repository on your GitHub account with this template's code which you can then clone to your own machine.
+- Yarn or NPM
+- NodeJS version 10+
+- A Mongo Database - **IMPORTANT: you need to either have MongoDB running locally, or have signed up for a free MongoDB Atlas server in order to test this repo locally.**
 
-#### Method 2
+##### Local installation steps:
 
-  Use the `create-payload-app` CLI to clone this template directly to your machine:
+**1. Clone the repo by running the following command at your terminal:**
 
-    npx create-payload-app@latest my-project -t website
+```bash
+git clone git@github.com:payloadcms/public-demo.git
+```
 
-#### Method 3
+**Navigate to folder and install dependencies**
 
-  Use the `git` CLI to clone this template directly to your machine:
+Type `cd ./public-demo` and then `yarn install` to add all required dependencies.
 
-    git clone -n --depth=1 --filter=tree:0 https://github.com/payloadcms/payload my-project && cd my-project && git sparse-checkout set --no-cone templates/website && git checkout && rm -rf .git && git init && git add . && git mv -f templates/website/{.,}* . && git add . && git commit -m "Initial commit"
+**Duplicate the example `.env` file and fill in your own values**
 
-### Development
+Type `cp .env.example .env` in your terminal to make a copy of the example `.env` file, and then edit that file to fill in your own values.
 
-1. First [clone the repo](#clone) if you have not done so already
-1. `cd my-project && cp .env.example .env` to copy the example environment variables
-1. `yarn && yarn dev` to install dependencies and start the dev server
-1. Open [http://localhost:3000](http://localhost:3000) to open the app in your browser
+Typically, the only line that you'll need to change within your new `.env` for local development is the `DATABASE_URI` value. If you have MongoDB running locally, then you can use the example connection string, but if you are using Mongo Atlas or similar, you'll want to fill this value in with your own connection string.
 
-That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
+**Fire up the development server**
+
+Finally, type `yarn dev` to start up the server and see it in action!
 
 ## How it works
 
@@ -94,7 +101,7 @@ See the [Collections](https://payloadcms.com/docs/configuration/collections) doc
 
 - #### Categories
 
-  A taxonomy used to group posts or projects together. Categories can be nested inside of one another, for example "News > Technology". See the official [Payload Nested Docs Plugin](https://github.com/payloadcms/plugin-nested-docs) for more details.
+  A taxonomy used to group posts or projects together. Categories can be nested inside of one another, for example "News > Technology". See the official [Payload Nested Docs Plugin](https://payloadcms.com/docs/plugins/nested-docs) for more details.
 
 ### Globals
 
@@ -149,7 +156,7 @@ Users can leave comments on posts for editors to review and approve before they 
 
 ## Layout Builder
 
-Create unique page, post, or project layouts for any type of content using a powerful layout builder. This template comes pre-configured with the following layout building blocks:
+Create unique page, post, or project layouts for any type of content using a powerful layout builder. This demo comes pre-configured with the following layout building blocks:
 
 - Hero
 - Content
@@ -157,27 +164,27 @@ Create unique page, post, or project layouts for any type of content using a pow
 - Call To Action
 - Archive
 
-Each block is fully designed and built into the front-end website that comes with this template. See [Website](#website) for more details.
+Each block is fully designed and built into the front-end website that comes with this demo. See [Website](#website) for more details.
 
 ## Draft Preview
 
 All posts, projects, and pages are draft-enabled so you can preview them before publishing them to your website. To do this, these collections use [Versions](https://payloadcms.com/docs/configuration/collections#versions) with `drafts` set to `true`. This means that when you create a new post, project, or page, it will be saved as a draft and will not be visible on your website until you publish it. This also means that you can preview your draft before publishing it to your website. To do this, we automatically format a custom URL which redirects to your front-end to securely fetch the draft version of your content.
 
-Since the front-end of this template is statically generated, this also means that pages, posts, and projects will need to be regenerated as changes are made to published documents. To do this, we use an `afterChange` hook to regenerate the front-end when a document has changed and its `_status` is `published`.
+Since the front-end of this demo is statically generated, this also means that pages, posts, and projects will need to be regenerated as changes are made to published documents. To do this, we use an `afterChange` hook to regenerate the front-end when a document has changed and its `_status` is `published`.
 
 For more details on how to extend this functionality, see the official [Draft Preview Example](https://github.com/payloadcms/payload/tree/main/examples/draft-preview).
 
 ## SEO
 
-This template comes pre-configured with the official [Payload SEO Plugin](https://github.com/payloadcms/plugin-seo) for complete SEO control from the admin panel. All SEO data is fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
+This demo comes pre-configured with the official [Payload SEO Plugin](https://github.com/payloadcms/plugin-seo) for complete SEO control from the admin panel. All SEO data is fully integrated into the front-end website that comes with this demo. See [Website](#website) for more details.
 
 ## Redirects
 
-If you are migrating an existing site or moving content to a new URL, you can use the `redirects` collection to create a proper redirect from old URLs to new ones. This will ensure that proper request status codes are returned to search engines and that your users are not left with a broken link. This template comes pre-configured with the official [Payload Redirects Plugin](https://github.com/payloadcms/plugin-redirects) for complete redirect control from the admin panel. All redirects are fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
+If you are migrating an existing site or moving content to a new URL, you can use the `redirects` collection to create a proper redirect from old URLs to new ones. This will ensure that proper request status codes are returned to search engines and that your users are not left with a broken link. This demo comes pre-configured with the official [Payload Redirects Plugin](https://github.com/payloadcms/plugin-redirects) for complete redirect control from the admin panel. All redirects are fully integrated into the front-end website that comes with this demo. See [Website](#website) for more details.
 
 ## Website
 
-This template includes a beautifully designed, production-ready front-end built with the [Next.js App Router](https://nextjs.org), served right alongside your Payload app in a single Express server. This makes it so that you can deploy both apps simultaneously and host them together. If you prefer a different front-end framework, this pattern works for any framework that supports a custom server. If you prefer to host your website separately from Payload, you can easily [Eject](#eject) the front-end out from this template to swap in your own, or to use it as a standalone CMS. For more details, see the official [Custom Server Example](https://github.com/payloadcms/payload/tree/main/examples/custom-server).
+This demo includes a beautifully designed, production-ready front-end built with the [Next.js App Router](https://nextjs.org), served right alongside your Payload app in a single Express server. This makes is so that you can deploy both apps simultaneously and host them together. If you prefer a different front-end framework, this pattern works for any framework that supports a custom server. If you prefer to host your website separately from Payload, you can easily [Eject](#eject) the front-end out from this demo to swap in your own, or to use it as a standalone CMS. For more details, see the official [Custom Server Example](https://github.com/payloadcms/payload/tree/main/examples/custom-server).
 
 Core features:
 
@@ -203,65 +210,11 @@ Although Next.js includes a robust set of caching strategies out of the box, Pay
 
 ### Eject
 
-If you prefer another front-end framework or would like to use Payload as a standalone CMS, you can easily eject the front-end from this template. To eject, simply run `yarn eject`. This will uninstall all Next.js related dependencies and delete all files and folders related to the Next.js front-end. It also removes all custom routing from your `server.ts` file and updates your `eslintrc.js`.
+If you prefer another front-end framework or would like to use Payload as a standalone CMS, you can easily eject the front-end from this demo. To eject, simply run `yarn eject`. This will uninstall all Next.js related dependencies and delete all files and folders related to the Next.js front-end. It also removes all custom routing from your `server.ts` file and updates your `eslintrc.js`.
 
-> Note: Your eject script may not work as expected if you've made significant modifications to your project. If you run into any issues, compare your project's dependencies and file structure with this template. See [./src/eject](./src/eject) for full details.
+> Note: Your eject script may not work as expected if you've made significant modifications to your project. If you run into any issues, compare your project's dependencies and file structure with this demo. See [./src/eject](./src/eject) for full details.
 
 For more details on how setup a custom server, see the official [Custom Server Example](https://github.com/payloadcms/payload/tree/main/examples/custom-server).
-
-##  Development
-
-To spin up this example locally, follow the [Quick Start](#quick-start). Then [Seed](#seed) the database with a few pages, posts, and projects.
-
-### Docker
-
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
-
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
-
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
-
-### Seed
-
-To seed the database with a few pages, posts, and projects you can run `yarn seed`. This template also comes with a `GET /api/seed` endpoint you can use to seed the database from the admin panel.
-
-The seed script will also create two users for demonstration purposes only:
-1. Demo Author
-    - Email: `demo-author@payloadcms.com`
-    - Password: `password`
-    - Role: `admin`
-2. Demo User
-    - Email: `demo-user@payloadcms.com`
-    - Password: `password`
-    - Role: `user`
-
-> NOTICE: seeding the database is destructive because it drops your current database to populate a fresh one from the seed template. Only run this command if you are starting a new project or can afford to lose your current data.
-
-
-### Conflicting routes
-
-> In a monorepo when routes are bootstrapped to the same host, they can conflict with Payload's own routes if they have the same name. In our template we've named the Nextjs API routes to `next` to avoid this conflict.
->
->This can happen with any other routes conflicting with Payload such as `admin` and we recommend using different names for custom routes.  
->Alternatively you can also rename Payload's own routes via the [configuration](https://payloadcms.com/docs/configuration/overview).
-
-## Production
-
-To run Payload in production, you need to build and serve the Admin panel. To do so, follow these steps:
-
-1. Invoke the `payload build` script by running `yarn build` or `npm run build` in your project root. This creates a `./build` directory with a production-ready admin bundle.
-1. Finally run `yarn serve` or `npm run serve` to run Node in production and serve Payload from the `./build` directory.
-1. When you're ready to go live, see [Deployment](#deployment) for more details.
-
-### Deployment
-
-Before deploying your app, you need to:
-
-1. Ensure your app builds and serves in production. See [Production](#production) for more details.
-
-The easiest way to deploy your project is to use [Payload Cloud](https://payloadcms.com/new/import), a one-click hosting solution to deploy production-ready instances of your Payload apps directly from your GitHub repo. You can also deploy your app manually, check out the [deployment documentation](https://payloadcms.com/docs/production/deployment) for full details.
 
 ## Questions
 

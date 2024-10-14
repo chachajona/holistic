@@ -1,29 +1,34 @@
-import { slateEditor } from '@payloadcms/richtext-slate'
-import path from 'path'
 import type { CollectionConfig } from 'payload/types'
 
+import { LinkFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
+import path from 'path'
+
 export const Media: CollectionConfig = {
-  slug: 'media',
-  upload: {
-    staticDir: path.resolve(__dirname, '../../../media'),
-  },
   access: {
+    create: () => false,
+    delete: () => false,
     read: () => true,
+    update: () => false,
+  },
+  admin: {
+    description: 'Creating, updating, and deleting media is disabled for this demo.',
   },
   fields: [
     {
       name: 'alt',
-      type: 'text',
       required: true,
+      type: 'text',
     },
     {
       name: 'caption',
-      type: 'richText',
-      editor: slateEditor({
-        admin: {
-          elements: ['link'],
-        },
+      editor: lexicalEditor({
+        features: ({ defaultFeatures }) => [LinkFeature({})],
       }),
+      type: 'richText',
     },
   ],
+  slug: 'media',
+  upload: {
+    staticDir: path.resolve(__dirname, '../../../media'),
+  },
 }

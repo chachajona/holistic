@@ -1,42 +1,47 @@
 import type { Media } from '../payload-types'
 
-export const image2: Omit<Media, 'id' | 'createdAt' | 'updatedAt'> = {
+import { convertSlateToLexical } from '../utilities/lexical/slateToLexical'
+
+export const image2: Media = {
+  id: '',
   alt: 'E-Book',
-  caption: [
+  caption: convertSlateToLexical([
     {
       children: [
         {
           text: 'Photo by ',
         },
         {
-          type: 'link',
-          linkType: 'custom',
-          url: 'https://unsplash.com/@sebastiansvenson?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
-          newTab: true,
           children: [
             {
               text: 'Sebastian Svenson',
             },
           ],
+          linkType: 'custom',
+          newTab: true,
+          type: 'link',
+          url: 'https://unsplash.com/@sebastiansvenson?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
         },
         {
           text: ' on ',
         },
         {
-          type: 'link',
-          linkType: 'custom',
-          url: 'https://unsplash.com/photos/d2w-_1LJioQ?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
-          newTab: true,
           children: [
             {
               text: 'Unsplash',
             },
           ],
+          linkType: 'custom',
+          newTab: true,
+          type: 'link',
+          url: 'https://unsplash.com/photos/d2w-_1LJioQ?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText',
         },
         {
           text: '.',
         },
       ],
     },
-  ],
+  ]) as any,
+  createdAt: '',
+  updatedAt: '',
 }

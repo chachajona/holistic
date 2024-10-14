@@ -1,13 +1,14 @@
-import React, { Fragment } from 'react'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
+
 import Link from 'next/link'
+import React, { Fragment } from 'react'
 
 import { ContentBlock } from '../../../_blocks/Content'
 import { Gutter } from '../../../_components/Gutter'
 import { VerticalPadding } from '../../../_components/VerticalPadding'
 import { mergeOpenGraph } from '../../../_utilities/mergeOpenGraph'
 
-export default async function ContentBlockPage() {
+export default function ContentBlockPage() {
   return (
     <Fragment>
       <Gutter>
@@ -23,12 +24,36 @@ export default async function ContentBlockPage() {
           blockType="content"
           columns={[
             {
-              size: 'full',
-              richText: [
-                {
-                  text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+              richText: {
+                root: {
+                  children: [
+                    {
+                      children: [
+                        {
+                          detail: 0,
+                          format: 0,
+                          mode: 'normal',
+                          style: '',
+                          text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
+                          type: 'text',
+                          version: 1,
+                        },
+                      ],
+                      direction: null,
+                      format: '',
+                      indent: 0,
+                      type: 'paragraph',
+                      version: 1,
+                    },
+                  ],
+                  direction: null,
+                  format: '',
+                  indent: 0,
+                  type: 'root',
+                  version: 1,
                 },
-              ],
+              } as any,
+              size: 'full',
             },
           ]}
         />
@@ -38,10 +63,10 @@ export default async function ContentBlockPage() {
 }
 
 export const metadata: Metadata = {
-  title: 'Content Block',
   description: 'Styleguide for the Content Block',
   openGraph: mergeOpenGraph({
     title: 'Content Block',
     url: '/styleguide/content-block',
   }),
+  title: 'Content Block',
 }

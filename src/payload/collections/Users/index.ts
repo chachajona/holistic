@@ -1,27 +1,23 @@
 import type { CollectionConfig } from 'payload/types'
 
+import { email as validateEmail } from 'payload/dist/fields/validations'
+
 import { admins } from '../../access/admins'
-import { anyone } from '../../access/anyone'
-import adminsAndUser from './access/adminsAndUser'
+import { adminEmail } from '../../cron/shared'
 import { checkRole } from './checkRole'
 import { ensureFirstUserIsAdmin } from './hooks/ensureFirstUserIsAdmin'
 import { loginAfterCreate } from './hooks/loginAfterCreate'
+import { sanitizeDemoAdmin } from './hooks/sanitizeDemoAdmin'
 
 const Users: CollectionConfig = {
-  slug: 'users',
-  admin: {
-    useAsTitle: 'name',
-    defaultColumns: ['name', 'email'],
-  },
   access: {
-    read: adminsAndUser,
-    create: anyone,
-    update: adminsAndUser,
-    delete: admins,
     admin: ({ req: { user } }) => checkRole(['admin'], user),
+    create: () => false,
+    delete: () => false,
   },
-  hooks: {
-    afterChange: [loginAfterCreate],
+  admin: {
+    defaultColumns: ['name', 'email'],
+    useAsTitle: 'name',
   },
   auth: true,
   fields: [
@@ -30,10 +26,29 @@ const Users: CollectionConfig = {
       type: 'text',
     },
     {
+      // override default email field to add a custom validate function to prevent users from changing the login email
+      name: 'email',
+      type: 'email',
+      validate: (value, args) => {
+        if (args?.user?.email === adminEmail && value !== adminEmail) {
+          return 'You cannot change the admin password on the public demo!'
+        }
+        // call the payload default email validation
+        return validateEmail(value, args)
+      },
+    },
+    {
       name: 'roles',
-      type: 'select',
-      hasMany: true,
+      access: {
+        create: admins,
+        read: admins,
+        update: admins,
+      },
       defaultValue: ['user'],
+      hasMany: true,
+      hooks: {
+        beforeChange: [ensureFirstUserIsAdmin],
+      },
       options: [
         {
           label: 'admin',
@@ -44,16 +59,14 @@ const Users: CollectionConfig = {
           value: 'user',
         },
       ],
-      hooks: {
-        beforeChange: [ensureFirstUserIsAdmin],
-      },
-      access: {
-        read: admins,
-        create: admins,
-        update: admins,
-      },
+      type: 'select',
     },
   ],
+  hooks: {
+    afterChange: [loginAfterCreate],
+    beforeOperation: [sanitizeDemoAdmin],
+  },
+  slug: 'users',
   timestamps: true,
 }
 

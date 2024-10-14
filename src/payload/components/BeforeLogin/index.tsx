@@ -4,10 +4,19 @@ const BeforeLogin: React.FC = () => {
   return (
     <div>
       <p>
-        <b>Welcome to your dashboard!</b>
-        {' This is where site admins will log in to manage your website. Users will need to '}
-        <a href={`${process.env.PAYLOAD_PUBLIC_SERVER_URL}/login`}>log in to the site instead</a>
-        {' to access their user account, comment history, and more.'}
+        To log in, use the email <strong>demo@payloadcms.com</strong> with the password{' '}
+        <strong>demo</strong>. This demo CMS will reset every hour.
+      </p>
+      <p>
+        The code for this demo is open source and can be found{' '}
+        <a
+          href="https://github.com/payloadcms/public-demo"
+          rel="noopener noreferrer"
+          target="_blank"
+        >
+          here
+        </a>
+        .
       </p>
     </div>
   )

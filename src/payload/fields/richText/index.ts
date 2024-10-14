@@ -1,108 +1,86 @@
-import { slateEditor } from '@payloadcms/richtext-slate'
-import type {
-  AdapterArguments,
-  RichTextElement,
-  RichTextLeaf,
-} from '@payloadcms/richtext-slate/dist/types'
-import type { RichTextField } from 'payload/dist/fields/config/types'
+import type { FeatureProvider } from '@payloadcms/richtext-lexical'
+import type { RichTextField } from 'payload/types'
+
+import { ParagraphFeature, UploadFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 
 import deepMerge from '../../utilities/deepMerge'
 import link from '../link'
-import elements from './elements'
-import leaves from './leaves'
+import { defaultPublicDemoFeatures } from './defaultFeatures'
 
 type RichText = (
-  overrides?: Partial<RichTextField> & { admin?: AdapterArguments['admin'] },
+  overrides?: Partial<RichTextField>,
   additions?: {
-    elements?: RichTextElement[]
-    leaves?: RichTextLeaf[]
+    features?: FeatureProvider[]
   },
 ) => RichTextField
 
 const richText: RichText = (
   overrides,
   additions = {
-    elements: [],
-    leaves: [],
+    features: [],
   },
-) => {
-  const slateOptions = deepMerge<AdapterArguments['admin'], AdapterArguments['admin']>(
-    overrides?.admin || {},
-    {
-      upload: {
-        collections: {
-          media: {
-            fields: [
-              {
-                type: 'richText',
-                name: 'caption',
-                label: 'Caption',
-                editor: slateEditor({
-                  admin: {
-                    elements: [...elements],
-                    leaves: [...leaves],
-                  },
-                }),
-              },
-              {
-                type: 'radio',
-                name: 'alignment',
-                label: 'Alignment',
-                options: [
-                  {
-                    label: 'Left',
-                    value: 'left',
-                  },
-                  {
-                    label: 'Center',
-                    value: 'center',
-                  },
-                  {
-                    label: 'Right',
-                    value: 'right',
-                  },
-                ],
-              },
-              {
-                name: 'enableLink',
-                type: 'checkbox',
-                label: 'Enable Link',
-              },
-              link({
-                appearances: false,
-                disableLabel: true,
-                overrides: {
-                  admin: {
-                    condition: (_, data) => Boolean(data?.enableLink),
-                  },
-                },
-              }),
-            ],
-          },
-        },
-      },
-      elements: [...elements, ...(additions.elements || [])],
-      leaves: [...leaves, ...(additions.leaves || [])],
-    },
-  )
-
-  const fieldOverrides = {
-    ...(overrides || {}),
-  }
-
-  delete fieldOverrides.admin
-
-  return deepMerge<RichTextField, Partial<RichTextField>>(
+) =>
+  deepMerge<RichTextField, Partial<RichTextField>>(
     {
       name: 'richText',
-      type: 'richText',
-      required: true,
-      editor: slateEditor({
-        admin: slateOptions,
+      editor: lexicalEditor({
+        features: () => [
+          ...[...defaultPublicDemoFeatures, ...(additions.features || [])],
+          UploadFeature({
+            collections: {
+              media: {
+                fields: [
+                  {
+                    name: 'caption',
+                    editor: lexicalEditor({
+                      features: () => [ParagraphFeature(), ...defaultPublicDemoFeatures],
+                    }),
+                    label: 'Caption',
+                    type: 'richText',
+                  },
+                  {
+                    name: 'alignment',
+                    label: 'Alignment',
+                    options: [
+                      {
+                        label: 'Left',
+                        value: 'left',
+                      },
+                      {
+                        label: 'Center',
+                        value: 'center',
+                      },
+                      {
+                        label: 'Right',
+                        value: 'right',
+                      },
+                    ],
+                    type: 'radio',
+                  },
+                  {
+                    name: 'enableLink',
+                    label: 'Enable Link',
+                    type: 'checkbox',
+                  },
+                  link({
+                    appearances: false,
+                    disableLabel: true,
+                    overrides: {
+                      admin: {
+                        condition: (_, data) => Boolean(data?.enableLink),
+                      },
+                    },
+                  }),
+                ],
+              },
+            },
+          }),
+        ],
       }),
+      required: true,
+      type: 'richText',
     },
-    fieldOverrides || {},
+    overrides || {},
   )
-}
 
 export default richText

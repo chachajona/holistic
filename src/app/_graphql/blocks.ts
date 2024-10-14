@@ -27,6 +27,16 @@ export const CONTENT = `
 }
 `
 
+export const CONTENT_MEDIA = `
+...on ContentMedia {
+  blockType
+  invertBackground
+  mediaPosition
+  richText
+  ${MEDIA}
+}
+`
+
 export const MEDIA_BLOCK = `
 ...on MediaBlock {
   blockType
@@ -51,13 +61,11 @@ export const ARCHIVE_BLOCK = `
         id
         slug
         title
-        ${META}
       }
       ...on Project {
         id
         slug
         title
-        ${META}
       }
     }
   }

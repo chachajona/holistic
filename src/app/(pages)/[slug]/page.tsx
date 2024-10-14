@@ -1,15 +1,16 @@
-import React from 'react'
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
+
 import { draftMode } from 'next/headers'
 import { notFound } from 'next/navigation'
+import React from 'react'
 
-import { Page } from '../../../payload/payload-types'
+import type { Page } from '../../../payload/payload-types'
+
 import { staticHome } from '../../../payload/seed/home-static'
 import { fetchDoc } from '../../_api/fetchDoc'
 import { fetchDocs } from '../../_api/fetchDocs'
-import { Blocks } from '../../_components/Blocks'
-import { Hero } from '../../_components/Hero'
 import { generateMeta } from '../../_utilities/generateMeta'
+import { PageClient } from './page.client'
 
 // Payload Cloud caches all files through Cloudflare, so we don't need Next.js to cache them as well
 // This means that we can turn off Next.js data caching and instead rely solely on the Cloudflare CDN
@@ -27,8 +28,8 @@ export default async function Page({ params: { slug = 'home' } }) {
   try {
     page = await fetchDoc<Page>({
       collection: 'pages',
-      slug,
       draft: isDraftMode,
+      slug,
     })
   } catch (error) {
     // when deploying this template on Payload Cloud, this page needs to build before the APIs are live
@@ -48,17 +49,7 @@ export default async function Page({ params: { slug = 'home' } }) {
     return notFound()
   }
 
-  const { hero, layout } = page
-
-  return (
-    <React.Fragment>
-      <Hero {...hero} />
-      <Blocks
-        blocks={layout}
-        disableTopPadding={!hero || hero?.type === 'none' || hero?.type === 'lowImpact'}
-      />
-    </React.Fragment>
-  )
+  return <PageClient page={page} />
 }
 
 export async function generateStaticParams() {
@@ -78,8 +69,8 @@ export async function generateMetadata({ params: { slug = 'home' } }): Promise<M
   try {
     page = await fetchDoc<Page>({
       collection: 'pages',
-      slug,
       draft: isDraftMode,
+      slug,
     })
   } catch (error) {
     // don't throw an error if the fetch fails

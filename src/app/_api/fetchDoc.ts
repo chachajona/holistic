@@ -1,34 +1,34 @@
 import type { RequestCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 
 import type { Config } from '../../payload/payload-types'
+
 import { PAGE } from '../_graphql/pages'
 import { POST } from '../_graphql/posts'
 import { PROJECT } from '../_graphql/projects'
-import { GRAPHQL_API_URL } from './shared'
 import { payloadToken } from './token'
 
 const queryMap = {
   pages: {
-    query: PAGE,
     key: 'Pages',
+    query: PAGE,
   },
   posts: {
-    query: POST,
     key: 'Posts',
+    query: POST,
   },
   projects: {
-    query: PROJECT,
     key: 'Projects',
+    query: PROJECT,
   },
 }
 
 export const fetchDoc = async <T>(args: {
   collection: keyof Config['collections']
-  slug?: string
-  id?: string
   draft?: boolean
+  id?: string
+  slug?: string
 }): Promise<T> => {
-  const { collection, slug, draft } = args || {}
+  const { collection, draft, slug } = args || {}
 
   if (!queryMap[collection]) throw new Error(`Collection ${collection} not found`)
 
@@ -39,24 +39,24 @@ export const fetchDoc = async <T>(args: {
     token = cookies().get(payloadToken)
   }
 
-  const doc: T = await fetch(`${GRAPHQL_API_URL}/api/graphql`, {
-    method: 'POST',
+  const doc: T = await fetch(`${process.env.PAYLOAD_PUBLIC_SERVER_URL}/api/graphql`, {
+    body: JSON.stringify({
+      query: queryMap[collection].query,
+      variables: {
+        draft,
+        slug,
+      },
+    }),
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',
       ...(token?.value && draft ? { Authorization: `JWT ${token.value}` } : {}),
     },
-    cache: 'no-store',
+    method: 'POST',
     next: { tags: [`${collection}_${slug}`] },
-    body: JSON.stringify({
-      query: queryMap[collection].query,
-      variables: {
-        slug,
-        draft,
-      },
-    }),
   })
-    ?.then(res => res.json())
-    ?.then(res => {
+    ?.then((res) => res.json())
+    ?.then((res) => {
       if (res.errors) throw new Error(res?.errors?.[0]?.message ?? 'Error fetching doc')
       return res?.data?.[queryMap[collection].key]?.docs?.[0]
     })

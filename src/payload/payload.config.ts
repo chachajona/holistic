@@ -1,12 +1,13 @@
 import { webpackBundler } from '@payloadcms/bundler-webpack' // bundler-import
 import { mongooseAdapter } from '@payloadcms/db-mongodb' // database-adapter-import
+import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
+
 import { payloadCloud } from '@payloadcms/plugin-cloud'
+// import formBuilder from '@payloadcms/plugin-form-builder'
 import nestedDocs from '@payloadcms/plugin-nested-docs'
 import redirects from '@payloadcms/plugin-redirects'
 import seo from '@payloadcms/plugin-seo'
-import type { GenerateTitle } from '@payloadcms/plugin-seo/types'
-import { slateEditor } from '@payloadcms/richtext-slate' // editor-import
-import dotenv from 'dotenv'
+import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload/config'
 
@@ -19,73 +20,78 @@ import { Projects } from './collections/Projects'
 import Users from './collections/Users'
 import BeforeDashboard from './components/BeforeDashboard'
 import BeforeLogin from './components/BeforeLogin'
-import { seed } from './endpoints/seed'
+import { clearDBEndpoint, resetDBEndpoint, seedDBEndpoint } from './endpoints/resetDB'
 import { Footer } from './globals/Footer'
 import { Header } from './globals/Header'
 import { Settings } from './globals/Settings'
 
 const generateTitle: GenerateTitle = () => {
-  return 'My Website'
+  return 'Payload Public Demo'
 }
 
-dotenv.config({
-  path: path.resolve(__dirname, '../../.env'),
-})
+const m = path.resolve(__dirname, './emptyModuleMock.js')
 
 export default buildConfig({
   admin: {
-    user: Users.slug,
+    autoLogin: {
+      email: 'demo@payloadcms.com',
+      password: 'demo',
+      prefillOnly: true,
+    },
     bundler: webpackBundler(), // bundler-config
     components: {
-      // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeLogin` statement on line 15.
-      beforeLogin: [BeforeLogin],
-      // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
-      // Feel free to delete this at any time. Simply remove the line below and the import `BeforeDashboard` statement on line 15.
       beforeDashboard: [BeforeDashboard],
+      beforeLogin: [BeforeLogin],
     },
-    webpack: config => ({
+    livePreview: {
+      breakpoints: [
+        {
+          name: 'mobile',
+          height: 667,
+          label: 'Mobile',
+          width: 375,
+        },
+      ],
+    },
+    user: Users.slug,
+    webpack: (config) => ({
       ...config,
       resolve: {
         ...config.resolve,
         alias: {
-          ...config.resolve.alias,
-          dotenv: path.resolve(__dirname, './dotenv.js'),
-          [path.resolve(__dirname, './endpoints/seed')]: path.resolve(
-            __dirname,
-            './emptyModuleMock.js',
-          ),
+          ...config.resolve?.alias,
+          express: m,
+          [path.resolve(__dirname, './cron/reset')]: m,
         },
       },
     }),
   },
-  editor: slateEditor({}), // editor-config
+  collections: [Pages, Posts, Projects, Media, Categories, Users, Comments],
+  cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  editor: lexicalEditor({}),
+  endpoints: [resetDBEndpoint, seedDBEndpoint, clearDBEndpoint],
+  globals: [Settings, Header, Footer],
+  graphQL: {
+    disablePlaygroundInProduction: false,
+    schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
+  },
+  rateLimit: {
+    max: 10000, // limit each IP per windowMs
+    trustProxy: true,
+    window: 2 * 60 * 1000, // 2 minutes
+  },
+  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
+  typescript: {
+    outputFile: path.resolve(__dirname, 'payload-types.ts'),
+  },
   // database-adapter-config-start
   db: mongooseAdapter({
     url: process.env.DATABASE_URI,
   }),
   // database-adapter-config-end
-  serverURL: process.env.PAYLOAD_PUBLIC_SERVER_URL,
-  collections: [Pages, Posts, Projects, Media, Categories, Users, Comments],
-  globals: [Settings, Header, Footer],
-  typescript: {
-    outputFile: path.resolve(__dirname, 'payload-types.ts'),
-  },
-  graphQL: {
-    schemaOutputFile: path.resolve(__dirname, 'generated-schema.graphql'),
-  },
-  cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  endpoints: [
-    // The seed endpoint is used to populate the database with some example data
-    // You should delete this endpoint before deploying your site to production
-    {
-      path: '/seed',
-      method: 'get',
-      handler: seed,
-    },
-  ],
   plugins: [
+    // formBuilder({}),
     redirects({
       collections: ['pages', 'posts'],
     }),
