@@ -7,6 +7,8 @@
         "build": "next build",
         "start": "next start",
         "lint": "next lint",
+        "lint:fix": "next lint --fix",
+        "type-check": "tsc --noEmit",
         "info": "next info"
     },
     "engines": {
@@ -24,6 +26,8 @@
         "@radix-ui/react-scroll-area": "^1.1.0",
         "@radix-ui/react-slot": "^1.1.0",
         "@radix-ui/react-tabs": "^1.1.0",
+        "@sanity/image-url": "^1.0.2",
+        "@sanity/vision": "^3.61.0",
         "blurhash": "^2.0.5",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
@@ -32,22 +36,35 @@
         "framer-motion": "^11.3.30",
         "lucide-react": "^0.428.0",
         "next": "^14.2.13",
+        "next-sanity": "^9.5.4",
         "plaiceholder": "^3.0.0",
         "react": "^18",
         "react-blurhash": "^0.3.0",
         "react-dom": "^18",
         "react-icons": "^5.3.0",
+        "sanity": "^3.61.0",
         "sharp": "^0.32.6",
+        "styled-components": "^6.1.13",
         "tailwind-merge": "^2.5.2",
         "tailwindcss-animate": "^1.0.7"
     },
     "devDependencies": {
+        "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
+        "@next/eslint-plugin-next": "^14.2.15",
         "@types/node": "^20",
         "@types/react": "^18",
         "@types/react-dom": "^18",
+        "@typescript-eslint/eslint-plugin": "^8.9.0",
+        "@typescript-eslint/parser": "^8.9.0",
         "autoprefixer": "^10.4.20",
         "eslint": "^8",
-        "eslint-config-next": "14.2.5",
+        "eslint-config-airbnb": "^19.0.4",
+        "eslint-config-next": "^14.2.5",
+        "eslint-config-prettier": "^9.1.0",
+        "eslint-plugin-tailwindcss": "^3.17.5",
+        "eslint-plugin-unused-imports": "^4.1.4",
+        "husky": "^9.1.6",
+        "lint-staged": "^15.2.10",
         "postcss": "^8",
         "prettier": "^3.3.3",
         "prettier-plugin-tailwindcss": "^0.6.6",
@@ -59,5 +76,16 @@
         "path": false,
         "os": false,
         "child_process": false
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+    },
+    "lint-staged": {
+        "*.{js,jsx,ts,tsx}": [
+            "eslint --fix",
+            "prettier --write"
+        ]
     }
 }
