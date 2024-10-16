@@ -55,7 +55,7 @@ const methods = [
 ];
 
 const MainNavBar: React.FC = () => (
-    <nav className="sticky top-0 z-50 bg-navbar-background font-robotoSerif text-sm text-navbar-text shadow-md">
+    <nav className="bg-navbar-background font-robotoSerif text-navbar-text sticky top-0 z-50 text-sm shadow-md">
         <div className="container mx-auto px-0 md:pl-12 md:pr-16">
             <div className="flex max-h-[72px] items-center justify-between py-6">
                 <div className="flex items-center gap-11">
@@ -114,13 +114,13 @@ const DesktopNavigation: React.FC = () => (
                         <li className="row-span-3">
                             <NavigationMenuLink asChild>
                                 <a
-                                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-navbar-accent-background/35 from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                                    className="bg-navbar-accent-background/35 from-muted/50 to-muted flex size-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none focus:shadow-md"
                                     href="/"
                                 >
-                                    <div className="mb-2 mt-4 text-lg font-medium text-primary-text">
+                                    <div className="text-primary-text mb-2 mt-4 text-lg font-medium">
                                         {services[0].title}
                                     </div>
-                                    <p className="text-xs leading-tight text-primary-text/50">
+                                    <p className="text-primary-text/50 text-xs leading-tight">
                                         {services[0].description}
                                     </p>
                                 </a>
@@ -195,15 +195,15 @@ const NavItem = React.forwardRef<
             <a
                 ref={ref}
                 className={cn(
-                    "group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-navbar-accent-background/25 hover:text-navbar-accent-text focus:bg-navbar-accent-background/25 focus:text-navbar-accent-text",
+                    "hover:bg-navbar-accent-background/25 hover:text-navbar-accent-text focus:bg-navbar-accent-background/25 focus:text-navbar-accent-text group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors",
                     className,
                 )}
                 {...props}
             >
-                <div className="text-sm font-semibold leading-4 text-primary-text group-hover:underline">
+                <div className="text-primary-text text-sm font-semibold leading-4 group-hover:underline">
                     {title}
                 </div>
-                <p className="line-clamp-2 font-robotoMono text-xs font-light leading-snug text-primary-text/50">
+                <p className="font-robotoMono text-primary-text/50 line-clamp-2 text-xs font-light leading-snug">
                     {children}
                 </p>
             </a>

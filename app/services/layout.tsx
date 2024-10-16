@@ -10,7 +10,7 @@ export default function ServicesLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative flex min-h-screen min-w-full flex-col bg-primary-background">
+    <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
       <Banner />
       <MainNavBar />
       <Header title="Dịch vụ" backgroundImage="url('/Hero.png')" subtitle="Tự thưởng cho bản thân một gói dịch vụ và tiết kiệm hoặc kiểm tra các ưu đãi hiện tại." />

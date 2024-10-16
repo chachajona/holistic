@@ -65,10 +65,10 @@ const PopularBlogPosts = () => {
 
     return (
         <section className="container mx-auto w-full py-6 md:px-16 md:py-8">
-            <h2 className="mb-2 font-robotoSerif text-3xl font-bold capitalize text-primary-text">
+            <h2 className="font-robotoSerif text-primary-text mb-2 text-3xl font-bold capitalize">
                 Khám phá các blog phổ biến của chúng tôi
             </h2>
-            <p className="mb-6 font-robotoSlab text-base text-primary-text/60">
+            <p className="font-robotoSlab text-primary-text/60 mb-6 text-base">
                 Luôn cập nhật các bài đăng blog mới nhất và phổ biến nhất của
                 chúng tôi
             </p>
@@ -77,7 +77,7 @@ const PopularBlogPosts = () => {
                     <Button
                         key={index}
                         variant="outline"
-                        className="border-primary-text bg-transparent font-robotoSerif text-primary-text/70 hover:bg-primary-text hover:text-white"
+                        className="border-primary-text font-robotoSerif text-primary-text/70 hover:bg-primary-text bg-transparent hover:text-white"
                     >
                         {category}
                     </Button>
@@ -95,20 +95,20 @@ const PopularBlogPosts = () => {
                         />
                         <div className="py-4">
                             <div className="min-h-32">
-                                <h3 className="mb-2 font-robotoSerif text-xl font-semibold text-primary-text">
+                                <h3 className="font-robotoSerif text-primary-text mb-2 text-xl font-semibold">
                                     {post.title}
                                 </h3>
-                                <p className="mb-4 font-robotoSlab text-sm text-primary-text/60">
+                                <p className="font-robotoSlab text-primary-text/60 mb-4 text-sm">
                                     {post.description}
                                 </p>
                             </div>
-                            <div className="flex items-center justify-between font-robotoSlab">
-                                <span className="text-xs text-primary-text/60">
+                            <div className="font-robotoSlab flex items-center justify-between">
+                                <span className="text-primary-text/60 text-xs">
                                     Đọc: {post.readTime}
                                 </span>
                                 <Link
                                     href="#"
-                                    className="text-sm font-semibold text-primary-text hover:underline"
+                                    className="text-primary-text text-sm font-semibold hover:underline"
                                 >
                                     Đọc thêm →
                                 </Link>

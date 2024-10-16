@@ -12,7 +12,7 @@ export default function AboutLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="relative flex min-h-screen min-w-full flex-col bg-brown-50">
+        <div className="bg-brown-50 relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
             <Header

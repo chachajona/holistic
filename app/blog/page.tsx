@@ -35,21 +35,21 @@ const BlogPage = () => {
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="text-primary-text/70" />
                                 <BreadcrumbItem>
-                                    <BreadcrumbPage className="font-semibold text-primary-text">
+                                    <BreadcrumbPage className="text-primary-text font-semibold">
                                         Blog
                                     </BreadcrumbPage>
                                 </BreadcrumbItem>
                             </BreadcrumbList>
                         </Breadcrumb>
                         <div>
-                            <h1 className="mb-4 font-robotoSerif text-4xl font-bold capitalize text-primary-text">
+                            <h1 className="font-robotoSerif text-primary-text mb-4 text-4xl font-bold capitalize">
                                 Khám phá những hiểu biết mới nhất về Vật lý trị
                                 liệu
                             </h1>
-                            <p className="mb-2 text-sm text-primary-text">
+                            <p className="text-primary-text mb-2 text-sm">
                                 bởi John Doe • 11 tháng 1 năm 2023 • đọc 3 phút
                             </p>
-                            <p className="font-semibold text-primary-text">
+                            <p className="text-primary-text font-semibold">
                                 Chia sẻ bài đăng này
                             </p>
                         </div>
@@ -77,12 +77,12 @@ const BlogPage = () => {
 
             {/* Newsletter Signup */}
             <section className="container mx-auto w-full py-6 md:px-16 md:py-8">
-                <div className="flex flex-col items-center gap-8 rounded-lg border border-primary-text bg-transparent shadow-md md:flex-row">
+                <div className="border-primary-text flex flex-col items-center gap-8 rounded-lg border bg-transparent shadow-md md:flex-row">
                     <div className="p-8 md:w-1/2">
-                        <h2 className="mb-4 font-robotoSerif text-5xl font-bold leading-tight text-primary-text">
+                        <h2 className="font-robotoSerif text-primary-text mb-4 text-5xl font-bold leading-tight">
                             Cập nhật thông tin với Blog của chúng tôi
                         </h2>
-                        <p className="mb-4 font-robotoSlab text-base text-primary-text/60">
+                        <p className="font-robotoSlab text-primary-text/60 mb-4 text-base">
                             Đăng ký blog hàng tuần của chúng tôi để nhận thông
                             tin cập nhật thường xuyên về các chủ đề sức khỏe.
                         </p>
@@ -90,9 +90,9 @@ const BlogPage = () => {
                             <Input
                                 type="phone"
                                 placeholder="Nhập số điện thoại của bạn"
-                                className="flex-grow font-robotoSlab text-sm"
+                                className="font-robotoSlab grow text-sm"
                             />
-                            <Button className="bg-primary-text font-robotoSerif text-base hover:bg-brown-950">
+                            <Button className="bg-primary-text font-robotoSerif hover:bg-brown-950 text-base">
                                 Đăng ký
                             </Button>
                         </div>

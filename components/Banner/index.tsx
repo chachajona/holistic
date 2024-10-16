@@ -18,12 +18,12 @@ const Banner = () => {
             className="hidden p-1 md:block"
           />
         </a>
-        <div className="flex w-full flex-row-reverse justify-between text-left font-robotoSlab font-normal md:justify-normal lg:items-center lg:gap-5">
+        <div className="font-robotoSlab flex w-full flex-row-reverse justify-between text-left font-normal md:justify-normal lg:items-center lg:gap-5">
           <a
             href=""
             target="_blank"
             rel="noopener noreferrer"
-            className="hidden items-center font-robotoSlab text-sm font-semibold text-primary-text hover:text-primary-hover md:flex"
+            className="font-robotoSlab text-primary-text hover:text-primary-hover hidden items-center text-sm font-semibold md:flex"
           >
             <MapPin size={16} className="mr-2 hidden md:block" />
             <span>
@@ -32,7 +32,7 @@ const Banner = () => {
           </a>
           <Link
             href="tel:0828959598"
-            className="flex items-center text-sm text-primary-text hover:text-primary-hover"
+            className="text-primary-text hover:text-primary-hover flex items-center text-sm"
           >
             <Phone size={16} className="mr-2" />
             <span>Hotline: 0828959598</span>

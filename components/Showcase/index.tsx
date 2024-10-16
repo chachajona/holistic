@@ -61,14 +61,14 @@ function Showcase() {
     //     }),
     // );
     return (
-        <div className="container bg-brown-50 py-6 md:px-16 md:py-8">
-            <span className="mb-4 inline-block rounded-lg bg-primary-text/10 px-3 py-1 font-robotoMono text-base font-light text-primary-text">
+        <div className="bg-brown-50 container py-6 md:px-16 md:py-8">
+            <span className="bg-primary-text/10 font-robotoMono text-primary-text mb-4 inline-block rounded-lg px-3 py-1 text-base font-light">
                 Đội ngũ
             </span>
-            <h1 className="mb-4 font-robotoSerif text-3xl font-bold text-primary-text">
+            <h1 className="font-robotoSerif text-primary-text mb-4 text-3xl font-bold">
                 Gặp gỡ đội ngũ của chúng tôi
             </h1>
-            <p className="mb-8 font-robotoSlab text-primary-text">
+            <p className="font-robotoSlab text-primary-text mb-8">
                 Làm quen với các chuyên gia vật lý trị liệu và nhân viên tận tâm
                 của chúng tôi.
             </p>
@@ -84,7 +84,7 @@ function Showcase() {
                                 blurHashHeight={member.optimizedImage.height}
                             />
                         ) : ( */}
-                        <AspectRatio className="relative h-full w-full rounded-lg">
+                        <AspectRatio className="relative size-full rounded-lg">
                             <Image
                                 src={member.image}
                                 alt={member.name}
@@ -96,13 +96,13 @@ function Showcase() {
                         </AspectRatio>
                         {/* )} */}
                         <div className="flex flex-col gap-1 py-4">
-                            <h2 className="font-robotoSlab text-xl font-semibold text-primary-text">
+                            <h2 className="font-robotoSlab text-primary-text text-xl font-semibold">
                                 {member.name}
                             </h2>
-                            <p className="mb-2 font-robotoSlab text-base text-brown-600">
+                            <p className="font-robotoSlab text-brown-600 mb-2 text-base">
                                 {member.role}
                             </p>
-                            <p className="mb-4 font-robotoSlab text-sm text-brown-700">
+                            <p className="font-robotoSlab text-brown-700 mb-4 text-sm">
                                 {member.description}
                             </p>
                             <a

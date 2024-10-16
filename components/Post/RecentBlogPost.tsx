@@ -36,10 +36,10 @@ const RecentBlogPosts = () => {
 
     return (
         <section className="container mx-auto w-full py-6 md:px-16 md:py-8">
-            <h2 className="mb-2 font-robotoSerif text-3xl font-bold capitalize text-primary-text">
+            <h2 className="font-robotoSerif text-primary-text mb-2 text-3xl font-bold capitalize">
                 Khám phá các blog gần đây của chúng tôi
             </h2>
-            <p className="mb-6 font-robotoSlab text-base text-primary-text/60">
+            <p className="font-robotoSlab text-primary-text/60 mb-6 text-base">
                 Luôn cập nhật các bài đăng blog đầy thông tin của chúng tôi
             </p>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -54,14 +54,14 @@ const RecentBlogPosts = () => {
                         />
                         <div className="flex flex-col items-start justify-between py-4">
                             <div className="min-h-28">
-                                <span className="mb-2 inline-block font-robotoSlab text-xs font-semibold text-primary-text/60">
+                                <span className="font-robotoSlab text-primary-text/60 mb-2 inline-block text-xs font-semibold">
                                     {post.category}
                                 </span>
-                                <h3 className="mb-2 font-robotoSerif text-xl font-semibold text-primary-text">
+                                <h3 className="font-robotoSerif text-primary-text mb-2 text-xl font-semibold">
                                     {post.title}
                                 </h3>
                             </div>
-                            <p className="mb-4 font-robotoSlab text-sm text-primary-text/60">
+                            <p className="font-robotoSlab text-primary-text/60 mb-4 text-sm">
                                 {post.author} • {post.date} • đọc{" "}
                                 {post.readTime}
                             </p>
@@ -72,7 +72,7 @@ const RecentBlogPosts = () => {
             <div className="mt-8 text-right">
                 <Button
                     variant={"outline"}
-                    className="border-primary-text bg-transparent font-robotoSerif text-primary-text/70 hover:bg-primary-text hover:text-white"
+                    className="border-primary-text font-robotoSerif text-primary-text/70 hover:bg-primary-text bg-transparent hover:text-white"
                 >
                     Xem tất cả
                 </Button>

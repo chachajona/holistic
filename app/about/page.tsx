@@ -9,25 +9,25 @@ import massage from "@/assets/images/Massage.jpg";
 export default function AboutPage() {
     return (
         <div>
-            <section className="container mx-auto w-full bg-brown-50 py-6 md:px-16 md:py-8">
+            <section className="bg-brown-50 container mx-auto w-full py-6 md:px-16 md:py-8">
                 <div className="my-6 flex flex-col items-start justify-between md:flex-row">
                     <div className="max-w-lg md:w-1/2">
-                        <span className="mb-4 inline-block rounded-lg bg-primary-text/10 px-3 py-1 font-robotoMono text-base font-light text-primary-text">
+                        <span className="bg-primary-text/10 font-robotoMono text-primary-text mb-4 inline-block rounded-lg px-3 py-1 text-base font-light">
                             Thống kê
                         </span>
-                        <h2 className="mb-2 font-robotoSerif text-2xl font-bold capitalize text-primary-text md:text-5xl">
+                        <h2 className="font-robotoSerif text-primary-text mb-2 text-2xl font-bold capitalize md:text-5xl">
                             Cung cấp dịch vụ vật lý trị liệu vượt trội
                         </h2>
                     </div>
                     <div className="flex flex-col justify-between gap-5 md:w-1/2">
-                        <p className="mb-4 font-robotoSlab text-base text-[#5a5a5a]">
+                        <p className="font-robotoSlab mb-4 text-base text-[#5a5a5a]">
                             Tại phòng khám của chúng tôi, chúng tôi chú trọng
                             đến sự phát triển, thành công và phục hồi của bệnh
                             nhân. Với nhiều năm kinh nghiệm, chúng tôi đã giúp
                             nhiều khách hàng đạt được mục tiêu và cải thiện chất
                             lượng cuộc sống của họ.
                         </p>
-                        <div className="mb-4 flex justify-between text-primary-text">
+                        <div className="text-primary-text mb-4 flex justify-between">
                             <div>
                                 <p className="font-robotoSerif text-4xl font-bold">
                                     50%
@@ -45,19 +45,19 @@ export default function AboutPage() {
                                 </p>
                             </div>
                         </div>
-                        <div className="flex space-x-4 font-robotoSerif text-sm text-primary-text">
+                        <div className="font-robotoSerif text-primary-text flex space-x-4 text-sm">
                             <Button
                                 variant={"outline"}
-                                className="border-primary-text bg-transparent text-primary-text hover:bg-primary-text hover:text-white"
+                                className="border-primary-text text-primary-text hover:bg-primary-text bg-transparent hover:text-white"
                             >
                                 Tìm hiểu thêm
                             </Button>
                             <Button
                                 variant={"link"}
-                                className="group flex flex-row text-primary-text"
+                                className="text-primary-text group flex flex-row"
                             >
                                 Đặt lịch hẹn
-                                <ChevronRight className="ml-2 h-4 w-4 animate-shake" />
+                                <ChevronRight className="animate-shake ml-2 size-4" />
                             </Button>
                         </div>
                     </div>

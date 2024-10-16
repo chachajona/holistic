@@ -55,7 +55,7 @@ const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
       plugins={[autoplayPlugin.current]}
       onMouseEnter={autoplayPlugin.current.stop}
       onMouseLeave={autoplayPlugin.current.reset}
-      className="h-full w-full max-w-sm md:max-w-4xl"
+      className="size-full max-w-sm md:max-w-4xl"
     >
       <CarouselContent className="h-full">
         {items.map((item, index) => (
@@ -74,10 +74,10 @@ const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
                   />
                 </AspectRatio>
                 <div className="flex h-2/5 flex-col items-start justify-between">
-                  <h3 className="text-primary-text text-left font-robotoSerif text-base font-semibold sm:text-lg md:text-xl lg:text-2xl">
+                  <h3 className="text-primary-text font-robotoSerif text-left text-base font-semibold sm:text-lg md:text-xl lg:text-2xl">
                     {item.title}
                   </h3>
-                  <p className="whitespace-normal break-words font-robotoSlab text-xs !font-normal !text-primary-text/40 sm:text-sm">
+                  <p className="font-robotoSlab !text-primary-text/40 whitespace-normal break-words text-xs !font-normal sm:text-sm">
                     {item.description}
                   </p>
                 </div>
@@ -86,9 +86,9 @@ const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselNext className="absolute bottom-0 right-0 text-primary-text focus:bg-primary-text focus:text-white border-none" />
-      <CarouselPrevious className="absolute bottom-0 left-0 text-primary-text focus:bg-primary-text focus:text-white border-none" />
-      <div className="py-2 text-right text-sm font-robotoMono text-primary-text/40">
+      <CarouselNext className="text-primary-text focus:bg-primary-text absolute bottom-0 right-0 border-none focus:text-white" />
+      <CarouselPrevious className="text-primary-text focus:bg-primary-text absolute bottom-0 left-0 border-none focus:text-white" />
+      <div className="font-robotoMono text-primary-text/40 py-2 text-right text-sm">
         {current} / {count}
       </div>
     </Carousel>
@@ -99,20 +99,20 @@ const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
       className="relative flex h-full flex-col items-start justify-start gap-5 lg:flex-row-reverse"
       defaultValue={items[0].title}
     >
-      <ScrollArea className="h-full w-full lg:w-1/2">
+      <ScrollArea className="size-full lg:w-1/2">
         <div className="relative h-auto lg:h-[calc(100dvh-10vh)]">
-          <TabsList className="relative flex h-full min-h-20 w-full flex-row justify-normal overflow-x-auto bg-transparent lg:absolute lg:flex-col">
+          <TabsList className="relative flex size-full min-h-20 flex-row justify-normal overflow-x-auto bg-transparent lg:absolute lg:flex-col">
             {items.map((item) => (
               <TabsTrigger
                 key={item.title}
-                className="mb-2 flex flex-shrink-0 flex-col items-start justify-start bg-transparent p-3 text-left text-primary-text/60 data-[state=active]:border-b-2 data-[state=active]:border-[#90776E] data-[state=active]:bg-[#D2C9C3] data-[state=active]:font-bold data-[state=active]:text-primary-text lg:p-4 lg:data-[state=active]:border-b-0 lg:data-[state=active]:border-l-2"
+                className="text-primary-text/60 data-[state=active]:text-primary-text mb-2 flex shrink-0 flex-col items-start justify-start bg-transparent p-3 text-left data-[state=active]:border-b-2 data-[state=active]:border-[#90776E] data-[state=active]:bg-[#D2C9C3] data-[state=active]:font-bold lg:p-4 lg:data-[state=active]:border-b-0 lg:data-[state=active]:border-l-2"
                 value={item.title}
               >
                 <div className="flex w-full flex-col">
-                  <h4 className="mb-1 font-robotoSerif text-base font-semibold sm:text-lg md:text-xl lg:text-2xl">
+                  <h4 className="font-robotoSerif mb-1 text-base font-semibold sm:text-lg md:text-xl lg:text-2xl">
                     {item.title}
                   </h4>
-                  <p className="hidden whitespace-normal break-words font-robotoSlab text-xs !font-normal !text-primary-text/40 sm:text-sm lg:block">
+                  <p className="font-robotoSlab !text-primary-text/40 hidden whitespace-normal break-words text-xs !font-normal sm:text-sm lg:block">
                     {item.description}
                   </p>
                 </div>
@@ -122,10 +122,10 @@ const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
         </div>
       </ScrollArea>
 
-      <div className="h-80 w-full flex-grow lg:h-[calc(100dvh-30vh)] lg:w-1/2">
+      <div className="h-80 w-full grow lg:h-[calc(100dvh-30vh)] lg:w-1/2">
         {items.map((item, index) => (
           <TabsContent key={item.title} value={item.title} className="h-full">
-            <div className="relative h-full w-full overflow-hidden rounded-lg">
+            <div className="relative size-full overflow-hidden rounded-lg">
               <Image
                 src={item.image}
                 alt={item.title}
@@ -135,7 +135,7 @@ const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
                 className="object-cover"
               />
             </div>
-            <p className="mt-4 block whitespace-normal break-words font-robotoSlab text-xs !font-normal !text-primary-text/40 sm:text-sm lg:hidden">
+            <p className="font-robotoSlab !text-primary-text/40 mt-4 block whitespace-normal break-words text-xs !font-normal sm:text-sm lg:hidden">
               {item.description}
             </p>
           </TabsContent>
@@ -145,7 +145,7 @@ const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
   );
 
   return (
-    <div className="relative mx-auto my-auto lg:h-[calc(100dvh-20dvh)] w-full rounded-lg bg-brown-50 p-4 sm:p-6">
+    <div className="bg-brown-50 relative m-auto w-full rounded-lg p-4 sm:p-6 lg:h-[calc(100dvh-20dvh)]">
       {isTablet ? renderTabletView() : renderDesktopView()}
     </div>
   );

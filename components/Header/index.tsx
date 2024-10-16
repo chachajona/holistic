@@ -25,7 +25,7 @@ const Header = ({ title, subtitle, backgroundImage }: {
       />
       <div className="container relative z-10 flex h-full flex-col items-start justify-center md:px-16">
         <motion.h1
-          className="text-left font-robotoSerif text-4xl font-bold sm:text-5xl md:text-6xl"
+          className="font-robotoSerif text-left text-4xl font-bold sm:text-5xl md:text-6xl"
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.5, duration: 0.8 }}
@@ -33,7 +33,7 @@ const Header = ({ title, subtitle, backgroundImage }: {
           {title}
         </motion.h1>
         <motion.p
-          className="mt-4 max-w-3xl text-left font-robotoSlab text-base md:text-lg font-light"
+          className="font-robotoSlab mt-4 max-w-3xl text-left text-base font-light md:text-lg"
           initial={{ y: 50, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.8, duration: 0.8 }}

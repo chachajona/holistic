@@ -47,14 +47,14 @@ const TestimonialCard: React.FC<Testimonial> = ({
   quote,
   author,
 }) => (
-  <div className="flex flex-col items-start space-y-4 rounded-lg bg-primary-background p-6 shadow-sm">
+  <div className="bg-primary-background flex flex-col items-start space-y-4 rounded-lg p-6 shadow-sm">
     <Image src={icon} alt="icon" width={56} height={56} />
     <div className="mb-4 flex">
       {[...Array(rating)].map((_, i) => (
-        <Star key={i} className="h-5 w-5 fill-current text-brown-500" />
+        <Star key={i} className="text-brown-500 size-5 fill-current" />
       ))}
     </div>
-    <blockquote className="min-h-0 font-robotoSerif text-lg font-bold leading-snug lg:min-h-[230px]">
+    <blockquote className="font-robotoSerif min-h-0 text-lg font-bold leading-snug lg:min-h-[230px]">
       “{quote}”
     </blockquote>
     <div className="grid gap-1 text-sm">
@@ -65,13 +65,13 @@ const TestimonialCard: React.FC<Testimonial> = ({
 
 export default function Testimonial(): JSX.Element {
   return (
-    <section className="w-full bg-brown-50 py-12 text-primary-text md:px-16 md:py-24 lg:py-32">
+    <section className="bg-brown-50 text-primary-text w-full py-12 md:px-16 md:py-24 lg:py-32">
       <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
         <div className="space-y-2">
           <h2 className="font-robotoSerif text-3xl font-bold capitalize tracking-tighter sm:text-5xl">
             Đánh giá từ khách hàng
           </h2>
-          <p className="max-w-[900px] text-left font-robotoSlab text-primary-text md:text-center md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+          <p className="font-robotoSlab text-primary-text max-w-[900px] text-left md:text-center md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
             Ví dụ về khách hàng của Holistic
           </p>
         </div>

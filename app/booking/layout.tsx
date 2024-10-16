@@ -10,7 +10,7 @@ export default function BookingLayout({
     children: React.ReactNode;
 }) {
     return (
-        <div className="relative flex min-h-screen min-w-full flex-col bg-primary-background">
+        <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
             <Header

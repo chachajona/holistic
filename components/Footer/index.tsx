@@ -6,11 +6,11 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 const Footer: React.FC = () => {
     return (
-        <footer className="bg-primary-background py-8 font-light text-primary-text md:px-16">
+        <footer className="bg-primary-background text-primary-text py-8 font-light md:px-16">
             <div className="container mx-auto flex flex-col items-start justify-between md:flex-row">
                 <div className="mb-1 md:mb-0">
                     <Link href="/" about="Home">
-                        <div className="relative h-36 md:h-24 w-full md:max-h-24 md:max-w-sm md:-ml-[90px]">
+                        <div className="relative h-36 w-full md:-ml-[90px] md:h-24 md:max-h-24 md:max-w-sm">
                             <Image
                                 src={logo}
                                 alt="Holistic"
@@ -23,23 +23,23 @@ const Footer: React.FC = () => {
                     </Link>
 
                     <address className="not-italic">
-                        <p className="mb-1 font-robotoSlab text-sm font-semibold">
+                        <p className="font-robotoSlab mb-1 text-sm font-semibold">
                             Địa chỉ:
                         </p>
-                        <p className="mb-2 font-robotoMono text-sm font-normal">
+                        <p className="font-robotoMono mb-2 text-sm font-normal">
                             79 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3,
                             TP.HCM
                         </p>
-                        <p className="mb-1 font-robotoSlab text-sm font-semibold">
+                        <p className="font-robotoSlab mb-1 text-sm font-semibold">
                             Hotline:
                         </p>
                         <Link href="tel:+842862653030">
-                            <p className="mb-1 font-robotoMono text-sm font-normal hover:text-stone-700 hover:underline">
+                            <p className="font-robotoMono mb-1 text-sm font-normal hover:text-stone-700 hover:underline">
                                 (+84) 286 265 3030
                             </p>
                         </Link>
                         <Link href="mailto:info@holistic.vn">
-                            <p className="mb-4 font-robotoMono text-sm font-normal hover:text-stone-700 hover:underline">
+                            <p className="font-robotoMono mb-4 text-sm font-normal hover:text-stone-700 hover:underline">
                                 info@holistic.vn
                             </p>
                         </Link>
@@ -96,7 +96,7 @@ const SocialLink = ({
     >
         <span className="sr-only">{ariaLabel}</span>
         <svg
-            className="h-6 w-6"
+            className="size-6"
             fill="currentColor"
             viewBox="0 0 24 24"
             aria-hidden="true"
@@ -107,7 +107,7 @@ const SocialLink = ({
 );
 
 const NavLinks = () => (
-    <div className="flex flex-col space-y-4 font-robotoSlab font-medium md:space-y-0 lg:flex-row lg:space-x-12">
+    <div className="font-robotoSlab flex flex-col space-y-4 font-medium md:space-y-0 lg:flex-row lg:space-x-12">
         {[
             { href: "/services", text: "Dịch vụ" },
             { href: "/treatments", text: "Phương pháp" },
@@ -126,7 +126,7 @@ const NavLinks = () => (
 );
 
 const FooterBottom = () => (
-    <div className="container mt-12 flex flex-col-reverse items-start justify-between gap-10 border-t border-[#8c7e75] font-robotoMono text-sm font-normal md:flex-row md:items-center md:pt-8">
+    <div className="font-robotoMono container mt-12 flex flex-col-reverse items-start justify-between gap-10 border-t border-[#8c7e75] text-sm font-normal md:flex-row md:items-center md:pt-8">
         <p>
             &copy; {new Date().getFullYear()} Holistic. Mọi quyền được bảo lưu.
         </p>

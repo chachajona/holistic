@@ -21,7 +21,7 @@ const MenuIcon: React.FC = () => (
         viewBox="0 0 24 24"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="h-5 w-5"
+        className="size-5"
     >
         <path
             d="M3 5H11M3 12H16M3 19H21"
@@ -71,7 +71,7 @@ interface NavLinkProps {
 const NavLink: React.FC<NavLinkProps> = ({ href, children }) => (
     <Link
         href={href}
-        className="flex w-full items-center p-2 font-robotoSlab text-lg font-normal hover:bg-navbar-accent-background/25"
+        className="font-robotoSlab hover:bg-navbar-accent-background/25 flex w-full items-center p-2 text-lg font-normal"
         prefetch={false}
     >
         {children}
@@ -88,9 +88,9 @@ const CollapsibleNavItem: React.FC<CollapsibleNavItemProps> = ({
     children,
 }) => (
     <Collapsible className="grid gap-4">
-        <CollapsibleTrigger className="flex w-full items-center p-2 font-robotoSlab text-lg font-normal hover:bg-navbar-accent-background/25 [&[data-state=open]>svg]:rotate-90 [&[data-state=open]]:bg-navbar-accent-background/35">
+        <CollapsibleTrigger className="font-robotoSlab hover:bg-navbar-accent-background/25 [&[data-state=open]]:bg-navbar-accent-background/35 flex w-full items-center p-2 text-lg font-normal [&[data-state=open]>svg]:rotate-90">
             {title}
-            <ChevronRight className="ml-auto h-5 w-5 transition-all" />
+            <ChevronRight className="ml-auto size-5 transition-all" />
         </CollapsibleTrigger>
         <CollapsibleContent>
             <div className="-mx-6 grid gap-6 px-8 py-2">{children}</div>
@@ -113,7 +113,7 @@ const SubLink: React.FC<SubLinkProps> = ({ href, title, description }) => (
         <div className="font-robotoSerif text-sm font-medium leading-none group-hover:underline">
             {title}
         </div>
-        <div className="line-clamp-2 font-robotoMono text-xs leading-snug text-primary-text/50">
+        <div className="font-robotoMono text-primary-text/50 line-clamp-2 text-xs leading-snug">
             {description}
         </div>
     </MobileLink>
@@ -128,7 +128,7 @@ export const MobileNav: React.FC = () => {
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="mr-2 px-0 text-base text-navbar-text hover:bg-transparent hover:text-navbar-text/80 focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
+                    className="text-navbar-text hover:text-navbar-text/80 mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
                 >
                     <MenuIcon />
                     <span className="sr-only">Toggle Menu</span>
@@ -143,8 +143,8 @@ export const MobileNav: React.FC = () => {
                     className="flex items-center"
                     onOpenChange={setOpen}
                 >
-                    <Icons.logo className="mr-1 h-16 w-16" />
-                    <span className="font-robotoMono text-xl font-normal text-primary-text">
+                    <Icons.logo className="mr-1 size-16" />
+                    <span className="font-robotoMono text-primary-text text-xl font-normal">
                         {siteConfig.name}
                     </span>
                 </MobileLink>

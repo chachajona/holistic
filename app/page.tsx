@@ -7,7 +7,7 @@ import Testimonial from "@/components/Testimonimal";
 
 export default function Home() {
   return (
-    <main className="relative flex min-h-screen min-w-full flex-col bg-primary-background">
+    <main className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
       <Banner />
       <Navbar />
       <Hero />

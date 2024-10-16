@@ -28,7 +28,7 @@ export default function ServicesPage() {
   return (
     <div
       ref={containerRef}
-      className="relative w-full bg-primary-background py-16 sm:px-16"
+      className="bg-primary-background relative w-full py-16 sm:px-16"
     >
       <div
         className="absolute inset-0 bg-cover bg-center"
@@ -37,14 +37,14 @@ export default function ServicesPage() {
           filter: "opacity(0.2)",
         }}
       />
-      <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center text-center text-primary-text">
-        <span className="mb-4 inline-block rounded-lg bg-primary-text/10 px-3 py-1 font-robotoMono text-base font-light">
+      <div className="text-primary-text relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center text-center">
+        <span className="bg-primary-text/10 font-robotoMono mb-4 inline-block rounded-lg px-3 py-1 text-base font-light">
           Gói dịch vụ
         </span>
-        <h2 className="mb-6 max-w-2xl p-1 font-robotoSerif text-3xl font-bold capitalize">
+        <h2 className="font-robotoSerif mb-6 max-w-2xl p-1 text-3xl font-bold capitalize">
           Dịch vụ Vật lý Trị liệu Toàn diện cho Mọi Nhu cầu
         </h2>
-        <p className="mb-8 max-w-xl p-1 font-robotoSlab font-normal text-primary-text/50">
+        <p className="font-robotoSlab text-primary-text/50 mb-8 max-w-xl p-1 font-normal">
           Dịch vụ vật lý trị liệu của chúng tôi đáp ứng nhu cầu đa dạng, bao gồm
           vật lý trị liệu chỉnh hình, phục hồi chức năng thể thao và phục hồi
           sau phẫu thuật. Chúng tôi cam kết cung cấp dịch vụ chăm sóc toàn diện
@@ -56,32 +56,32 @@ export default function ServicesPage() {
         {services.map((service, index) => (
           <div
             key={index}
-            className="group flex cursor-pointer flex-col items-center justify-start rounded-lg border border-primary-text bg-transparent p-6 shadow-md transition-all hover:bg-[#D2C9C3] hover:shadow-lg"
+            className="border-primary-text group flex cursor-pointer flex-col items-center justify-start rounded-lg border bg-transparent p-6 shadow-md transition-all hover:bg-[#D2C9C3] hover:shadow-lg"
           >
-            <Box className="mb-4 h-12 w-12 text-primary-text" />
-            <h3 className="mb-6 text-center font-robotoSerif text-3xl font-bold text-primary-text">
+            <Box className="text-primary-text mb-4 size-12" />
+            <h3 className="font-robotoSerif text-primary-text mb-6 text-center text-3xl font-bold">
               {service.title}
             </h3>
-            <p className="text-center font-robotoSlab text-base text-primary-text">
+            <p className="font-robotoSlab text-primary-text text-center text-base">
               {service.description}
             </p>
           </div>
         ))}
       </div>
 
-      <div className="relative z-10 mt-12 flex flex-row items-center justify-center text-center font-robotoSerif font-normal text-primary-text">
+      <div className="font-robotoSerif text-primary-text relative z-10 mt-12 flex flex-row items-center justify-center text-center font-normal">
         <Button
           variant={"outline"}
-          className="border-primary-text bg-transparent text-primary-text hover:bg-primary-text hover:text-white"
+          className="border-primary-text text-primary-text hover:bg-primary-text bg-transparent hover:text-white"
         >
           Tìm hiểu thêm
         </Button>
         <Button
           variant={"link"}
-          className="group flex flex-row text-primary-text"
+          className="text-primary-text group flex flex-row"
         >
           Đặt lịch hẹn
-          <ChevronRight className="ml-2 h-4 w-4 animate-shake" />
+          <ChevronRight className="animate-shake ml-2 size-4" />
         </Button>
       </div>
     </div>
