@@ -1,8 +1,7 @@
 import React from "react";
 import Image from "next/image";
-import logo from "@/assets/images/Symbol+FullName_Variant3.png";
 import Link from "next/link";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
+import logo from "@/assets/images/Symbol+FullName_Variant3.png";
 
 const Footer: React.FC = () => {
     return (
@@ -10,7 +9,7 @@ const Footer: React.FC = () => {
             <div className="container mx-auto flex flex-col items-start justify-between md:flex-row">
                 <div className="mb-1 md:mb-0">
                     <Link href="/" about="Home">
-                        <div className="relative h-36 w-full md:-ml-[90px] md:h-24 md:max-h-24 md:max-w-sm">
+                        <div className="relative h-36 w-full md:ml-[-90px] md:h-24 md:max-h-24 md:max-w-sm">
                             <Image
                                 src={logo}
                                 alt="Holistic"
@@ -84,8 +83,8 @@ const SocialLink = ({
     ariaLabel,
     children,
 }: {
-    href: any;
-    ariaLabel: any;
+    href: string;
+    ariaLabel: string;
     children: React.ReactNode;
 }) => (
     <Link

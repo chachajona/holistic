@@ -2,8 +2,6 @@
 
 import React from "react";
 import { FaLinkedin } from "react-icons/fa";
-import { BlurhashImage } from "@/components/BlurhashImage";
-import { getOptimizedImageData } from "@/lib/imageProcessing";
 import Image, { StaticImageData } from "next/image";
 import { AspectRatio } from "../ui/aspect-ratio";
 

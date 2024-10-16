@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
-import { docsConfig } from "@/config/docs";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Icons } from "@/components/ui/icons";

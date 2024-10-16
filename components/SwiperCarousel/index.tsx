@@ -27,6 +27,7 @@ interface CarouselProps {
 }
 
 const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [api, setApi] = useState<any>();
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
@@ -58,7 +59,7 @@ const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
       className="size-full max-w-sm md:max-w-4xl"
     >
       <CarouselContent className="h-full">
-        {items.map((item, index) => (
+        {items.map((item) => (
           <CarouselItem
             key={item.title}
             className="h-full w-[90%] md:basis-1/2"
