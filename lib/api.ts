@@ -13,3 +13,21 @@ export async function getTestimonials() {
         author
     }`);
 }
+
+export async function getHeader(pageSlug: string) {
+    return client.fetch(
+        `*[_type == "header" && page->slug.current == $pageSlug][0]{
+        _id,
+        heading,
+        backgroundImage {
+            asset->{url}
+        },
+        subtitle,
+        page->{
+            slug,
+            title
+        }
+    }`,
+        { pageSlug },
+    );
+}

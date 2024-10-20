@@ -1,8 +1,9 @@
 import React from "react";
+
 import Banner from "@/components/Banner";
-import MainNavBar from "@/components/Navbar";
-import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Header from "@/components/Header";
+import MainNavBar from "@/components/Navbar";
 
 export default function TreatmentsLayout({
     children,
@@ -13,7 +14,7 @@ export default function TreatmentsLayout({
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
-            <Header title="Phương pháp" backgroundImage="url('/Treatment.jpg')" subtitle="Khám phá nhiều phương pháp điều trị vật lý trị liệu của chúng tôi được thiết kế để cải thiện sức khỏe của bạn" />
+            <Header pageSlug="treatments" />
             <main>
                 <div className="content-normal">{children}</div>
             </main>
