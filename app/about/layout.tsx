@@ -16,7 +16,7 @@ export default async function AboutLayout({
         <div className="bg-brown-50 relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
-            <Header pageSlug="about" />
+            <Header slug="about" />
             <main>
                 <Misson />
                 <Showcase />

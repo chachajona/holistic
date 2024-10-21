@@ -12,7 +12,9 @@ export const headerType = defineType({
         }),
         defineField({
             name: "slug",
-            type: "string",
+            type: "slug",
+            options: { source: "heading" },
+            validation: Rule => Rule.required(),
         }),
         defineField({
             name: "subtitle",
@@ -46,7 +48,7 @@ export const headerType = defineType({
         prepare({ title, image }) {
             return {
                 title: title || "Untitled",
-                subtitle: "Hero",
+                subtitle: "Header",
                 media: image || DocumentTextIcon,
             };
         },

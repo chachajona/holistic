@@ -14,7 +14,7 @@ export default async function BookingLayout({
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
-            <Header pageSlug="booking" />
+            <Header slug="booking" />
             <main>
                 <div className="content-normal">{children}</div>
             </main>

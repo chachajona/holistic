@@ -14,7 +14,7 @@ export default async function TreatmentsLayout({
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
-            <Header pageSlug="treatments" />
+            <Header slug="treatments" />
             <main>
                 <div className="content-normal">{children}</div>
             </main>

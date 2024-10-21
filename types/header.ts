@@ -1,9 +1,9 @@
-import { Image, Reference } from "sanity";
+import { Image } from "sanity";
 
 export interface Header {
-    _type: "header";
+    _id: string;
     heading: string;
+    slug: { current: string };
     subtitle?: string;
     backgroundImage: Image;
-    page: Reference;
 }

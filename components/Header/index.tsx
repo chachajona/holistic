@@ -5,11 +5,11 @@ import { Header as HeaderType } from "@/types/header";
 import { getHeader } from "@/lib/api";
 
 interface HeaderProps {
-    pageSlug: string;
+    slug: string;
 }
 
-const Header: React.FC<HeaderProps> = async ({ pageSlug }) => {
-    const header = (await getHeader(pageSlug)) as HeaderType;
+const Header: React.FC<HeaderProps> = async ({ slug }) => {
+    const header = (await getHeader(slug)) as HeaderType;
 
     if (!header) {
         return null;
