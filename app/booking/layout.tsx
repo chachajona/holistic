@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import MainNavBar from "@/components/Navbar";
 
-export default function BookingLayout({
+export default async function BookingLayout({
     children,
 }: {
     children: React.ReactNode;

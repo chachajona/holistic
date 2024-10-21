@@ -7,7 +7,7 @@ import Misson from "@/components/Misson";
 import MainNavBar from "@/components/Navbar";
 import Showcase from "@/components/Showcase";
 
-export default function AboutLayout({
+export default async function AboutLayout({
     children,
 }: {
     children: React.ReactNode;
