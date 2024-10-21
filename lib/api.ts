@@ -31,3 +31,11 @@ export async function getHeader(pageSlug: string) {
         { pageSlug },
     );
 }
+
+export async function getFAQs() {
+    return client.fetch(`*[_type == "faq"] {
+        _id,
+        question,
+        answer
+    }`);
+}
