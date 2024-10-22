@@ -30,8 +30,11 @@ export async function getHeader(slug: string) {
                 _id,
                 heading,
                 slug,
-                backgroundImage {
-                    asset->{url}
+                image {
+                    asset->{
+                        url
+                    },
+                    alt
                 },
                 subtitle
             }`,
