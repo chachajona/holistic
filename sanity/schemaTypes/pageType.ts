@@ -20,6 +20,10 @@ export const pageType = defineType({
                     name: "header",
                     type: "header",
                 }),
+                defineArrayMember({
+                    name: "form",
+                    type: "form",
+                }),
             ],
         }),
     ],

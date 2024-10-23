@@ -6,6 +6,8 @@ import {
     Roboto_Slab,
 } from "next/font/google";
 
+import { Toaster } from "@/components/ui/toaster";
+
 import "./globals.css";
 
 const roboto = Roboto({
@@ -49,7 +51,8 @@ export default function RootLayout({
             <body
                 className={`${roboto.variable} ${robotoSerif.variable} ${robotoSlab.variable} ${robotoMono.variable} bg-[ #F5F5F5 ] overflow-x-hidden overflow-y-scroll`}
             >
-                {children}
+                <main>{children}</main>
+                <Toaster />
             </body>
         </html>
     );

@@ -1,13 +1,11 @@
 import { Header as HeaderType } from "@/types/header";
-import { getHeader } from "@/lib/api";
 
 interface HeaderProps {
     slug: string;
+    header: HeaderType;
 }
 
-const Header: React.FC<HeaderProps> = async ({ slug }) => {
-    const header = (await getHeader(slug)) as HeaderType;
-
+const Header: React.FC<HeaderProps> = async ({ header }) => {
     if (!header) {
         return null;
     }
@@ -28,9 +26,9 @@ const Header: React.FC<HeaderProps> = async ({ slug }) => {
                 <h1 className="font-robotoSerif text-left text-4xl font-bold sm:text-5xl md:text-6xl">
                     {header.heading}
                 </h1>
-                {header.subtitle && (
+                {header.subheading && (
                     <p className="font-robotoSlab mt-4 max-w-3xl text-left text-base font-light md:text-lg">
-                        {header.subtitle}
+                        {header.subheading}
                     </p>
                 )}
             </div>

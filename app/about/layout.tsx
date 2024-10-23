@@ -1,5 +1,6 @@
 import React from "react";
 
+import { getAboutPage } from "@/lib/api";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -12,11 +13,12 @@ export default async function AboutLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const pageData = await getAboutPage();
     return (
         <div className="bg-brown-50 relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
-            <Header slug="about" />
+            <Header slug="about" header={pageData?.Header} />
             <main>
                 <Misson />
                 <Showcase />
