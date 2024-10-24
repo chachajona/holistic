@@ -5,6 +5,10 @@ import {
     Roboto_Serif,
     Roboto_Slab,
 } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
+
+import { Toaster } from "@/components/ui/toaster";
 
 import "./globals.css";
 
@@ -49,7 +53,10 @@ export default function RootLayout({
             <body
                 className={`${roboto.variable} ${robotoSerif.variable} ${robotoSlab.variable} ${robotoMono.variable} bg-[ #F5F5F5 ] overflow-x-hidden overflow-y-scroll`}
             >
-                {children}
+                <main>{children}</main>
+                <Toaster />
+                <SpeedInsights />
+                <Analytics />
             </body>
         </html>
     );

@@ -1,9 +1,9 @@
-import { DocumentTextIcon } from "@sanity/icons";
+import { ImagesIcon } from "@sanity/icons";
 import { defineField, defineType } from "sanity";
 
 export const headerType = defineType({
     name: "header",
-    type: "document",
+    type: "object",
     title: "Header",
     fields: [
         defineField({
@@ -17,7 +17,7 @@ export const headerType = defineType({
             validation: Rule => Rule.required(),
         }),
         defineField({
-            name: "subtitle",
+            name: "subheading",
             type: "string",
         }),
         defineField({
@@ -39,7 +39,7 @@ export const headerType = defineType({
             validation: Rule => Rule.required(),
         }),
     ],
-    icon: DocumentTextIcon,
+    icon: ImagesIcon,
     preview: {
         select: {
             title: "heading",
@@ -49,7 +49,7 @@ export const headerType = defineType({
             return {
                 title: title || "Untitled",
                 subtitle: "Header",
-                media: image || DocumentTextIcon,
+                media: image || ImagesIcon,
             };
         },
     },

@@ -1,5 +1,6 @@
 import React from "react";
 
+import { getBookingPage } from "@/lib/api";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -10,11 +11,12 @@ export default async function BookingLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const pageData = await getBookingPage();
     return (
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
-            <Header slug="booking" />
+            <Header slug="booking" header={pageData?.Header} />
             <main>
                 <div className="content-normal">{children}</div>
             </main>

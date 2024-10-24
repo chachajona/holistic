@@ -1,5 +1,6 @@
 import React from "react";
 
+import { getServicesPage } from "@/lib/api";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -10,11 +11,12 @@ export default async function ServicesLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const pageData = await getServicesPage();
     return (
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
-            <Header slug="services" />
+            <Header slug="services" header={pageData?.Header} />
             <main>
                 <div className="content-normal">{children}</div>
             </main>
