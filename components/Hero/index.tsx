@@ -17,6 +17,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import WordRotate from "@/components/ui/word-rotate";
 
 const formSchema = z.object({
     phoneNumber: z.string().min(10, {
@@ -78,11 +79,14 @@ const Hero: React.FC<HeroProps> = ({ formData }) => {
                 <div className="grid gap-6 lg:grid-cols-[1fr_200px] lg:gap-12 xl:grid-cols-[1fr_400px]">
                     <div className="items-left flex flex-col justify-center gap-12 space-y-5 md:gap-0">
                         <h1 className="font-robotoSerif text-brown-50 text-primary-foreground text-5xl font-bold tracking-normal md:text-6xl xl:text-[64px] xl:leading-[64px]">
-                            Giúp mọi người{" "}
+                            <span>Giúp mọi người</span>{" "}
                             <span className="font-robotoSlab font-light">
                                 cải thiện sức khoẻ vận động một cách
                             </span>{" "}
-                            toàn diện & bền vững.
+                            <WordRotate
+                                words={["toàn diện", "bền vững"]}
+                                duration={5000}
+                            />
                         </h1>
 
                         <div className="flex flex-col gap-4 min-[400px]:flex-row">
@@ -103,7 +107,7 @@ const Hero: React.FC<HeroProps> = ({ formData }) => {
                                 <Form {...form}>
                                     <form
                                         onSubmit={form.handleSubmit(onSubmit)}
-                                        className="flex items-center space-x-2"
+                                        className="flex grow items-center space-x-2"
                                     >
                                         <FormField
                                             control={form.control}
