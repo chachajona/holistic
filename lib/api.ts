@@ -1,7 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { groq } from "next-sanity";
-
 import { client } from "@/sanity/lib/client";
+import { groq } from "next-sanity";
 
 export default async function handler(
     req: NextApiRequest,

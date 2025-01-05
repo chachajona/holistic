@@ -1,7 +1,6 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
-
 import logo from "@/assets/images/Symbol+FullName_Variant3.png";
 
 const Footer: React.FC = () => {

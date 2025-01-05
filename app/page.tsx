@@ -1,10 +1,10 @@
+import { getHomePage } from "@/lib/api";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import Hero from "@/components/Hero";
 import Navbar from "@/components/Navbar";
 import QuickLinks from "@/components/QuickLinks";
 import Testimonial from "@/components/Testimonimal";
-import { getHomePage } from "@/lib/api";
 
 export default async function Home() {
     const pageData = await getHomePage();

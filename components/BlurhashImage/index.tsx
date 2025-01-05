@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { Blurhash } from "react-blurhash";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";

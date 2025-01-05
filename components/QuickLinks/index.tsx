@@ -1,13 +1,12 @@
 "use client";
 
-import { ArrowUpRight } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-
 import { Service, Team, Treatment } from "@/assets/icons";
 import link1 from "@/assets/images/Link1.jpg";
 import link2 from "@/assets/images/Link2.jpg";
 import link3 from "@/assets/images/Link3.jpg";
+import { ArrowUpRight } from "lucide-react";
 
 interface QuickLinkCardProps {
     title: string;

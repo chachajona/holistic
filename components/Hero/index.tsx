@@ -1,11 +1,13 @@
 "use client";
 
+import React from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarCheck, CircleCheckBig, Send } from "lucide-react";
-import React from "react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { FormData } from "@/types/form";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -16,8 +18,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import WordRotate from "@/components/ui/word-rotate";
-import { useToast } from "@/hooks/use-toast";
-import { FormData } from "@/types/form";
 
 const formSchema = z.object({
     phoneNumber: z.string().min(10, {

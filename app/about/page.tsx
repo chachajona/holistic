@@ -1,8 +1,8 @@
-import { ChevronRight } from "lucide-react";
-import Image from "next/image";
 import React from "react";
-
+import Image from "next/image";
 import massage from "@/assets/images/Massage.jpg";
+import { ChevronRight } from "lucide-react";
+
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
 

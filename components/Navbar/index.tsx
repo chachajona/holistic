@@ -1,11 +1,12 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import logo from "@/assets/images/Symbol+FullName_Variant3.png";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
-import logo from "@/assets/images/Symbol+FullName_Variant3.png";
+import { cn } from "@/lib/utils";
 import { MobileNav } from "@/components/ui/mobile-nav";
 import {
     NavigationMenu,
@@ -16,7 +17,6 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { cn } from "@/lib/utils";
 
 const services = [
     {

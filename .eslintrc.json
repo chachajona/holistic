@@ -6,12 +6,7 @@
         "prettier",
         "plugin:tailwindcss/recommended"
     ],
-    "plugins": [
-        "tailwindcss",
-        "@typescript-eslint",
-        "unused-imports",
-        "simple-import-sort"
-    ],
+    "plugins": ["tailwindcss", "@typescript-eslint", "unused-imports"],
     "rules": {
         "@typescript-eslint/no-unused-vars": "off",
         "unused-imports/no-unused-imports": "error",
@@ -26,9 +21,7 @@
         ],
         "@next/next/no-html-link-for-pages": "off",
         "tailwindcss/no-custom-classname": "off",
-        "tailwindcss/classnames-order": "error",
-        "simple-import-sort/imports": "error",
-        "simple-import-sort/exports": "error"
+        "tailwindcss/classnames-order": "error"
     },
     "settings": {
         "tailwindcss": {

@@ -1,9 +1,7 @@
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
 
-import FAQ from "@/components/FAQ";
-import { PopularBlogPosts, RecentBlogPosts } from "@/components/Post";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -14,6 +12,8 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import FAQ from "@/components/FAQ";
+import { PopularBlogPosts, RecentBlogPosts } from "@/components/Post";
 
 const BlogPage = () => {
     return (
