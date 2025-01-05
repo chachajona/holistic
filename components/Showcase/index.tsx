@@ -1,14 +1,15 @@
 "use client";
 
+import Image, { StaticImageData } from "next/image";
 import React from "react";
 import { FaLinkedin } from "react-icons/fa";
-import Image, { StaticImageData } from "next/image";
-import { AspectRatio } from "../ui/aspect-ratio";
 
-import John from "@/assets/avatars/John.jpg";
-import Jane from "@/assets/avatars/Jane.jpg";
-import Michael from "@/assets/avatars/Michael.jpg";
 import Emily from "@/assets/avatars/Emily.jpg";
+import Jane from "@/assets/avatars/Jane.jpg";
+import John from "@/assets/avatars/John.jpg";
+import Michael from "@/assets/avatars/Michael.jpg";
+
+import { AspectRatio } from "../ui/aspect-ratio";
 
 interface TeamMember {
     name: string;

@@ -1,12 +1,12 @@
 import React from "react";
 
-import { getAboutPage } from "@/lib/api";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import Misson from "@/components/Misson";
 import MainNavBar from "@/components/Navbar";
 import Showcase from "@/components/Showcase";
+import { getAboutPage } from "@/lib/api";
 
 export default async function AboutLayout({
     children,

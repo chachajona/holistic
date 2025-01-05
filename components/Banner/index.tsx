@@ -1,8 +1,9 @@
-import React from "react";
+import { MapPin,Phone } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, MapPin } from "lucide-react";
+import React from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
+
 import logo from "@/assets/images/Logo_Opacity_Light.png";
 
 const Banner = () => {

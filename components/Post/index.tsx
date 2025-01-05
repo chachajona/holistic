@@ -1,5 +1,5 @@
 "use client";
-import RecentBlogPosts from "./RecentBlogPost";
 import PopularBlogPosts from "./PopularBlogPosts";
+import RecentBlogPosts from "./RecentBlogPost";
 
-export { RecentBlogPosts, PopularBlogPosts };
+export { PopularBlogPosts,RecentBlogPosts };

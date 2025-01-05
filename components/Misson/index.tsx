@@ -1,11 +1,11 @@
-import React from "react";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { ChevronRight } from "lucide-react";
+import Image from "next/image";
+import React from "react";
 
-import misson from "@/assets/images/Misson.jpg";
 import { About } from "@/assets/icons";
+import misson from "@/assets/images/Misson.jpg";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
 
 const Misson = () => {
     return (

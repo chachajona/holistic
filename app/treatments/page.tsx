@@ -1,11 +1,11 @@
-import SwiperCarousel from "@/components/SwiperCarousel";
-import { Button } from "@/components/ui/button";
 import { ChevronRight } from "lucide-react";
 import React from "react";
 
-import stretching from "@/assets/images/Stretching.jpg";
-import exercise from "@/assets/images/Exercise.jpg";
 import acupuncture from "@/assets/images/acupuncture.jpg";
+import exercise from "@/assets/images/Exercise.jpg";
+import stretching from "@/assets/images/Stretching.jpg";
+import SwiperCarousel from "@/components/SwiperCarousel";
+import { Button } from "@/components/ui/button";
 
 const treatments = [
   {

@@ -1,7 +1,5 @@
 import React from "react";
 
-import { FAQ as FAQType } from "@/types/faq";
-import { getFAQs } from "@/lib/api";
 import {
     Accordion,
     AccordionContent,
@@ -9,6 +7,8 @@ import {
     AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
+import { getFAQs } from "@/lib/api";
+import { FAQ as FAQType } from "@/types/faq";
 
 const FAQ = async () => {
     const faqs = await getFAQs();

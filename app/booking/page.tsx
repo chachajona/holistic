@@ -1,11 +1,12 @@
-import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import FAQ from "@/components/FAQ";
 import { Mail, MapPin, Phone } from "lucide-react";
+import React from "react";
+
+import FAQ from "@/components/FAQ";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 
 const BookingPage = () => {
     return (

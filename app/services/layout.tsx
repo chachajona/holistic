@@ -1,10 +1,10 @@
 import React from "react";
 
-import { getServicesPage } from "@/lib/api";
 import Banner from "@/components/Banner";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import MainNavBar from "@/components/Navbar";
+import { getServicesPage } from "@/lib/api";
 
 export default async function ServicesLayout({
     children,

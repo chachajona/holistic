@@ -1,10 +1,10 @@
-import React from "react";
-import Image from "next/image";
 import { ChevronRight } from "lucide-react";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import React from "react";
 
 import massage from "@/assets/images/Massage.jpg";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Button } from "@/components/ui/button";
 
 export default function AboutPage() {
     return (

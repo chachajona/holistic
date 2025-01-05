@@ -1,12 +1,12 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
+import React from "react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
-import logo from "@/assets/images/Symbol+FullName_Variant3.png";
-import { cn } from "@/lib/utils";
 
+import logo from "@/assets/images/Symbol+FullName_Variant3.png";
+import { MobileNav } from "@/components/ui/mobile-nav";
 import {
     NavigationMenu,
     NavigationMenuContent,
@@ -16,7 +16,7 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { MobileNav } from "@/components/ui/mobile-nav";
+import { cn } from "@/lib/utils";
 
 const services = [
     {

@@ -1,9 +1,10 @@
 "use client";
 
-import { AspectRatio } from "@/components/ui/aspect-ratio";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import { Blurhash } from "react-blurhash";
+
+import { AspectRatio } from "@/components/ui/aspect-ratio";
 
 export function BlurhashImage({
     imageUrl,
