@@ -154,38 +154,64 @@ export const MobileNav: React.FC = () => {
                         <CollapsibleNavItem title="Dịch vụ">
                             <SubLink
                                 href="/services"
+                                title="Trị liệu"
+                                description="Trị liệu đa phương pháp giúp cải thiện mọi tình trạng chấn thương đau mỏi, bệnh lí cơ, xương, khớp"
+                            />
+                            <SubLink
+                                href="/services"
                                 title="Tư vấn chuyên sâu"
-                                description="Browse our collection of stylish shoes."
+                                description="Chuyên gia lượng giá chức năng sức khoẻ vận động và cá nhân hoá liệu trình phù hợp với từng trường hợp khách hàng"
                             />
                             <SubLink
                                 href="/services"
                                 title="Thư giãn cơ"
-                                description="Check out our latest clothing items."
+                                description="Giảm căng cơ, cải thiện sức khoẻ vận động"
                             />
                             <SubLink
                                 href="/services"
                                 title="Tập luyện cơ bản"
-                                description="Explore our selection of accessories."
+                                description="Coaching 1-1 với các bài tập rehab để cải thiện tư thế vận động, phục hồi sau chấn thương"
                             />
                         </CollapsibleNavItem>
                         <CollapsibleNavItem title="Phương pháp">
                             <SubLink
-                                href="/treatments"
-                                title="Blog"
-                                description="Read our latest blog posts."
+                                href="/treatments/cupping"
+                                title="Giác hơi"
+                                description="Phương pháp sử dụng lực hút chân không để giảm đau và thư giãn cơ bắp."
                             />
                             <SubLink
-                                href="/treatments"
-                                title="Documentation"
-                                description="Learn how to use our products."
+                                href="/treatments/tapping"
+                                title="Tapping"
+                                description="Phương pháp gõ nhẹ nhằm kích thích các cơ và dây thần kinh, giúp giảm căng thẳng và cải thiện tuần hoàn."
                             />
                             <SubLink
-                                href="/treatments"
-                                title="Support"
-                                description="Get help with our products."
+                                href="/treatments/heat-light"
+                                title="Đèn hồng ngoại"
+                                description="Liệu pháp sử dụng ánh sáng hồng ngoại để làm ấm cơ, cải thiện tuần hoàn máu và giảm đau."
+                            />
+                            <SubLink
+                                href="/treatments/iastm"
+                                title="Cao mạc (Dùng công cụ chuyển động mô mềm)"
+                                description="Kỹ thuật sử dụng công cụ chuyên dụng để kích thích và cải thiện mô mềm, giảm đau và tăng cường phục hồi."
+                            />
+                            <SubLink
+                                href="/treatments/cold-plunge"
+                                title="Ngâm lạnh"
+                                description="Liệu pháp sử dụng nước lạnh để giảm đau và cải thiện tuần hoàn."
+                            />
+                            <SubLink
+                                href="/treatments/dry-needling"
+                                title="Châm khô"
+                                description="Kỹ thuật sử dụng kim nhỏ để kích thích điểm co thắt cơ và giảm đau mãn tính."
+                            />
+                            <SubLink
+                                href="/treatments/dds"
+                                title="Điện sinh học (DDS)"
+                                description="Liệu pháp sử dụng dòng điện nhẹ để kích thích cơ và dây thần kinh, giảm đau và thúc đẩy phục hồi."
                             />
                         </CollapsibleNavItem>
                         <NavLink href="/about">Giới thiệu</NavLink>
+                        <NavLink href="/events">Sự kiện</NavLink>
                         <NavLink href="/blog">Blog</NavLink>
                     </div>
                 </ScrollArea>

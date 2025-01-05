@@ -31,13 +31,23 @@ const MessengerChat: React.FC<MessengerChatProps> = ({
     useEffect(() => {
         // Load Facebook SDK
         const loadFacebookSDK = () => {
-            const script = document.createElement("script");
-            script.src =
-                "https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js";
-            script.async = true;
-            script.defer = true;
-            script.crossOrigin = "anonymous";
-            document.body.appendChild(script);
+            // Add fb-root if not exists
+            if (!document.getElementById("fb-root")) {
+                const root = document.createElement("div");
+                root.id = "fb-root";
+                document.body.appendChild(root);
+            }
+
+            // Add Facebook SDK script
+            ((d, s, id) => {
+                const fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                const js = d.createElement(s) as HTMLScriptElement;
+                js.id = id;
+                js.src =
+                    "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v18.0";
+                fjs.parentNode?.insertBefore(js, fjs);
+            })(document, "script", "facebook-jssdk");
 
             window.fbAsyncInit = () => {
                 window.FB?.init({

@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import logo from "@/assets/images/Symbol+FullName_Variant3.png";
+import logo from "@/assets/images/Symbol+FullName_Variant3_Dark.png";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 import { cn } from "@/lib/utils";
