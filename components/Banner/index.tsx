@@ -7,14 +7,14 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 const Banner = () => {
     return (
-        <div className="bg-primary-background py-2">
-            <div className="container mx-auto flex items-center justify-between md:px-16">
+        <div className="bg-primary-background max-h-10">
+            <div className="container mx-auto flex max-h-10 items-center justify-between md:px-16">
                 <a href="/" about="Home">
                     <Image
                         src={logo}
                         alt="Holistic"
-                        width={50}
-                        height={50}
+                        width={40}
+                        height={40}
                         className="hidden p-1 md:block"
                     />
                 </a>
@@ -23,19 +23,18 @@ const Banner = () => {
                         href=""
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-robotoSlab text-primary-text hover:text-primary-hover hidden items-center text-sm font-semibold md:flex"
+                        className="font-robotoSlab text-primary-text hover:text-primary-hover hidden items-center text-xs font-semibold md:flex"
                     >
-                        <MapPin size={16} className="mr-2 hidden md:block" />
+                        <MapPin size={14} className="mr-2 hidden md:block" />
                         <span>
-                            Địa chỉ: 70 Bà Huyện Thanh Quan, Phường Võ Thị Sáu,
-                            Quận 3
+                            Địa chỉ: 109/15 Lê Quốc Hưng, Phường 13, Quận 4
                         </span>
                     </a>
                     <Link
                         href="tel:0828959598"
-                        className="text-primary-text hover:text-primary-hover flex items-center text-sm"
+                        className="text-primary-text hover:text-primary-hover flex items-center justify-center text-xs"
                     >
-                        <Phone size={16} className="mr-2" />
+                        <Phone size={14} className="mr-2" />
                         <span>Hotline: 0828959598</span>
                     </Link>
                     <div className="flex items-center justify-center gap-4 align-middle md:hidden">

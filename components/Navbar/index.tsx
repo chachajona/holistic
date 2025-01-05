@@ -22,40 +22,71 @@ const services = [
     {
         title: "Trị liệu",
         description:
-            "Beautifully designed components that you can copy and paste into your apps. Accessible. Customizable. Open Source.",
+            "Trị liệu đa phương pháp giúp cải thiện mọi tình trạng chấn thương đau mỏi, bệnh lí cơ, xương, khớp",
     },
     {
         title: "Tư vấn chuyên sâu",
         description:
-            "Re-usable components built using Radix UI and Tailwind CSS.",
+            "Chuyên gia lượng giá chức năng sức khoẻ vận động và cá nhân hoá liệu trình phù hợp với từng trường hợp khách hàng",
     },
     {
         title: "Thư giãn cơ",
-        description: "How to install dependencies and structure your app.",
+        description: "Giảm căng cơ, cải thiện sức khoẻ vận động",
     },
     {
         title: "Tập luyện cơ bản",
-        description: "Styles for headings, paragraphs, lists...etc",
+        description:
+            "Coaching 1-1 với các bài tập rehab để cải thiện tư thế vận động, phục hồi sau chấn thương",
     },
 ];
 
 const methods = [
     {
-        title: "Alert Dialog",
-        href: "/docs/primitives/alert-dialog",
+        title: "Giác hơi",
+        href: "/treatments/cupping",
         description:
-            "A modal dialog that interrupts the user with important content and expects a response.",
+            "Phương pháp sử dụng lực hút chân không để giảm đau và thư giãn cơ bắp.",
     },
     {
-        title: "Hover Card",
-        href: "/docs/primitives/hover-card",
+        title: "Tapping",
+        href: "/treatments/tapping",
         description:
-            "For sighted users to preview content available behind a link.",
+            "Phương pháp gõ nhẹ nhằm kích thích các cơ và dây thần kinh, giúp giảm căng thẳng và cải thiện tuần hoàn.",
+    },
+    {
+        title: "Đèn hồng ngoại",
+        href: "/treatments/heat-light",
+        description:
+            "Liệu pháp sử dụng ánh sáng hồng ngoại để làm ấm cơ, cải thiện tuần hoàn máu và giảm đau.",
+    },
+    {
+        title: "Cao mạc (Dùng công cụ chuyển động mô mềm)",
+        href: "/treatments/iastm",
+        description:
+            "Kỹ thuật sử dụng công cụ chuyên dụng để kích thích và cải thiện mô mềm, giảm đau và tăng cường phục hồi.",
+    },
+    {
+        title: "Ngâm lạnh",
+        href: "/treatments/cold-plunge",
+        description:
+            "Phương pháp ngâm mình trong nước lạnh để giảm sưng, đau nhức cơ và tăng cường hồi phục.",
+    },
+    {
+        title: "Châm khô",
+        href: "/treatments/dry-needling",
+        description:
+            "Kỹ thuật sử dụng kim nhỏ để kích thích điểm co thắt cơ và giảm đau mãn tính.",
+    },
+    {
+        title: "Điện sinh học (DDS)",
+        href: "/treatments/dds",
+        description:
+            "Liệu pháp sử dụng dòng điện nhẹ để kích thích cơ và dây thần kinh, giảm đau và thúc đẩy phục hồi.",
     },
 ];
 
 const MainNavBar: React.FC = () => (
-    <nav className="bg-navbar-background font-robotoSerif text-navbar-text sticky top-0 z-50 text-sm shadow-md">
+    <nav className="font-robotoSerif text-navbar-text sticky top-0 z-50 bg-[#9a7f74] text-sm shadow-md">
         <div className="container mx-auto px-0 md:pl-12 md:pr-16">
             <div className="flex max-h-[72px] items-center justify-between py-6">
                 <div className="flex items-center gap-11">
@@ -166,6 +197,19 @@ const DesktopNavigation: React.FC = () => (
                         )}
                     >
                         Giới thiệu
+                    </NavigationMenuLink>
+                </Link>
+            </NavigationMenuItem>
+
+            <NavigationMenuItem>
+                <Link href="/events" legacyBehavior passHref>
+                    <NavigationMenuLink
+                        className={cn(
+                            navigationMenuTriggerStyle(),
+                            "bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text",
+                        )}
+                    >
+                        Sự kiện
                     </NavigationMenuLink>
                 </Link>
             </NavigationMenuItem>

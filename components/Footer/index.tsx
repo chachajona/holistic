@@ -25,9 +25,11 @@ const Footer: React.FC = () => {
                         <p className="font-robotoSlab mb-1 text-sm font-semibold">
                             Địa chỉ:
                         </p>
+                        <p className="font-robotoMono mb-1 text-sm font-normal">
+                            109/15 Lê Quốc Hưng, Phường 13, Quận 4, TP.HCM
+                        </p>
                         <p className="font-robotoMono mb-2 text-sm font-normal">
-                            79 Bà Huyện Thanh Quan, Phường Võ Thị Sáu, Quận 3,
-                            TP.HCM
+                            70 Bà Huyện Thanh Quan, Quận 3, TP.HCM
                         </p>
                         <p className="font-robotoSlab mb-1 text-sm font-semibold">
                             Hotline:
