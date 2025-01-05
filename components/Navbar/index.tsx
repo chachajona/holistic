@@ -137,7 +137,7 @@ const DesktopNavigation: React.FC = () => (
     <NavigationMenu>
         <NavigationMenuList>
             <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text data-[active]:bg-navbar-accent-background/35 data-[state=open]:bg-navbar-accent-background/35">
+                <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text data-[active]:bg-navbar-accent-background/90 data-[state=open]:bg-navbar-accent-background/90">
                     <Link href="/services">Dịch vụ</Link>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-primary-background">
@@ -170,7 +170,7 @@ const DesktopNavigation: React.FC = () => (
                 </NavigationMenuContent>
             </NavigationMenuItem>
             <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text data-[active]:bg-navbar-accent-background/35 data-[state=open]:bg-navbar-accent-background/35">
+                <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text data-[active]:bg-navbar-accent-background/90 data-[state=open]:bg-navbar-accent-background/90">
                     Phương pháp
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-primary-background">
@@ -193,7 +193,7 @@ const DesktopNavigation: React.FC = () => (
                     <NavigationMenuLink
                         className={cn(
                             navigationMenuTriggerStyle(),
-                            "bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text",
+                            "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
                         )}
                     >
                         Giới thiệu
@@ -206,7 +206,7 @@ const DesktopNavigation: React.FC = () => (
                     <NavigationMenuLink
                         className={cn(
                             navigationMenuTriggerStyle(),
-                            "bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text",
+                            "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
                         )}
                     >
                         Sự kiện

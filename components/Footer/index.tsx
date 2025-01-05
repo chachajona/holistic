@@ -34,9 +34,9 @@ const Footer: React.FC = () => {
                         <p className="font-robotoSlab mb-1 text-sm font-semibold">
                             Hotline:
                         </p>
-                        <Link href="tel:+842862653030">
+                        <Link href="tel:+84828959598">
                             <p className="font-robotoMono mb-1 text-sm font-normal hover:text-stone-700 hover:underline">
-                                (+84) 286 265 3030
+                                (+84) 828 959 598
                             </p>
                         </Link>
                         <Link href="mailto:info@holistic.vn">
@@ -113,6 +113,7 @@ const NavLinks = () => (
             { href: "/services", text: "Dịch vụ" },
             { href: "/treatments", text: "Phương pháp" },
             { href: "/about", text: "Giới thiệu" },
+            { href: "/events", text: "Sự kiện" },
             { href: "/blog", text: "Blog" },
         ].map(({ href, text }) => (
             <Link
@@ -129,7 +130,8 @@ const NavLinks = () => (
 const FooterBottom = () => (
     <div className="font-robotoMono container mt-12 flex flex-col-reverse items-start justify-between gap-10 border-t border-[#8c7e75] text-sm font-normal md:flex-row md:items-center md:pt-8">
         <p>
-            &copy; {new Date().getFullYear()} Holistic. Mọi quyền được bảo lưu.
+            Copyright &copy; {new Date().getFullYear()} Holistic - All rights
+            reserved.
         </p>
         <div className="mt-4 flex flex-col items-start gap-0 sm:mt-0 md:flex-row md:items-center md:gap-3">
             {[

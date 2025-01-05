@@ -8,7 +8,7 @@ import { FaFacebook, FaInstagram } from "react-icons/fa";
 const Banner = () => {
     return (
         <div className="bg-primary-background max-h-10">
-            <div className="container mx-auto flex max-h-10 items-center justify-between md:px-16">
+            <div className="container mx-auto flex max-h-10 items-center justify-between py-2 md:px-16 md:py-0">
                 <a href="/" about="Home">
                     <Image
                         src={logo}
