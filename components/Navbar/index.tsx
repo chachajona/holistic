@@ -247,7 +247,7 @@ const NavItem = React.forwardRef<
                 <div className="text-primary-text text-sm font-semibold leading-4 group-hover:underline">
                     {title}
                 </div>
-                <p className="font-robotoMono text-primary-text/50 line-clamp-2 text-xs font-light leading-snug">
+                <p className="font-robotoSlab text-primary-text/50 line-clamp-2 text-xs font-light leading-snug">
                     {children}
                 </p>
             </a>

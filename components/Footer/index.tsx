@@ -26,10 +26,10 @@ const Footer: React.FC = () => {
                             Địa chỉ:
                         </p>
                         <p className="font-robotoMono mb-1 text-sm font-normal">
-                            109/15 Lê Quốc Hưng, Phường 13, Quận 4, TP.HCM
+                            CN1: 109/15 Lê Quốc Hưng, Phường 13, Quận 4, TP.HCM
                         </p>
                         <p className="font-robotoMono mb-2 text-sm font-normal">
-                            70 Bà Huyện Thanh Quan, Quận 3, TP.HCM
+                            CN2: 70 Bà Huyện Thanh Quan, Quận 3, TP.HCM
                         </p>
                         <p className="font-robotoSlab mb-1 text-sm font-semibold">
                             Hotline:
@@ -39,9 +39,9 @@ const Footer: React.FC = () => {
                                 (+84) 828 959 598
                             </p>
                         </Link>
-                        <Link href="mailto:info@holistic.vn">
+                        <Link href="mailto:Holisticrep9@gmail.com">
                             <p className="font-robotoMono mb-4 text-sm font-normal hover:text-stone-700 hover:underline">
-                                info@holistic.vn
+                                Holisticrep9@gmail.com
                             </p>
                         </Link>
                     </address>

@@ -9,22 +9,46 @@ import SwiperCarousel from "@/components/SwiperCarousel";
 
 const treatments = [
     {
-        title: "Công cụ giải quyết công việc",
+        title: "Giác hơi",
+        href: "/treatments/cupping",
         description:
-            "Các phương pháp tuyển tập giúp bạn có thể nhanh chóng giải quyết công việc một cách hiệu quả. Đồng thời giúp bạn tiết kiệm thời gian, công sức và chi phí đáng kể.",
+            "Giác hơi là phương pháp y học cổ truyền sử dụng cốc để tạo áp lực hút trên da, giúp tăng cường lưu thông máu, giảm đau nhức cơ và cải thiện sức khỏe tổng thể.",
         image: stretching,
     },
     {
-        title: "Tập luyện",
+        title: "Tapping",
+        href: "/treatments/tapping",
         description:
-            "Các phương pháp tuyển tập giúp bạn có thể nhanh chóng tập luyện một cách hiệu quả. Đồng thời giúp bạn tiết kiệm thời gian, công sức và chi phí đáng kể.",
+            "Tapping, hay còn gọi là Emotional Freedom Technique (EFT), kết hợp giữa việc gõ nhẹ vào các huyệt đạo trên cơ thể và thực hành tâm lý để giảm căng thẳng, lo âu và tăng cường tinh thần.",
         image: exercise,
     },
     {
-        title: "Điện châm",
+        title: "Đèn hồng ngoại",
+        href: "/treatments/heat-light",
         description:
-            "Các phương pháp tuyển tập giúp bạn có thể nhanh chóng xử lý dữ liệu điện tử một cách hiệu quả. Đồng thời giúp bạn tiết kiệm thời gian, công sức và chi phí đáng kể.",
+            "Liệu pháp đèn hồng ngoại sử dụng ánh sáng nhiệt để thâm nhập sâu vào mô cơ thể, kích thích tuần hoàn máu, giảm viêm, và giúp phục hồi các tổn thương mô mềm.",
         image: acupuncture,
+    },
+    {
+        title: "Cao mạc (IASTM)",
+        href: "/treatments/iastm",
+        description:
+            "IASTM (Công cụ kích thích mô mềm) là phương pháp sử dụng dụng cụ chuyên dụng để giảm đau cơ, tăng tính linh hoạt và cải thiện hiệu quả vận động.",
+        image: acupuncture,
+    },
+    {
+        title: "Ngâm lạnh",
+        href: "/treatments/cold-plunge",
+        description:
+            "Phương pháp ngâm mình trong nước lạnh để giảm sưng, đau nhức cơ và tăng cường hồi phục.",
+        image: stretching,
+    },
+    {
+        title: "Châm khô",
+        href: "/treatments/dry-needling",
+        description:
+            "Kỹ thuật sử dụng kim nhỏ để kích thích điểm co thắt cơ và giảm đau mãn tính.",
+        image: stretching,
     },
 ];
 
@@ -66,6 +90,7 @@ export default function TreatmentsPage() {
                     items={treatments.map(treatment => ({
                         ...treatment,
                         image: treatment.image.src,
+                        link: treatment.href,
                     }))}
                 />
             </div>
