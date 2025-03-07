@@ -9,7 +9,7 @@ const Banner = () => {
     return (
         <div className="bg-primary-background max-h-10">
             <div className="container mx-auto flex max-h-10 items-center justify-between py-2 md:px-16 md:py-0">
-                <a href="/" about="Home">
+                <Link href="/" about="Home">
                     <Image
                         src={logo}
                         alt="Holistic"
@@ -17,10 +17,10 @@ const Banner = () => {
                         height={40}
                         className="hidden p-1 md:block"
                     />
-                </a>
+                </Link>
                 <div className="font-robotoSlab flex w-full flex-row-reverse justify-between text-left font-normal md:justify-normal lg:items-center lg:gap-5">
-                    <a
-                        href=""
+                    <Link
+                        href="https://maps.app.goo.gl/9RmecBoycrAkhBE39"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-robotoSlab text-primary-text hover:text-primary-hover hidden items-center text-xs font-semibold md:flex"
@@ -29,7 +29,7 @@ const Banner = () => {
                         <span>
                             Địa chỉ: 109/15 Lê Quốc Hưng, Phường 13, Quận 4
                         </span>
-                    </a>
+                    </Link>
                     <Link
                         href="tel:0828959598"
                         className="text-primary-text hover:text-primary-hover flex items-center justify-center text-xs"

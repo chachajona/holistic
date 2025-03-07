@@ -21,7 +21,7 @@ function QuickLinkCard({ title, icon, bgImage, link }: QuickLinkCardProps) {
             href={link}
             className="bg-primary-background group relative block min-h-[200px] overflow-hidden rounded-lg border border-[#90776E] transition-all duration-300 hover:shadow-md"
         >
-            <div className="absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+            <div className="absolute inset-0 opacity-80 transition-opacity duration-300 group-hover:opacity-100">
                 <Image
                     src={bgImage}
                     alt={title}
@@ -29,10 +29,10 @@ function QuickLinkCard({ title, icon, bgImage, link }: QuickLinkCardProps) {
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-50" />
+                <div className="absolute inset-0 bg-black/50" />
             </div>
-            <div className="from-primary-text text-primary-text relative z-10 flex h-full flex-col justify-between to-transparent p-6 transition-colors duration-300 group-hover:bg-gradient-to-r group-hover:text-white">
-                <div className="text-primary text-primary-text group-hover:text-white">
+            <div className="from-primary-text relative z-10 flex h-full flex-col justify-between bg-gradient-to-r to-transparent p-6 text-white transition-colors duration-300">
+                <div className="text-primary text-white group-hover:text-white">
                     {icon}
                 </div>
                 <div className="mt-4 flex items-center justify-between">
