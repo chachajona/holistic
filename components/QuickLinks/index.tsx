@@ -33,8 +33,8 @@ function QuickLinkCard({ title, icon, bgImage, link }: QuickLinkCardProps) {
                 />
                 <div className="absolute inset-0 bg-black/50" />
             </div>
-            <div className="from-primary-text relative z-10 flex h-full flex-col justify-between bg-gradient-to-r to-transparent p-6 text-white transition-colors duration-300">
-                <div className="text-primary text-white group-hover:text-white">
+            <div className="from-primary-text relative z-10 flex h-full flex-col justify-end bg-gradient-to-r to-transparent p-6 text-white transition-colors duration-300">
+                <div className="text-primary absolute left-6 top-6 text-white group-hover:text-white">
                     {icon}
                 </div>
                 <div className="mt-4 flex items-center justify-between">
