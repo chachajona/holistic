@@ -25,13 +25,13 @@ const Footer: React.FC = () => {
                         <p className="font-robotoSlab mb-1 text-sm font-semibold">
                             Địa chỉ:
                         </p>
-                        <p className="font-robotoMono mb-1 text-sm font-normal">
+                        <p className="font-robotoMono mb-1 text-sm font-normal hover:text-stone-700 hover:underline">
                             <Link href="https://maps.app.goo.gl/9RmecBoycrAkhBE39">
                                 CN1: 109/15 Lê Quốc Hưng, Phường 13, Quận 4,
                                 TP.HCM
                             </Link>
                         </p>
-                        <p className="font-robotoMono mb-2 text-sm font-normal">
+                        <p className="font-robotoMono mb-2 text-sm font-normal hover:text-stone-700 hover:underline">
                             <Link href="https://maps.app.goo.gl/Ldg4qEFn9Q6eJnrV9">
                                 CN2: 70 Bà Huyện Thanh Quan, Quận 3, TP.HCM
                             </Link>

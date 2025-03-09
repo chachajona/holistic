@@ -1,12 +1,14 @@
 "use client";
 
-import Image, { StaticImageData } from "next/image";
+import { StaticImageData } from "next/image";
 import Link from "next/link";
 import { Service, Team, Treatment } from "@/assets/icons";
 import link1 from "@/assets/images/Link1.jpg";
 import link2 from "@/assets/images/Link2.jpg";
 import link3 from "@/assets/images/Link3.jpg";
 import { ArrowUpRight } from "lucide-react";
+
+import { OptimizedImage } from "../ui/optimized-image";
 
 interface QuickLinkCardProps {
     title: string;
@@ -22,8 +24,8 @@ function QuickLinkCard({ title, icon, bgImage, link }: QuickLinkCardProps) {
             className="bg-primary-background group relative block min-h-[200px] overflow-hidden rounded-lg border border-[#90776E] transition-all duration-300 hover:shadow-md"
         >
             <div className="absolute inset-0 opacity-80 transition-opacity duration-300 group-hover:opacity-100">
-                <Image
-                    src={bgImage}
+                <OptimizedImage
+                    image={bgImage}
                     alt={title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

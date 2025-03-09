@@ -1,4 +1,8 @@
+import Image from "next/image";
+
 import { Header as HeaderType } from "@/types/header";
+
+import { SanityImageLoader } from "../ui/sanity-image-loader";
 
 interface HeaderProps {
     slug: string;
@@ -10,19 +14,32 @@ const Header: React.FC<HeaderProps> = async ({ header }) => {
         return null;
     }
 
-    const backgroundImageUrl =
-        header.image?.asset?.url || "/fallback-image.jpg";
-
     return (
         <header className="relative h-96 max-h-96 overflow-hidden bg-black text-white">
-            <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{
-                    backgroundImage: `url(${backgroundImageUrl})`,
-                    filter: "brightness(40%)",
-                }}
-            />
-            <div className="container relative z-10 flex h-full flex-col items-start justify-center md:px-16">
+            <div className="absolute inset-0 z-0">
+                {header.image ? (
+                    <SanityImageLoader
+                        image={header.image}
+                        alt={header.image.alt || "Header background"}
+                        fill
+                        priority
+                        sizes="100vw"
+                        className="object-cover object-center"
+                    />
+                ) : (
+                    <Image
+                        src="/fallback-image.jpg"
+                        alt="Header background"
+                        fill
+                        priority
+                        className="object-cover !object-[center_center]"
+                    />
+                )}
+            </div>
+
+            <div className="absolute inset-0 z-10 bg-black/70" />
+
+            <div className="container relative z-20 flex h-full flex-col items-start justify-center md:px-16">
                 <h1 className="font-robotoSerif text-left text-4xl font-bold sm:text-5xl md:text-6xl">
                     {header.heading}
                 </h1>

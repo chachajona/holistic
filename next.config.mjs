@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: false,
+    serverExternalPackages: ["sharp"],
     experimental: {
         esmExternals: true,
         turbo: {
@@ -20,6 +21,18 @@ const nextConfig = {
                 hostname: "cdn.sanity.io",
             },
         ],
+    },
+    webpack: (config, { isServer }) => {
+        if (!isServer) {
+            config.resolve.fallback = {
+                ...config.resolve.fallback,
+                fs: false,
+                child_process: false,
+                path: false,
+                os: false,
+            };
+        }
+        return config;
     },
 };
 

@@ -3,7 +3,10 @@ import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 
+// This is a mock example - in a real implementation, you would fetch this data from Sanity
+// and the image would be a Sanity image reference
 const RecentBlogPosts = () => {
+    // Mock data - in a real app, these would be Sanity images
     const posts = [
         {
             title: "10 lời khuyên cho lối sống lành mạnh",
@@ -13,6 +16,8 @@ const RecentBlogPosts = () => {
             readTime: "4 phút",
             image: "https://images.unsplash.com/photo-1586401100295-7a8096fd231a?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             alt: "Hands holding pink dumbbells",
+            // In a real implementation, this would be a Sanity image reference like:
+            // sanityImage: { _type: 'image', asset: { _ref: 'image-abc123-1200x800-jpg' } }
         },
         {
             title: "Lợi ích của việc tập thể dục thường xuyên",
@@ -22,6 +27,7 @@ const RecentBlogPosts = () => {
             readTime: "7 phút",
             image: "https://images.unsplash.com/photo-1522898467493-49726bf28798?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             alt: "Person exercising on a fitness ball",
+            // sanityImage: { _type: 'image', asset: { _ref: 'image-def456-1200x800-jpg' } }
         },
         {
             title: "Sức mạnh của siêu thực phẩm",
@@ -31,6 +37,7 @@ const RecentBlogPosts = () => {
             readTime: "4 phút",
             image: "https://images.unsplash.com/photo-1610415946035-bad6fc9f5b8e?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             alt: "Assortment of colorful fruits and vegetables",
+            // sanityImage: { _type: 'image', asset: { _ref: 'image-ghi789-1200x800-jpg' } }
         },
     ];
 
@@ -45,6 +52,20 @@ const RecentBlogPosts = () => {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
                 {posts.map((post, index) => (
                     <div key={index} className="overflow-hidden bg-transparent">
+                        {/*
+                          For regular images, we use the standard Image component.
+                          In a real implementation with Sanity images, you would replace this with:
+
+                          {post.sanityImage && (
+                            <SanityImageLoader
+                              image={post.sanityImage}
+                              alt={post.alt}
+                              aspectRatio={16/9}
+                              className="w-full rounded-lg"
+                              priority={index === 0}
+                            />
+                          )}
+                        */}
                         <Image
                             src={post.image}
                             alt={post.alt}

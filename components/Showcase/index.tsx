@@ -1,20 +1,21 @@
 "use client";
 
 import React from "react";
-import Image, { StaticImageData } from "next/image";
 import Emily from "@/assets/avatars/Emily.jpg";
 import Jane from "@/assets/avatars/Jane.jpg";
 import John from "@/assets/avatars/John.jpg";
 import Michael from "@/assets/avatars/Michael.jpg";
 import { FaLinkedin } from "react-icons/fa";
+import { StaticImageData } from "next/image";
 
 import { AspectRatio } from "../ui/aspect-ratio";
+import { OptimizedImage } from "../ui/optimized-image";
 
 interface TeamMember {
     name: string;
     role: string;
     description: string;
-    image: string | StaticImageData;
+    image: StaticImageData;
 }
 
 const teamMembers: TeamMember[] = [
@@ -49,15 +50,6 @@ const teamMembers: TeamMember[] = [
 ];
 
 function Showcase() {
-    // const processedMembers = await Promise.all(
-    //     teamMembers.map(async member => {
-    //         const optimizedImage = await getOptimizedImageData(member.image);
-    //         return {
-    //             ...member,
-    //             optimizedImage,
-    //         };
-    //     }),
-    // );
     return (
         <div className="bg-brown-50 container py-6 md:px-16 md:py-8">
             <span className="bg-primary-text/10 font-robotoMono text-primary-text mb-4 inline-block rounded-lg px-3 py-1 text-base font-light">
@@ -74,17 +66,9 @@ function Showcase() {
             <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 {teamMembers.map((member, index) => (
                     <div key={index} className="overflow-hidden bg-transparent">
-                        {/* {member.optimizedImage ? (
-                            <BlurhashImage
-                                imageUrl={member.optimizedImage.webPDataUrl}
-                                blurHash={member.optimizedImage.blurHash}
-                                blurHashWidth={member.optimizedImage.width}
-                                blurHashHeight={member.optimizedImage.height}
-                            />
-                        ) : ( */}
                         <AspectRatio className="relative size-full rounded-lg">
-                            <Image
-                                src={member.image}
+                            <OptimizedImage
+                                image={member.image}
                                 alt={member.name}
                                 fill
                                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -92,7 +76,6 @@ function Showcase() {
                                 className="rounded-lg object-cover"
                             />
                         </AspectRatio>
-                        {/* )} */}
                         <div className="flex flex-col gap-1 py-4">
                             <h2 className="font-robotoSlab text-primary-text text-xl font-semibold">
                                 {member.name}

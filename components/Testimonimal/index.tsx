@@ -1,7 +1,8 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Star } from "lucide-react";
-
-import { getTestimonials } from "@/lib/api";
 
 interface Testimonial {
     _id: string;
@@ -37,8 +38,41 @@ const TestimonialCard: React.FC<Testimonial> = ({
     </div>
 );
 
-export default async function Testimonial(): Promise<JSX.Element> {
-    const testimonials = await getTestimonials();
+export default function Testimonial(): JSX.Element {
+    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTestimonials = async () => {
+            try {
+                setIsLoading(true);
+                const response = await fetch("/api/testimonials");
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch testimonials");
+                }
+
+                const data = await response.json();
+                setTestimonials(data);
+            } catch (error) {
+                console.error("Error fetching testimonials:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchTestimonials();
+    }, []);
+
+    if (isLoading) {
+        return (
+            <section className="bg-brown-50 text-primary-text w-full py-12 md:px-16 md:py-24 lg:py-32">
+                <div className="flex min-h-[300px] items-center justify-center">
+                    <div className="border-brown-200 border-t-brown-500 size-16 animate-spin rounded-full border-4"></div>
+                </div>
+            </section>
+        );
+    }
 
     return (
         <section className="bg-brown-50 text-primary-text w-full py-12 md:px-16 md:py-24 lg:py-32">

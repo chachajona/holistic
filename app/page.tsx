@@ -1,23 +1,40 @@
 import { getHomePage } from "@/lib/api";
-import Banner from "@/components/Banner";
-import Footer from "@/components/Footer";
-import Hero from "@/components/Hero";
-import MessengerChat from "@/components/MessengerChat";
-import Navbar from "@/components/Navbar";
-import QuickLinks from "@/components/QuickLinks";
-import Testimonial from "@/components/Testimonimal";
+import { getBlurDataUrl } from "@/lib/server/image-processing";
+
+import HomeClient from "../components/HomeClient";
 
 export default async function Home() {
-    const pageData = await getHomePage();
-    return (
-        <main className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
-            <Banner />
-            <Navbar />
-            <Hero formData={pageData?.FormContact || {}} />
-            <QuickLinks />
-            <Testimonial />
-            <Footer />
-            <MessengerChat />
-        </main>
-    );
+    // Get blur data at the server level
+    const heroBlurDataURL = await getBlurDataUrl("/Hero.png");
+
+    try {
+        const pageData = await getHomePage();
+
+        return (
+            <HomeClient
+                heroBlurDataURL={heroBlurDataURL}
+                formData={
+                    pageData?.FormContact || {
+                        label: "",
+                        heading: "",
+                        formType: "contact",
+                        submitButtonText: "",
+                    }
+                }
+            />
+        );
+    } catch (error) {
+        console.error("Error in Home page:", error);
+        return (
+            <HomeClient
+                heroBlurDataURL={heroBlurDataURL}
+                formData={{
+                    label: "",
+                    heading: "",
+                    formType: "contact",
+                    submitButtonText: "",
+                }}
+            />
+        );
+    }
 }
