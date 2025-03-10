@@ -1,5 +1,6 @@
 // import 'server-only';
 
+import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
@@ -32,6 +33,20 @@ function createSVGPlaceholder(
 ): string {
     const svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg"><rect width="100%" height="100%" fill="${color}"/></svg>`;
     return `data:image/svg+xml;base64,${safeBase64Encode(svg)}`;
+}
+
+// Add this type guard function at the top of your file
+function isSanityImageObject(
+    image: SanityImageSource,
+): image is { asset: { _ref: string } } {
+    return (
+        typeof image === "object" &&
+        image !== null &&
+        "asset" in image &&
+        typeof image.asset === "object" &&
+        image.asset !== null &&
+        "_ref" in image.asset
+    );
 }
 
 /**
@@ -121,30 +136,35 @@ export async function getSanityImageData(image: SanityImageSource) {
         return {
             imageUrl: "",
             blurDataURL: createSVGPlaceholder(),
+            aspectRatio: 16 / 9, // Default fallback
         };
     }
 
     try {
+        // Fetch image metadata from Sanity to get dimensions
+        const imageData = await client.fetch(
+            `*[_id == $id][0]{ "dimensions": asset->metadata.dimensions }`,
+            {
+                id: isSanityImageObject(image) ? image.asset._ref : image,
+            },
+        );
+
+        const { width, height } = (imageData && imageData.dimensions) || {
+            width: 16,
+            height: 9,
+        }; // Fallback dimensions
+        const aspectRatio = width / height;
+
         const imageUrl = urlFor(image).url();
-
-        // If on client, just return the URL with a placeholder
-        if (!isServer) {
-            return {
-                imageUrl,
-                blurDataURL: createSVGPlaceholder(),
-            };
-        }
-
-        // On server, try to generate proper blur
         const blurDataURL = await getBlurDataUrl(image, true);
 
-        return { imageUrl, blurDataURL };
+        return { imageUrl, blurDataURL, aspectRatio };
     } catch (error) {
         console.error("Error processing Sanity image:", error);
-        // Fallback with a default placeholder
         return {
             imageUrl: image ? urlFor(image).url() : "",
             blurDataURL: createSVGPlaceholder(),
+            aspectRatio: 16 / 9, // Fallback aspect ratio
         };
     }
 }

@@ -52,10 +52,12 @@ async function SanityImageWithData({
     className = "",
     aspectRatio,
 }: SanityImageLoaderProps) {
-    // Get image data with blur placeholder
-    const { imageUrl, blurDataURL } = await getSanityImageData(image);
+    const {
+        imageUrl,
+        blurDataURL,
+        aspectRatio: fetchedAspectRatio,
+    } = await getSanityImageData(image);
 
-    // Pass processed data to client component
     return (
         <SanityImage
             image={image}
@@ -68,7 +70,7 @@ async function SanityImageWithData({
             sizes={sizes}
             priority={priority}
             className={className}
-            aspectRatio={aspectRatio}
+            aspectRatio={fetchedAspectRatio || aspectRatio} // Prefer fetched aspect ratio
         />
     );
 }

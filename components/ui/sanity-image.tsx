@@ -38,7 +38,6 @@ export function SanityImage({
 }: SanityImageProps) {
     const [isLoading, setIsLoading] = useState(true);
 
-    // Use AspectRatio component if aspectRatio is provided
     if (aspectRatio) {
         return (
             <AspectRatio
@@ -53,14 +52,13 @@ export function SanityImage({
                     priority={priority}
                     placeholder={blurDataURL ? "blur" : "empty"}
                     blurDataURL={blurDataURL}
-                    className={`${isLoading ? "blur-2xs scale-105" : "scale-100 blur-0"} transition-all duration-500`}
+                    className={`${isLoading ? "blur-2xs scale-105" : "scale-100 blur-0"} object-cover transition-all duration-500`}
                     onLoad={() => setIsLoading(false)}
                 />
             </AspectRatio>
         );
     }
 
-    // Regular image (with or without fill)
     return (
         <div
             className={`overflow-hidden ${fill ? "relative size-full" : ""} ${className}`}
@@ -75,7 +73,7 @@ export function SanityImage({
                 priority={priority}
                 placeholder={blurDataURL ? "blur" : "empty"}
                 blurDataURL={blurDataURL}
-                className={`${isLoading ? "blur-2xs scale-105" : "scale-100 blur-0"} transition-all duration-500`}
+                className={`${isLoading ? "blur-2xs scale-105" : "scale-100 blur-0"} object-cover transition-all duration-500`}
                 onLoad={() => setIsLoading(false)}
             />
         </div>
