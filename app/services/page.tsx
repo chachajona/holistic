@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
+import Boost from "@/assets/icons/Boost";
+import Heal from "@/assets/icons/Heal";
 import {
     ActivitySquare,
     Award,
@@ -13,11 +15,9 @@ import {
     Flame,
     Leaf,
     LeafyGreen,
-    RotateCcw,
     Snowflake,
     Sparkles,
     Waves,
-    Zap,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -62,7 +62,7 @@ const patientCentricServices: ServiceItem[] = [
         title: "Giảm Đau và Phục Hồi Chức Năng",
         description:
             "Các phương pháp điều trị không dùng thuốc, giúp giảm đau hiệu quả và phục hồi chức năng vận động.",
-        icon: <Zap className="text-primary-text mb-4 size-10 md:size-12" />,
+        icon: <Heal className="text-primary-text mb-4 size-14 md:size-20" />,
         details: {
             id: "pain-management-details",
             outcome: "Giảm đau hiệu quả 70% trong 3-4 tuần điều trị",
@@ -86,7 +86,9 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "IASTM (Công cụ kích thích mô mềm) là phương pháp sử dụng dụng cụ chuyên dụng để giảm đau cơ, tăng tính linh hoạt và cải thiện hiệu quả vận động.",
                     href: "/treatments/iastm",
-                    icon: <Sparkles className="text-primary-text size-5 md:size-6" />,
+                    icon: (
+                        <Sparkles className="text-primary-text size-5 md:size-6" />
+                    ),
                 },
             ],
             availableSlots: [
@@ -116,7 +118,7 @@ const patientCentricServices: ServiceItem[] = [
         title: "Thúc Đẩy Quá Trình Phục Hồi",
         description:
             "Các phương pháp điều trị hiện đại để thúc đẩy quá trình phục hồi tự nhiên của cơ thể sau chấn thương hoặc tập luyện.",
-        icon: <RotateCcw className="text-primary-text mb-4 size-10 md:size-12" />,
+        icon: <Boost className="text-primary-text mb-4 size-14 md:size-16" />,
         details: {
             id: "recovery-therapies-details",
             outcome: "Tăng tốc quá trình phục hồi lên đến 40%",
@@ -130,7 +132,9 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "Liệu pháp đèn hồng ngoại sử dụng ánh sáng nhiệt để thâm nhập sâu vào mô cơ thể, kích thích tuần hoàn máu, giảm viêm, và giúp phục hồi các tổn thương mô mềm.",
                     href: "/treatments/heat-light",
-                    icon: <Flame className="text-primary-text size-5 md:size-6" />,
+                    icon: (
+                        <Flame className="text-primary-text size-5 md:size-6" />
+                    ),
                 },
                 {
                     id: "cold-plunge",
@@ -138,7 +142,9 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "Phương pháp ngâm mình trong nước lạnh để giảm sưng, đau nhức cơ và tăng cường hồi phục.",
                     href: "/treatments/cold-plunge",
-                    icon: <Snowflake className="text-primary-text size-5 md:size-6" />,
+                    icon: (
+                        <Snowflake className="text-primary-text size-5 md:size-6" />
+                    ),
                 },
             ],
             availableSlots: [
@@ -168,7 +174,9 @@ const patientCentricServices: ServiceItem[] = [
         title: "Phương Pháp Y Học Cổ Truyền",
         description:
             "Kết hợp các phương pháp y học cổ truyền đã được chứng minh qua thời gian với kỹ thuật hiện đại để đạt hiệu quả tối ưu.",
-        icon: <LeafyGreen className="text-primary-text mb-4 size-10 md:size-12" />,
+        icon: (
+            <LeafyGreen className="text-primary-text mb-4 size-10 md:size-12" />
+        ),
         details: {
             id: "traditional-therapies-details",
             outcome: "Cải thiện sức khỏe tổng thể và giảm đau mãn tính",
@@ -182,7 +190,9 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "Giác hơi là phương pháp y học cổ truyền sử dụng cốc để tạo áp lực hút trên da, giúp tăng cường lưu thông máu, giảm đau nhức cơ và cải thiện sức khỏe tổng thể.",
                     href: "/treatments/cupping",
-                    icon: <Waves className="text-primary-text size-5 md:size-6" />,
+                    icon: (
+                        <Waves className="text-primary-text size-5 md:size-6" />
+                    ),
                 },
                 {
                     id: "tapping",
@@ -190,7 +200,9 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "Tapping, hay còn gọi là Emotional Freedom Technique (EFT), kết hợp giữa việc gõ nhẹ vào các huyệt đạo trên cơ thể và thực hành tâm lý để giảm căng thẳng, lo âu và tăng cường tinh thần.",
                     href: "/treatments/tapping",
-                    icon: <Leaf className="text-primary-text size-5 md:size-6" />,
+                    icon: (
+                        <Leaf className="text-primary-text size-5 md:size-6" />
+                    ),
                 },
             ],
             availableSlots: [
@@ -299,21 +311,32 @@ export default function ServicesPage() {
                     <div
                         className={`${expandedServiceId ? "w-1/3" : "w-full"} flex flex-col space-y-4 transition-all duration-300`}
                     >
-                        {patientCentricServices.map(service => {
+                        {patientCentricServices.map((service, _index) => {
                             const isExpanded = service.id === expandedServiceId;
+                            const isPrimary = service.id === "pain-management";
+
                             return (
                                 <div
                                     key={service.id}
-                                    className={`border-primary-text group flex cursor-pointer flex-col rounded-lg border bg-transparent shadow-md transition-all hover:bg-[#D2C9C3] hover:shadow-lg
-                                        ${isExpanded ? "bg-[#D2C9C3]/80" : ""}
-                                    `}
+                                    className={`border-primary-text group flex cursor-pointer flex-col rounded-lg border transition-all
+                                        ${isExpanded ? "bg-[#D2C9C3]/80" : "bg-transparent"}
+                                        ${isPrimary ? "border-none shadow-lg ring-2 ring-amber-500" : "shadow-md"}
+                                        hover:bg-[#D2C9C3] hover:shadow-lg`}
                                     onClick={() =>
                                         toggleServiceExpand(service.id)
                                     }
                                 >
                                     {isExpanded || !expandedServiceId ? (
                                         // Full card when expanded or no card is expanded
-                                        <div className="flex flex-col items-center justify-start p-6">
+                                        <div className="relative flex flex-col items-center justify-start p-6">
+                                            {/* Add "Most Popular" badge for primary service */}
+                                            {isPrimary && (
+                                                <div className="absolute -right-2 -top-3 rounded-full bg-amber-500 px-2 py-1 text-xs font-medium text-white">
+                                                    Phổ biến nhất
+                                                </div>
+                                            )}
+
+                                            {/* Existing card content */}
                                             {service.icon}
                                             <h3 className="font-robotoSerif text-primary-text mb-6 text-center text-3xl font-bold">
                                                 {service.title}
@@ -328,15 +351,21 @@ export default function ServicesPage() {
                                                         : "Xem chi tiết"}
                                                 </span>
                                                 {isExpanded ? (
-                                                    <ChevronDown className="size-5" />
+                                                    <ChevronRight className="size-5" />
                                                 ) : (
                                                     <ChevronRight className="size-5" />
                                                 )}
                                             </div>
                                         </div>
                                     ) : (
-                                        // Minimized card when another card is expanded
-                                        <div className="flex items-center justify-between p-4">
+                                        // Similar enhancement for the minimized view
+                                        <div className="relative flex items-center justify-between p-4">
+                                            {isPrimary && (
+                                                <div className="absolute -right-2 -top-2 rounded-full bg-amber-500 px-2 py-1 text-xs font-medium text-white">
+                                                    Phổ biến nhất
+                                                </div>
+                                            )}
+                                            {/* Rest of the existing minimized card code */}
                                             <div className="flex items-center">
                                                 {React.cloneElement(
                                                     service.icon as React.ReactElement,
@@ -373,39 +402,51 @@ export default function ServicesPage() {
                                 </h2>
                             </div>
 
-                            <div className="mb-8 grid grid-cols-3 gap-4">
-                                <div className="rounded-lg bg-white/30 p-4">
-                                    <div className="mb-2 flex items-center">
-                                        <Award className="mr-2 size-5 text-amber-500" />
-                                        <h4 className="font-robotoSerif font-semibold">
-                                            Kết quả điều trị
-                                        </h4>
-                                    </div>
-                                    <p className="font-robotoSlab text-primary-text/90">
-                                        {expandedService.details.outcome}
+                            <div className="mb-8">
+                                {/* Main service description section */}
+                                <div className="mb-6 rounded-lg bg-white/30 p-5">
+                                    <p className="font-robotoSlab text-primary-text/90 mb-4">
+                                        {expandedService.description}
                                     </p>
+
+                                    {/* Highlight outcomes as a special callout rather than a separate card */}
+                                    <div className="mt-4 rounded-r-md border-l-4 border-amber-500 bg-amber-50/30 py-3 pl-4">
+                                        <div className="mb-2 flex items-center">
+                                            <Award className="mr-2 size-5 text-amber-500" />
+                                            <h4 className="font-robotoSerif font-semibold">
+                                                Kết quả có thể đạt được
+                                            </h4>
+                                        </div>
+                                        <p className="font-robotoSlab text-primary-text/90">
+                                            {expandedService.details.outcome}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="rounded-lg bg-white/30 p-4">
-                                    <div className="mb-2 flex items-center">
-                                        <FileText className="mr-2 size-5 text-blue-500" />
-                                        <h4 className="font-robotoSerif font-semibold">
-                                            Phương pháp điều trị
-                                        </h4>
+
+                                {/* Treatment approach and evidence as a 2-column grid below */}
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="rounded-lg bg-white/30 p-4">
+                                        <div className="mb-2 flex items-center">
+                                            <FileText className="mr-2 size-5 text-blue-500" />
+                                            <h4 className="font-robotoSerif font-semibold">
+                                                Phương pháp điều trị
+                                            </h4>
+                                        </div>
+                                        <p className="font-robotoSlab text-primary-text/90">
+                                            {expandedService.details.protocol}
+                                        </p>
                                     </div>
-                                    <p className="font-robotoSlab text-primary-text/90">
-                                        {expandedService.details.protocol}
-                                    </p>
-                                </div>
-                                <div className="rounded-lg bg-white/30 p-4">
-                                    <div className="mb-2 flex items-center">
-                                        <Award className="mr-2 size-5 text-green-500" />
-                                        <h4 className="font-robotoSerif font-semibold">
-                                            Cơ sở khoa học
-                                        </h4>
+                                    <div className="rounded-lg bg-white/30 p-4">
+                                        <div className="mb-2 flex items-center">
+                                            <Award className="mr-2 size-5 text-green-500" />
+                                            <h4 className="font-robotoSerif font-semibold">
+                                                Cơ sở khoa học
+                                            </h4>
+                                        </div>
+                                        <p className="font-robotoSlab text-primary-text/90">
+                                            {expandedService.details.evidence}
+                                        </p>
                                     </div>
-                                    <p className="font-robotoSlab text-primary-text/90">
-                                        {expandedService.details.evidence}
-                                    </p>
                                 </div>
                             </div>
 
