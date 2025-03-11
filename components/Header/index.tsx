@@ -15,7 +15,7 @@ const Header: React.FC<HeaderProps> = async ({ header }) => {
     }
 
     return (
-        <header className="relative h-96 max-h-96 overflow-hidden bg-black text-white">
+        <header className="relative h-48 max-h-96 overflow-hidden bg-black text-white sm:h-52 md:h-64">
             {header.image && (
                 <div className="absolute inset-0">
                     <SanityImageLoader
@@ -31,11 +31,11 @@ const Header: React.FC<HeaderProps> = async ({ header }) => {
             <div className="absolute inset-0 z-10 bg-black/50" />
 
             <div className="container relative z-20 flex h-full flex-col items-start justify-center md:px-16">
-                <h1 className="font-robotoSerif text-left text-4xl font-bold sm:text-5xl md:text-6xl">
+                <h1 className="font-robotoSerif text-left text-3xl font-bold sm:text-5xl md:text-6xl">
                     {header.heading}
                 </h1>
                 {header.subheading && (
-                    <p className="font-robotoSlab mt-4 max-w-3xl text-left text-base font-light md:text-lg">
+                    <p className="font-robotoSlab mt-4 max-w-3xl text-left text-sm font-light md:text-lg">
                         {header.subheading}
                     </p>
                 )}

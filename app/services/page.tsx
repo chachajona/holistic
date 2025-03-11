@@ -62,7 +62,7 @@ const patientCentricServices: ServiceItem[] = [
         title: "Giảm Đau và Phục Hồi Chức Năng",
         description:
             "Các phương pháp điều trị không dùng thuốc, giúp giảm đau hiệu quả và phục hồi chức năng vận động.",
-        icon: <Zap className="text-primary-text mb-4 size-12" />,
+        icon: <Zap className="text-primary-text mb-4 size-10 md:size-12" />,
         details: {
             id: "pain-management-details",
             outcome: "Giảm đau hiệu quả 70% trong 3-4 tuần điều trị",
@@ -77,7 +77,7 @@ const patientCentricServices: ServiceItem[] = [
                         "Kỹ thuật sử dụng kim nhỏ để kích thích điểm co thắt cơ và giảm đau mãn tính.",
                     href: "/treatments/dry-needling",
                     icon: (
-                        <ActivitySquare className="text-primary-text size-6" />
+                        <ActivitySquare className="text-primary-text size-5 md:size-6" />
                     ),
                 },
                 {
@@ -86,7 +86,7 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "IASTM (Công cụ kích thích mô mềm) là phương pháp sử dụng dụng cụ chuyên dụng để giảm đau cơ, tăng tính linh hoạt và cải thiện hiệu quả vận động.",
                     href: "/treatments/iastm",
-                    icon: <Sparkles className="text-primary-text size-6" />,
+                    icon: <Sparkles className="text-primary-text size-5 md:size-6" />,
                 },
             ],
             availableSlots: [
@@ -116,7 +116,7 @@ const patientCentricServices: ServiceItem[] = [
         title: "Thúc Đẩy Quá Trình Phục Hồi",
         description:
             "Các phương pháp điều trị hiện đại để thúc đẩy quá trình phục hồi tự nhiên của cơ thể sau chấn thương hoặc tập luyện.",
-        icon: <RotateCcw className="text-primary-text mb-4 size-12" />,
+        icon: <RotateCcw className="text-primary-text mb-4 size-10 md:size-12" />,
         details: {
             id: "recovery-therapies-details",
             outcome: "Tăng tốc quá trình phục hồi lên đến 40%",
@@ -130,7 +130,7 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "Liệu pháp đèn hồng ngoại sử dụng ánh sáng nhiệt để thâm nhập sâu vào mô cơ thể, kích thích tuần hoàn máu, giảm viêm, và giúp phục hồi các tổn thương mô mềm.",
                     href: "/treatments/heat-light",
-                    icon: <Flame className="text-primary-text size-6" />,
+                    icon: <Flame className="text-primary-text size-5 md:size-6" />,
                 },
                 {
                     id: "cold-plunge",
@@ -138,7 +138,7 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "Phương pháp ngâm mình trong nước lạnh để giảm sưng, đau nhức cơ và tăng cường hồi phục.",
                     href: "/treatments/cold-plunge",
-                    icon: <Snowflake className="text-primary-text size-6" />,
+                    icon: <Snowflake className="text-primary-text size-5 md:size-6" />,
                 },
             ],
             availableSlots: [
@@ -168,7 +168,7 @@ const patientCentricServices: ServiceItem[] = [
         title: "Phương Pháp Y Học Cổ Truyền",
         description:
             "Kết hợp các phương pháp y học cổ truyền đã được chứng minh qua thời gian với kỹ thuật hiện đại để đạt hiệu quả tối ưu.",
-        icon: <LeafyGreen className="text-primary-text mb-4 size-12" />,
+        icon: <LeafyGreen className="text-primary-text mb-4 size-10 md:size-12" />,
         details: {
             id: "traditional-therapies-details",
             outcome: "Cải thiện sức khỏe tổng thể và giảm đau mãn tính",
@@ -182,7 +182,7 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "Giác hơi là phương pháp y học cổ truyền sử dụng cốc để tạo áp lực hút trên da, giúp tăng cường lưu thông máu, giảm đau nhức cơ và cải thiện sức khỏe tổng thể.",
                     href: "/treatments/cupping",
-                    icon: <Waves className="text-primary-text size-6" />,
+                    icon: <Waves className="text-primary-text size-5 md:size-6" />,
                 },
                 {
                     id: "tapping",
@@ -190,7 +190,7 @@ const patientCentricServices: ServiceItem[] = [
                     description:
                         "Tapping, hay còn gọi là Emotional Freedom Technique (EFT), kết hợp giữa việc gõ nhẹ vào các huyệt đạo trên cơ thể và thực hành tâm lý để giảm căng thẳng, lo âu và tăng cường tinh thần.",
                     href: "/treatments/tapping",
-                    icon: <Leaf className="text-primary-text size-6" />,
+                    icon: <Leaf className="text-primary-text size-5 md:size-6" />,
                 },
             ],
             availableSlots: [
@@ -279,13 +279,13 @@ export default function ServicesPage() {
             />
 
             <div className="text-primary-text relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center text-center">
-                <span className="bg-primary-text/10 font-robotoMono mb-4 inline-block rounded-lg px-3 py-1 text-base font-light">
+                <span className="bg-primary-text/10 font-robotoMono mb-4 inline-block rounded-lg px-3 py-1 text-sm font-light md:text-base">
                     Dịch vụ điều trị
                 </span>
-                <h1 className="font-robotoSerif mb-6 max-w-2xl p-1 text-3xl font-bold capitalize">
+                <h1 className="font-robotoSerif mb-6 max-w-2xl p-1 text-2xl font-bold capitalize md:text-3xl">
                     Phương pháp điều trị chuyên biệt
                 </h1>
-                <p className="font-robotoSlab text-primary-text/50 mb-8 max-w-xl p-1 font-normal">
+                <p className="font-robotoSlab text-primary-text/50 mb-8 max-w-xl p-1 text-sm font-normal md:text-base">
                     Các dịch vụ chăm sóc được thiết kế để đạt kết quả điều trị
                     tối ưu, giúp bạn cải thiện sức khỏe và nâng cao chất lượng
                     cuộc sống.
@@ -542,14 +542,18 @@ export default function ServicesPage() {
                     {patientCentricServices.map(service => (
                         <div
                             key={service.id}
-                            className="border-primary-text group flex cursor-pointer flex-col items-center justify-start rounded-lg border bg-transparent p-6 shadow-md transition-all hover:bg-[#D2C9C3] hover:shadow-lg"
+                            className={`border-primary-text group flex cursor-pointer flex-col items-center justify-start rounded-lg border bg-transparent p-6 shadow-md transition-all hover:bg-[#D2C9C3] hover:shadow-lg ${
+                                expandedServiceId == service.id
+                                    ? "bg-[#D2C9C3]/80"
+                                    : ""
+                            }`}
                             onClick={() => toggleServiceExpand(service.id)}
                         >
                             {service.icon}
-                            <h3 className="font-robotoSerif text-primary-text mb-6 text-center text-3xl font-bold">
+                            <h3 className="font-robotoSerif text-primary-text mb-6 text-center text-2xl font-bold md:text-3xl">
                                 {service.title}
                             </h3>
-                            <p className="font-robotoSlab text-primary-text mb-4 text-center text-base">
+                            <p className="font-robotoSlab text-primary-text mb-4 text-center text-sm md:text-base">
                                 {service.description}
                             </p>
                             <div className="text-primary-text/70 mt-2 flex items-center justify-center">
@@ -559,9 +563,9 @@ export default function ServicesPage() {
                                         : "Xem chi tiết"}
                                 </span>
                                 {expandedServiceId === service.id ? (
-                                    <ChevronDown className="size-5" />
+                                    <ChevronDown className="size-4 md:size-5" />
                                 ) : (
-                                    <ChevronRight className="size-5" />
+                                    <ChevronRight className="size-4 md:size-5" />
                                 )}
                             </div>
 
@@ -572,7 +576,7 @@ export default function ServicesPage() {
                                         <div className="rounded-lg bg-white/30 p-4">
                                             <div className="mb-2 flex items-center">
                                                 <Award className="mr-2 size-5 text-amber-500" />
-                                                <h4 className="font-robotoSerif font-semibold">
+                                                <h4 className="font-robotoSerif text-sm font-semibold md:text-base">
                                                     Kết quả điều trị
                                                 </h4>
                                             </div>
@@ -583,7 +587,7 @@ export default function ServicesPage() {
                                         <div className="rounded-lg bg-white/30 p-4">
                                             <div className="mb-2 flex items-center">
                                                 <FileText className="mr-2 size-5 text-blue-500" />
-                                                <h4 className="font-robotoSerif font-semibold">
+                                                <h4 className="font-robotoSerif text-sm font-semibold md:text-base">
                                                     Phương pháp điều trị
                                                 </h4>
                                             </div>
@@ -594,7 +598,7 @@ export default function ServicesPage() {
                                         <div className="rounded-lg bg-white/30 p-4">
                                             <div className="mb-2 flex items-center">
                                                 <Award className="mr-2 size-5 text-green-500" />
-                                                <h4 className="font-robotoSerif font-semibold">
+                                                <h4 className="font-robotoSerif text-sm font-semibold md:text-base">
                                                     Cơ sở khoa học
                                                 </h4>
                                             </div>
