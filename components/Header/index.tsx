@@ -15,7 +15,7 @@ const Header: React.FC<HeaderProps> = async ({ header }) => {
     }
 
     return (
-        <header className="relative h-48 max-h-96 overflow-hidden bg-black text-white sm:h-52 md:h-64">
+        <header className="relative h-48 max-h-96 overflow-hidden bg-black text-white sm:h-52 md:h-64 lg:h-96">
             {header.image && (
                 <div className="absolute inset-0">
                     <SanityImageLoader
