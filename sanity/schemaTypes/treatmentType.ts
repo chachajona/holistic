@@ -161,6 +161,50 @@ export const treatmentType = defineType({
             description: "Mark this treatment as popular",
             initialValue: false,
         },
+        {
+            name: "content",
+            title: "Detailed Content",
+            type: "markdown",
+            description: "Markdown content for the treatment page (optional)",
+        },
+        {
+            name: "booking",
+            title: "Booking Options",
+            type: "array",
+            of: [
+                {
+                    type: "object",
+                    fields: [
+                        {
+                            name: "title",
+                            title: "Booking Title",
+                            type: "string",
+                            validation: Rule => Rule.required(),
+                        },
+                        {
+                            name: "price",
+                            title: "Price",
+                            type: "number",
+                            validation: Rule => Rule.required(),
+                        },
+                        {
+                            name: "duration",
+                            title: "Duration",
+                            type: "string",
+                            validation: Rule => Rule.required(),
+                        },
+                        {
+                            name: "description",
+                            title: "Description",
+                            type: "text",
+                            validation: Rule => Rule.required(),
+                        },
+                    ],
+                },
+            ],
+            description:
+                "Different booking options for this treatment (optional)",
+        },
     ],
     preview: {
         select: {

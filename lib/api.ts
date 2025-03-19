@@ -210,3 +210,66 @@ export async function getFAQs() {
         return [];
     }
 }
+
+export async function getTreatmentBySlug(slug: string) {
+    try {
+        const query = groq`*[_type == "treatment" && slug.current == $slug][0]{
+            "id": id.current,
+            title,
+            "slug": slug.current,
+            shortDescription,
+            fullDescription,
+            icon,
+            "image": image,
+            "imageUrl": image.asset->url,
+            benefits[] {
+                "id": id.current,
+                title,
+                description
+            },
+            protocols[] {
+                "id": id.current,
+                step,
+                title,
+                description
+            },
+            duration,
+            price,
+            isPopular,
+            content
+        }`;
+
+        return await client.fetch(query, { slug });
+    } catch (error) {
+        console.error("Error fetching treatment:", error);
+        return null;
+    }
+}
+
+export async function getAllTreatmentSlugs() {
+    try {
+        const query = groq`*[_type == "treatment"]{
+            "slug": slug.current
+        }`;
+
+        return await client.fetch(query);
+    } catch (error) {
+        console.error("Error fetching treatment slugs:", error);
+        return [];
+    }
+}
+
+export async function getAllTreatments() {
+    try {
+        const query = groq`*[_type == "treatment"] | order(title asc) {
+            "id": id.current,
+            title,
+            "slug": slug.current
+        }`;
+
+        return await client.fetch(query);
+    } catch (error) {
+        console.error("Error fetching all treatments:", error);
+        return [];
+    }
+}

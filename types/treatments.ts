@@ -1,4 +1,5 @@
 import { CustomIconName } from "@/assets/icons/custom";
+import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 export interface TreatmentBenefit {
     id: string;
@@ -13,17 +14,27 @@ export interface TreatmentProtocol {
     description: string;
 }
 
+export interface TreatmentBooking {
+    title: string;
+    price: number;
+    duration: string;
+    description: string;
+}
+
 export interface Treatment {
     id: string;
     title: string;
     shortDescription: string;
     fullDescription: string;
     icon: string | CustomIconName;
-    image: string;
+    image: SanityImageSource;
+    imageUrl?: string;
     slug: string;
+    content?: string;
     benefits: TreatmentBenefit[];
     protocols: TreatmentProtocol[];
     duration: string;
     price: number;
     isPopular: boolean;
+    booking?: TreatmentBooking[];
 }
