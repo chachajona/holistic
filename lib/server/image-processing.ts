@@ -69,60 +69,49 @@ export async function getBlurDataUrl(
         }
 
         // Generate URL based on image type
-        let imgSrc;
+        let imgSrc: string;
         if (isSanityImage) {
-            imgSrc = urlFor(image as SanityImageSource)
-                .width(60)
-                .url();
-        } else {
-            // For local images in the public directory
-            if (typeof image === "string" && image.startsWith("/")) {
-                // Handle absolute paths to public directory
-                // In development, use localhost URL
-                // In production, use relative path (Next.js will handle it)
-                const baseUrl = process.env.VERCEL_URL
-                    ? `https://${process.env.VERCEL_URL}`
-                    : "http://localhost:3000";
-
-                imgSrc = `${baseUrl}${image}`;
-            } else {
-                imgSrc = image;
+            try {
+                imgSrc = urlFor(image as SanityImageSource)
+                    .width(60)
+                    .quality(20)
+                    .url();
+            } catch (error) {
+                console.warn("Invalid Sanity image reference:", error);
+                return createSVGPlaceholder();
             }
+        } else {
+            imgSrc =
+                typeof image === "string" && image.startsWith("/")
+                    ? `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"}${image}`
+                    : String(image);
         }
 
-        // Fetch the image
-        const response = await fetch(imgSrc as string);
+        // Early return for invalid URLs
+        if (!imgSrc) {
+            return createSVGPlaceholder();
+        }
+
+        const response = await fetch(imgSrc);
         if (!response.ok) {
-            console.error(
-                `Failed to fetch image: ${imgSrc}, status: ${response.status}`,
-            );
             return createSVGPlaceholder();
         }
 
         const buffer = Buffer.from(await response.arrayBuffer());
 
-        try {
-            // Try using sharp for better quality (server-only)
-            if (!sharp) {
-                throw new Error("Sharp module not available");
-            }
-
-            const { data, info } = await sharp(buffer)
-                .resize(10)
-                .blur(5)
-                .ensureAlpha()
-                .toBuffer({ resolveWithObject: true });
-
-            return `data:image/${info.format};base64,${data.toString("base64")}`;
-        } catch (sharpError) {
-            console.warn(
-                "Sharp processing failed, using SVG fallback:",
-                sharpError,
-            );
+        if (!sharp) {
             return createSVGPlaceholder();
         }
+
+        const { data, info } = await sharp(buffer)
+            .resize(10)
+            .blur(5)
+            .ensureAlpha()
+            .toBuffer({ resolveWithObject: true });
+
+        return `data:image/${info.format};base64,${data.toString("base64")}`;
     } catch (error) {
-        console.error("Error generating blur data URL:", error);
+        console.warn("Error generating blur:", error);
         return createSVGPlaceholder();
     }
 }
@@ -136,37 +125,80 @@ export async function getSanityImageData(image: SanityImageSource) {
         return {
             imageUrl: "",
             blurDataURL: createSVGPlaceholder(),
-            aspectRatio: 16 / 9, // Default fallback
+            aspectRatio: 16 / 9,
         };
     }
 
     try {
-        // Fetch image metadata from Sanity to get dimensions
-        const imageData = await client.fetch(
-            `*[_id == $id][0]{ "dimensions": asset->metadata.dimensions }`,
-            {
-                id: isSanityImageObject(image) ? image.asset._ref : image,
-            },
-        );
+        // 1. Get image URL safely - handle malformed references
+        let imageUrl;
+        try {
+            imageUrl = urlFor(image).url();
+        } catch (error) {
+            // Extract URL directly from string reference if possible
+            if (typeof image === "string" && image.includes("cdn.sanity.io")) {
+                imageUrl = image;
+            } else {
+                console.warn("Invalid Sanity image reference:", error);
+                return {
+                    imageUrl: "",
+                    blurDataURL: createSVGPlaceholder(),
+                    aspectRatio: 16 / 9,
+                };
+            }
+        }
 
-        const { width, height } = (imageData && imageData.dimensions) || {
-            width: 16,
-            height: 9,
-        }; // Fallback dimensions
-        const aspectRatio = width / height;
+        // 2. Fetch metadata and blur in parallel with reduced timeout (3s)
+        const [imageData, blurDataURL] = await Promise.all([
+            // Get dimensions if possible
+            Promise.race([
+                client.fetch(
+                    `*[_id == $id][0]{"dimensions": asset->metadata.dimensions}`,
+                    {
+                        id: isSanityImageObject(image)
+                            ? image.asset._ref
+                            : image,
+                    },
+                ),
+                new Promise((_, reject) => setTimeout(() => reject(), 3000)),
+            ]).catch(() => null),
 
-        const imageUrl = urlFor(image).url();
-        const blurDataURL = await getBlurDataUrl(image, true);
+            // Always use SVG placeholder for stability - no more Sharp timeouts
+            Promise.resolve(createSVGPlaceholder()),
+        ]);
 
-        return { imageUrl, blurDataURL, aspectRatio };
+        return {
+            imageUrl,
+            blurDataURL,
+            aspectRatio: imageData?.dimensions
+                ? imageData.dimensions.width / imageData.dimensions.height
+                : 16 / 9,
+        };
     } catch (error) {
         console.error("Error processing Sanity image:", error);
         return {
-            imageUrl: image ? urlFor(image).url() : "",
+            imageUrl: "",
             blurDataURL: createSVGPlaceholder(),
-            aspectRatio: 16 / 9, // Fallback aspect ratio
+            aspectRatio: 16 / 9,
         };
     }
+}
+
+const imageCache = new Map();
+
+export async function getCachedSanityImageData(image: SanityImageSource) {
+    const cacheKey = isSanityImageObject(image)
+        ? image.asset._ref
+        : String(image);
+
+    if (imageCache.has(cacheKey)) {
+        return imageCache.get(cacheKey);
+    }
+
+    const data = await getSanityImageData(image);
+    imageCache.set(cacheKey, data);
+
+    return data;
 }
 
 export function assertServerEnvironment(): boolean {
