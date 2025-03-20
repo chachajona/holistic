@@ -31,22 +31,23 @@ import { BookingFormClient } from "@/components/BookingFormClient";
 export async function generateMetadata({
     params,
 }: {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-    const treatment = await getTreatmentBySlug(params.slug);
+    const { slug } = await params;
+    const treatment = await getTreatmentBySlug(slug);
 
     if (!treatment) {
         return {
-            title: "Treatment Not Found",
-            description: "The requested treatment could not be found.",
+            title: "Phương pháp không tồn tại",
+            description: "Phương pháp yêu cầu không tồn tại.",
         };
     }
 
     return {
-        title: `${treatment.title} | Điều Trị`,
+        title: `${treatment.title} | Phương pháp`,
         description: treatment.shortDescription,
         openGraph: {
-            title: `${treatment.title} | Điều Trị`,
+            title: `${treatment.title} | Phương pháp`,
             description: treatment.shortDescription,
             images: [treatment.imageUrl],
         },
@@ -162,9 +163,10 @@ function BookingForm({ treatment }: { treatment: Treatment }) {
 export default async function TreatmentPage({
     params,
 }: {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }) {
-    const treatment = await getTreatmentBySlug(params.slug);
+    const { slug } = await params;
+    const treatment = await getTreatmentBySlug(slug);
     const allTreatments = await getAllTreatments();
 
     if (!treatment) {
