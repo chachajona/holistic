@@ -1,6 +1,7 @@
 "use client";
 
 import { FormData } from "@/types/form";
+import { WellnessCTA } from "@/components/CTA";
 
 import Banner from "./Banner";
 import Footer from "./Footer";
@@ -12,11 +13,13 @@ import Testimonial from "./Testimonimal";
 
 interface HomeClientProps {
     heroBlurDataURL: string;
+    ctaBlurDataURL: string;
     formData: FormData;
 }
 
 export default function HomeClient({
     heroBlurDataURL,
+    ctaBlurDataURL,
     formData,
 }: HomeClientProps) {
     return (
@@ -29,6 +32,7 @@ export default function HomeClient({
             />
             <QuickLinks />
             <Testimonial />
+            <WellnessCTA blurDataURL={ctaBlurDataURL} />
             <Footer />
             <MessengerChat />
         </main>

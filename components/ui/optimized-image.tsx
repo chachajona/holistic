@@ -28,9 +28,16 @@ export function OptimizedImage({
     blurDataURL,
 }: OptimizedImageProps) {
     const [isLoading, setIsLoading] = useState(true);
+    const [loadError, setLoadError] = useState(false);
 
     // Check if image is a static import (has blur built-in)
     const isStaticImport = typeof image === "object";
+
+    console.log("OptimizedImage rendering:", {
+        imagePath: typeof image === "string" ? image : "Static import",
+        fill,
+        hasBlur: !!blurDataURL,
+    });
 
     // Create a simple loading blur effect without relying on server-generated blur
     const defaultBlur =
@@ -52,7 +59,21 @@ export function OptimizedImage({
                 }
                 className={`${isLoading ? "blur-2xs scale-105" : "scale-100 blur-0"} transition-all duration-500 ${className}`}
                 onLoad={() => setIsLoading(false)}
+                onError={() => {
+                    console.error(
+                        `Failed to load image: ${typeof image === "string" ? image : "Static import"}`,
+                    );
+                    setLoadError(true);
+                    setIsLoading(false);
+                }}
             />
+            {loadError && (
+                <div className="absolute inset-0 flex items-center justify-center bg-gray-200">
+                    <span className="text-sm text-gray-500">
+                        Image failed to load
+                    </span>
+                </div>
+            )}
         </div>
     );
 }
