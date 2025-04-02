@@ -89,8 +89,8 @@ export function MagneticSpinButton({
                             href={href}
                             className={cn(
                                 buttonSize,
-                                "flex scale-110 items-center justify-center rounded-full bg-[#7A3300] md:scale-100 md:bg-transparent",
-                                "transition-all duration-300 group-hover:scale-110 group-hover:bg-[#7A3300]",
+                                "bg-brown-900 flex scale-110 items-center justify-center rounded-full md:scale-100 md:bg-transparent",
+                                "group-hover:bg-brown-950 transition-all duration-300 group-hover:scale-110",
                             )}
                             aria-label={text}
                         >
