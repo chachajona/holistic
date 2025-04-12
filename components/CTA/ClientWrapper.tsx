@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 
-import WellnessCTAComponent from "./index";
+import { WellnessCTA } from "./index";
 
 export default function WellnessCTAClient() {
     return (
@@ -13,7 +13,7 @@ export default function WellnessCTAClient() {
                 </div>
             }
         >
-            <WellnessCTAComponent />
+            <WellnessCTA />
         </Suspense>
     );
 }
