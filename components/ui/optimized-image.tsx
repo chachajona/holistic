@@ -14,6 +14,7 @@ interface OptimizedImageProps {
     priority?: boolean;
     className?: string;
     blurDataURL?: string; // Optional, not required
+    onLoad?: () => void; // Add the onLoad callback prop
 }
 
 export function OptimizedImage({
@@ -26,8 +27,8 @@ export function OptimizedImage({
     priority = false,
     className = "",
     blurDataURL,
+    onLoad, // Accept the onLoad prop
 }: OptimizedImageProps) {
-    const [isLoading, setIsLoading] = useState(true);
     const [loadError, setLoadError] = useState(false);
 
     // Check if image is a static import (has blur built-in)
@@ -57,14 +58,15 @@ export function OptimizedImage({
                 blurDataURL={
                     isStaticImport ? undefined : blurDataURL || defaultBlur
                 }
-                className={`${isLoading ? "blur-2xs scale-105" : "scale-100 blur-0"} transition-all duration-500 ${className}`}
-                onLoad={() => setIsLoading(false)}
+                className={className}
+                onLoad={() => {
+                    onLoad?.();
+                }}
                 onError={() => {
                     console.error(
                         `Failed to load image: ${typeof image === "string" ? image : "Static import"}`,
                     );
                     setLoadError(true);
-                    setIsLoading(false);
                 }}
             />
             {loadError && (

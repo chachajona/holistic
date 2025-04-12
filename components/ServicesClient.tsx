@@ -1,6 +1,6 @@
 "use client";
 
-import { memo, useCallback, useState } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { customIcons, isCustomIcon } from "@/assets/icons/custom";
 import * as Icons from "lucide-react";
@@ -18,6 +18,7 @@ import {
     DrawerTitle,
 } from "@/components/ui/drawer";
 import { SanityImage } from "@/components/ui/sanity-image";
+import PageLoaderWrapper from "@/components/PageLoaderWrapper";
 import { QuickBookingDialog } from "@/components/QuickBookingDialog";
 
 // Memoize components for better performance
@@ -74,6 +75,17 @@ export function ServicesClient({ services }: ServicesClientProps) {
         null,
     );
     const isDesktop = useMediaQuery("(min-width: 768px)");
+    const [isContentLoaded, setIsContentLoaded] = useState(false);
+
+    useEffect(() => {
+        // Consider services loaded once the array is available
+        if (services && services.length > 0) {
+            const timer = setTimeout(() => {
+                setIsContentLoaded(true);
+            }, 500); // Simulate a short delay
+            return () => clearTimeout(timer);
+        }
+    }, [services]);
 
     // Memoize handlers
     const handleSelectService = useCallback((service: Service) => {
@@ -375,86 +387,88 @@ export function ServicesClient({ services }: ServicesClientProps) {
     ServiceCard.displayName = "ServiceCard";
 
     return (
-        <div className="bg-primary-background relative w-full py-16 sm:px-8 lg:px-16">
-            {/* Background decoration */}
-            <div
-                className="absolute inset-0 bg-cover bg-center opacity-20"
-                style={{ backgroundImage: "url('/Paper.png')" }}
-                aria-hidden="true"
-            />
+        <PageLoaderWrapper isContentLoaded={isContentLoaded}>
+            <div className="bg-primary-background relative w-full py-16 sm:px-16">
+                {/* Background decoration */}
+                <div
+                    className="absolute inset-0 bg-cover bg-center opacity-20"
+                    style={{ backgroundImage: "url('/Paper.png')" }}
+                    aria-hidden="true"
+                />
 
-            {/* Header section */}
-            <div className="text-primary-text relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center text-center">
-                <span className="bg-primary-text/10 font-robotoMono mb-4 inline-block rounded-lg px-3 py-1 text-sm font-light md:text-base">
-                    Dịch vụ điều trị
-                </span>
-                <h1 className="font-robotoSerif mb-6 max-w-2xl p-1 text-2xl font-bold capitalize md:text-3xl">
-                    Phương pháp điều trị chuyên biệt
-                </h1>
-                <p className="font-robotoSlab text-primary-text/50 mb-8 max-w-xl p-1 text-sm font-normal md:text-base">
-                    Các dịch vụ chăm sóc được thiết kế để đạt kết quả điều trị
-                    tối ưu, giúp bạn cải thiện sức khỏe và nâng cao chất lượng
-                    cuộc sống.
-                </p>
-            </div>
+                {/* Header section */}
+                <div className="text-primary-text relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center text-center">
+                    <span className="bg-primary-text/10 font-robotoMono mb-4 inline-block rounded-lg px-3 py-1 text-sm font-light md:text-base">
+                        Dịch vụ điều trị
+                    </span>
+                    <h1 className="font-robotoSerif mb-6 max-w-2xl p-1 text-2xl font-bold capitalize md:text-3xl">
+                        Phương pháp điều trị chuyên biệt
+                    </h1>
+                    <p className="font-robotoSlab text-primary-text/50 mb-8 max-w-xl p-1 text-sm font-normal md:text-base">
+                        Các dịch vụ chăm sóc được thiết kế để đạt kết quả điều
+                        trị tối ưu, giúp bạn cải thiện sức khỏe và nâng cao chất
+                        lượng cuộc sống.
+                    </p>
+                </div>
 
-            {/* Services grid */}
-            <div className="container relative z-10 mt-10 flex">
-                <div className="grid w-full gap-8 md:grid-cols-2 lg:grid-cols-3">
-                    {services.map(service => (
-                        <ServiceCard key={service.id} service={service} />
-                    ))}
+                {/* Services grid */}
+                <div className="container relative z-10 mt-10 flex">
+                    <div className="grid w-full gap-8 md:grid-cols-2 lg:grid-cols-3">
+                        {services.map(service => (
+                            <ServiceCard key={service.id} service={service} />
+                        ))}
+                    </div>
+                </div>
+
+                {/* Responsive dialog for service details */}
+                {selectedService && (
+                    <ResponsiveDialog>
+                        <>
+                            <ServiceDetails service={selectedService} />
+                        </>
+                    </ResponsiveDialog>
+                )}
+
+                {/* Quick booking dialog */}
+                <QuickBookingDialog
+                    isOpen={!!quickBookService}
+                    onClose={() => setQuickBookService(null)}
+                    service={
+                        quickBookService
+                            ? {
+                                  title: quickBookService.title,
+                                  treatments:
+                                      quickBookService.details.treatments.map(
+                                          t => ({ id: t.id, name: t.name }),
+                                      ),
+                              }
+                            : null
+                    }
+                />
+
+                {/* Bottom CTAs */}
+                <div className="relative z-10 mx-auto mt-10 text-center">
+                    <div className="font-robotoSerif text-primary-text relative z-10 mt-8 flex flex-row items-center justify-center gap-4 text-center font-normal">
+                        <Link href="/treatments">
+                            <Button
+                                variant="outline"
+                                className="border-primary-text text-primary-text hover:bg-primary-text bg-transparent hover:text-white"
+                            >
+                                Tìm hiểu thêm
+                            </Button>
+                        </Link>
+                        <Link href="/booking/consultation">
+                            <Button
+                                variant={"link"}
+                                className="text-primary-text group flex flex-row items-center"
+                            >
+                                Đặt lịch hẹn
+                                <ChevronRight className="animate-shake ml-2 size-4" />
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
-
-            {/* Responsive dialog for service details */}
-            {selectedService && (
-                <ResponsiveDialog>
-                    <>
-                        <ServiceDetails service={selectedService} />
-                    </>
-                </ResponsiveDialog>
-            )}
-
-            {/* Quick booking dialog */}
-            <QuickBookingDialog
-                isOpen={!!quickBookService}
-                onClose={() => setQuickBookService(null)}
-                service={
-                    quickBookService
-                        ? {
-                              title: quickBookService.title,
-                              treatments:
-                                  quickBookService.details.treatments.map(
-                                      t => ({ id: t.id, name: t.name }),
-                                  ),
-                          }
-                        : null
-                }
-            />
-
-            {/* Bottom CTAs */}
-            <div className="relative z-10 mx-auto mt-10 text-center">
-                <div className="font-robotoSerif text-primary-text relative z-10 mt-8 flex flex-row items-center justify-center gap-4 text-center font-normal">
-                    <Link href="/treatments">
-                        <Button
-                            variant="outline"
-                            className="border-primary-text text-primary-text hover:bg-primary-text bg-transparent hover:text-white"
-                        >
-                            Tìm hiểu thêm
-                        </Button>
-                    </Link>
-                    <Link href="/booking/consultation">
-                        <Button
-                            variant={"link"}
-                            className="text-primary-text group flex flex-row items-center"
-                        >
-                            Đặt lịch hẹn
-                            <ChevronRight className="animate-shake ml-2 size-4" />
-                        </Button>
-                    </Link>
-                </div>
-            </div>
-        </div>
+        </PageLoaderWrapper>
     );
 }

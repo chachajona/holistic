@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Star } from "lucide-react";
 
-interface Testimonial {
+// Define props interface for Testimonial component
+interface TestimonialComponentProps {
+    onDataLoaded?: () => void; // Add the callback prop
+}
+
+interface TestimonialData {
     _id: string;
     icon: {
         asset: {
@@ -16,7 +21,7 @@ interface Testimonial {
     author: string;
 }
 
-const TestimonialCard: React.FC<Testimonial> = ({
+const TestimonialCard: React.FC<TestimonialData> = ({
     icon,
     rating,
     quote,
@@ -38,8 +43,10 @@ const TestimonialCard: React.FC<Testimonial> = ({
     </div>
 );
 
-export default function Testimonial(): JSX.Element {
-    const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+export default function Testimonial({
+    onDataLoaded,
+}: TestimonialComponentProps): JSX.Element {
+    const [testimonials, setTestimonials] = useState<TestimonialData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -55,14 +62,15 @@ export default function Testimonial(): JSX.Element {
                 const data = await response.json();
                 setTestimonials(data);
             } catch (error) {
-                console.error("Error fetching testimonials:", error);
+                console.error("Testimonial: Error caught during fetch:", error);
             } finally {
                 setIsLoading(false);
+                onDataLoaded?.();
             }
         };
 
         fetchTestimonials();
-    }, []);
+    }, [onDataLoaded]);
 
     if (isLoading) {
         return (
@@ -87,7 +95,7 @@ export default function Testimonial(): JSX.Element {
                 </div>
             </div>
             <div className="container grid grid-cols-1 gap-6 px-4 md:gap-8 lg:grid-cols-3">
-                {testimonials.map((testimonial: Testimonial) => (
+                {testimonials.map((testimonial: TestimonialData) => (
                     <TestimonialCard key={testimonial._id} {...testimonial} />
                 ))}
             </div>

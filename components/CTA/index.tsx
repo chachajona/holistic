@@ -1,14 +1,18 @@
 "use client";
 
+import { StaticCta } from "./StaticCta";
 import { WellnessCta } from "./WellnessCta";
 
-// Make this the default export
-export default function WellnessCTA({ blurDataURL }: { blurDataURL?: string }) {
-    console.log(
-        "WellnessCTA rendering with blurDataURL:",
-        blurDataURL ? "exists" : "missing",
-    );
+// Interface for the wrapper component's props
+interface WellnessCTAWrapperProps {
+    blurDataURL?: string;
+    onImageLoaded?: () => void;
+}
 
+export function WellnessCTA({
+    blurDataURL,
+    onImageLoaded,
+}: WellnessCTAWrapperProps) {
     return (
         <WellnessCta
             heading="Bắt đầu hành trình sức khỏe của bạn ngay hôm nay!"
@@ -18,9 +22,25 @@ export default function WellnessCTA({ blurDataURL }: { blurDataURL?: string }) {
             theme="blue"
             backgroundImage="/CTA.png"
             blurDataURL={blurDataURL}
+            onImageLoaded={onImageLoaded} // Pass the callback down
         />
     );
 }
 
-// Also provide a named export for backwards compatibility
-export { WellnessCTA };
+export function StaticCTA({
+    blurDataURL,
+    onImageLoaded,
+}: WellnessCTAWrapperProps) {
+    return (
+        <StaticCta
+            heading="Bắt đầu hành trình sức khỏe của bạn ngay hôm nay!"
+            description="Bắt đầu hành trình cải thiện sức khỏe cùng dịch vụ vật lý trị liệu chuyên gia của chúng tôi. Lên lịch hẹn ngay để phục hồi nhanh chóng."
+            primaryButtonText="Schedule an appointment"
+            primaryButtonUrl="/schedule"
+            theme="blue"
+            backgroundImage="/CTA.png"
+            blurDataURL={blurDataURL}
+            onImageLoaded={onImageLoaded}
+        />
+    );
+}

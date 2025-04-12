@@ -58,7 +58,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body
-                className={`${roboto.variable} ${robotoSerif.variable} ${robotoSlab.variable} ${robotoMono.variable} bg-[ #F5F5F5 ] overflow-x-hidden overflow-y-scroll`}
+                className={`${roboto.variable} ${robotoSerif.variable} ${robotoSlab.variable} ${robotoMono.variable} bg-primary-background overflow-x-hidden overflow-y-scroll`}
             >
                 <main>{children}</main>
                 <Toaster />

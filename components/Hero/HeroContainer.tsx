@@ -9,6 +9,7 @@ import HeroClient from "./hero-client";
 interface HeroContainerProps {
     formData: FormData;
     heroBlurDataURL?: string; // Optional now
+    onImageLoaded?: () => void; // Add callback prop
 }
 
 // Loading component
@@ -22,10 +23,13 @@ function HeroSkeleton() {
 }
 
 // Client-side container component with simplified props
-export default function HeroContainer({ formData }: HeroContainerProps) {
+export default function HeroContainer({
+    formData,
+    onImageLoaded,
+}: HeroContainerProps) {
     return (
         <Suspense fallback={<HeroSkeleton />}>
-            <HeroClient formData={formData} />
+            <HeroClient formData={formData} onImageLoaded={onImageLoaded} />
         </Suspense>
     );
 }

@@ -109,12 +109,35 @@ const config = {
                     "25%": { transform: "translateX(-5px)" },
                     "75%": { transform: "translateX(5px)" },
                 },
+                "wave-slow": {
+                    "0%": { transform: "translateX(0) rotate(0)" },
+                    "50%": { transform: "translateX(-25%) rotate(2deg)" },
+                    "100%": { transform: "translateX(0) rotate(0)" },
+                },
+                "wave-medium": {
+                    "0%": { transform: "translateX(0) rotate(0)" },
+                    "50%": { transform: "translateX(25%) rotate(-2deg)" },
+                    "100%": { transform: "translateX(0) rotate(0)" },
+                },
+                bubble: {
+                    "0%": {
+                        transform: "translateY(0)",
+                        opacity: "0.7",
+                    },
+                    "100%": {
+                        transform: "translateY(-100px)",
+                        opacity: "0",
+                    },
+                },
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
                 shimmer: "shimmer 2s linear infinite",
                 shake: "shake 3s ease-in-out infinite",
+                "wave-slow": "wave-slow 7s ease-in-out infinite",
+                "wave-medium": "wave-medium 5s ease-in-out infinite",
+                bubble: "bubble 3s ease-in infinite",
             },
         },
     },

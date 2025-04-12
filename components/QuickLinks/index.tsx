@@ -21,6 +21,7 @@ function QuickLinkCard({ title, icon, bgImage, link }: QuickLinkCardProps) {
     return (
         <Link
             href={link}
+            scroll={link !== "/about"}
             className="bg-primary-background group relative block min-h-[200px] overflow-hidden rounded-lg border border-[#90776E] transition-all duration-300 hover:shadow-md md:min-h-[250px]"
         >
             <div className="absolute inset-0 opacity-80 transition-opacity duration-300 group-hover:opacity-100">

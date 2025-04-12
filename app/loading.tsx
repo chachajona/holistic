@@ -1,12 +1,9 @@
 import LogoFillWaveBubblesLoader from "@/components/Loading";
 
-export default function ServicesLoading() {
+export default function RootLoading() {
     return (
         <div className="bg-primary-background flex min-h-screen items-center justify-center">
-            <LogoFillWaveBubblesLoader
-                showText={false}
-                size="medium"
-            />
+            <LogoFillWaveBubblesLoader showText={false} size="medium" />
         </div>
     );
 }

@@ -29,9 +29,10 @@ const formSchema = z.object({
 interface HeroProps {
     formData: FormData;
     heroBlurDataURL?: string;
+    onImageLoaded?: () => void;
 }
 
-const HeroClient: React.FC<HeroProps> = ({ formData }) => {
+const HeroClient: React.FC<HeroProps> = ({ formData, onImageLoaded }) => {
     const { toast } = useToast();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -84,6 +85,7 @@ const HeroClient: React.FC<HeroProps> = ({ formData }) => {
                     priority={true}
                     sizes="100vw"
                     className="object-cover object-center"
+                    onLoad={onImageLoaded}
                 />
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-black/60"></div>

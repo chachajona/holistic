@@ -1,7 +1,10 @@
 "use client";
 
+import { useState } from "react";
+
 import { FormData } from "@/types/form";
-import { WellnessCTA } from "@/components/CTA";
+import { StaticCTA } from "@/components/CTA";
+import PageLoaderWrapper from "@/components/PageLoaderWrapper";
 
 import Banner from "./Banner";
 import Footer from "./Footer";
@@ -22,19 +25,37 @@ export default function HomeClient({
     ctaBlurDataURL,
     formData,
 }: HomeClientProps) {
+    const [heroLoaded, setHeroLoaded] = useState(false);
+    const [ctaLoaded, setCtaLoaded] = useState(false);
+    const [testimonialLoaded, setTestimonialLoaded] = useState(false);
+
+    const handleHeroLoaded = () => setHeroLoaded(true);
+    const handleTestimonialLoaded = () => setTestimonialLoaded(true);
+    const handleCtaLoaded = () => setCtaLoaded(true);
+
+    const isContentLoaded = heroLoaded && ctaLoaded && testimonialLoaded;
+
     return (
-        <main className="bg-primary-background flex min-h-screen flex-col">
-            <Banner />
-            <Navbar />
-            <HeroContainer
-                formData={formData}
-                heroBlurDataURL={heroBlurDataURL}
-            />
-            <QuickLinks />
-            <Testimonial />
-            <WellnessCTA blurDataURL={ctaBlurDataURL} />
-            <Footer />
-            <MessengerChat />
-        </main>
+        <PageLoaderWrapper
+            isContentLoaded={isContentLoaded}
+        >
+            <main className="bg-primary-background flex min-h-screen flex-col">
+                <Banner />
+                <Navbar />
+                <HeroContainer
+                    formData={formData}
+                    heroBlurDataURL={heroBlurDataURL}
+                    onImageLoaded={handleHeroLoaded}
+                />
+                <QuickLinks />
+                <Testimonial onDataLoaded={handleTestimonialLoaded} />
+                <StaticCTA
+                    blurDataURL={ctaBlurDataURL}
+                    onImageLoaded={handleCtaLoaded}
+                />
+                <Footer />
+                <MessengerChat />
+            </main>
+        </PageLoaderWrapper>
     );
 }
