@@ -3,7 +3,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import LogoFillWaveBubblesLoader from "@/components/Loading";
+import LogoFillWaveBubblesLoader from "@/components/common/Loading";
 
 interface PageLoaderWrapperProps {
     children: ReactNode;

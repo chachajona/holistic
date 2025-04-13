@@ -4,15 +4,14 @@ import { Suspense } from "react";
 
 import { FormData } from "@/types/form";
 
-import HeroClient from "./hero-client";
+import HeroClient from "./HeroClient";
 
 interface HeroContainerProps {
     formData: FormData;
-    heroBlurDataURL?: string; // Optional now
-    onImageLoaded?: () => void; // Add callback prop
+    heroBlurDataURL?: string;
+    onImageLoaded?: () => void;
 }
 
-// Loading component
 function HeroSkeleton() {
     return (
         <section className="relative max-h-screen min-h-[calc(100dvh-92px)] w-full animate-pulse overflow-y-auto bg-gray-200 py-16 md:min-h-[calc(100dvh-250px)] md:py-[85px]">
@@ -22,14 +21,18 @@ function HeroSkeleton() {
     );
 }
 
-// Client-side container component with simplified props
 export default function HeroContainer({
     formData,
+    heroBlurDataURL,
     onImageLoaded,
 }: HeroContainerProps) {
     return (
         <Suspense fallback={<HeroSkeleton />}>
-            <HeroClient formData={formData} onImageLoaded={onImageLoaded} />
+            <HeroClient
+                formData={formData}
+                heroBlurDataURL={heroBlurDataURL}
+                onImageLoaded={onImageLoaded}
+            />
         </Suspense>
     );
 }

@@ -18,8 +18,8 @@ import {
     DrawerTitle,
 } from "@/components/ui/drawer";
 import { SanityImage } from "@/components/ui/sanity-image";
-import PageLoaderWrapper from "@/components/PageLoaderWrapper";
-import { QuickBookingDialog } from "@/components/QuickBookingDialog";
+import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
+import { QuickBookingDialog } from "@/components/features/booking/QuickBookingDialog";
 
 // Memoize components for better performance
 const MemoizedQuickBookButton = memo(

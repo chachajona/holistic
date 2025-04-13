@@ -8,7 +8,7 @@ import link2 from "@/assets/images/Link2.jpg";
 import link3 from "@/assets/images/Link3.jpg";
 import { ArrowUpRight } from "lucide-react";
 
-import { OptimizedImage } from "../ui/optimized-image";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface QuickLinkCardProps {
     title: string;

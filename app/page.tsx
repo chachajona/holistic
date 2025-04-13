@@ -1,7 +1,7 @@
 import { getHomePage } from "@/lib/api";
 import { getBlurDataUrl } from "@/lib/server/image-processing";
 
-import HomeClient from "../components/HomeClient";
+import HomeClient from "@/components/features/home/HomeClient";
 
 export default async function Home() {
     const [heroBlurDataURL, ctaBlurDataURL] = await Promise.all([

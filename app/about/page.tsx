@@ -7,7 +7,7 @@ import { ChevronRight } from "lucide-react";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { Button } from "@/components/ui/button";
-import PageLoaderWrapper from "@/components/PageLoaderWrapper";
+import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 
 export default function AboutPage() {
     const [isContentLoaded, setIsContentLoaded] = useState(false);

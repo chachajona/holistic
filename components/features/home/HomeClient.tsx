@@ -3,19 +3,20 @@
 import { useState } from "react";
 
 import { FormData } from "@/types/form";
-import { StaticCTA } from "@/components/CTA";
-import PageLoaderWrapper from "@/components/PageLoaderWrapper";
+import { StaticCTA } from "@/components/features/marketing/CTA";
+import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 
-import Banner from "./Banner";
-import Footer from "./Footer";
-import HeroContainer from "./Hero/HeroContainer";
-import MessengerChat from "./MessengerChat";
-import Navbar from "./Navbar";
-import QuickLinks from "./QuickLinks";
-import Testimonial from "./Testimonimal";
+import Banner from "@/components/common/Banner";
+import Footer from "@/components/layout/Footer";
+// Use named import for the client container
+import { HeroContainer } from "@/components/features/marketing/Hero";
+import MessengerChat from "@/components/common/MessengerChat";
+import Navbar from "@/components/layout/Navbar";
+import QuickLinks from "@/components/layout/QuickLinks";
+import Testimonial from "@/components/features/testimonial/Testimonial";
 
 interface HomeClientProps {
-    heroBlurDataURL: string;
+    heroBlurDataURL?: string;
     ctaBlurDataURL: string;
     formData: FormData;
 }
@@ -42,7 +43,7 @@ export default function HomeClient({
             <main className="bg-primary-background flex min-h-screen flex-col">
                 <Banner />
                 <Navbar />
-                <HeroContainer
+                <HeroContainer // Now correctly refers to the client container
                     formData={formData}
                     heroBlurDataURL={heroBlurDataURL}
                     onImageLoaded={handleHeroLoaded}

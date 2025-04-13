@@ -8,8 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import FAQ from "@/components/FAQ";
-import PageLoaderWrapper from "@/components/PageLoaderWrapper";
+import FAQ from "@/components/features/marketing/FAQ";
+import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 
 const BookingPage = () => {
     const [isContentLoaded, setIsContentLoaded] = useState(false);

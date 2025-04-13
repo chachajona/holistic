@@ -1,4 +1,4 @@
-import LogoFillWaveBubblesLoader from "@/components/Loading";
+import LogoFillWaveBubblesLoader from "@/components/common/Loading";
 
 export default function RootLoading() {
     return (

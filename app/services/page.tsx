@@ -4,7 +4,7 @@ import { groq } from "next-sanity";
 
 import { Service } from "@/types/services";
 import { getCachedSanityImageData } from "@/lib/server/image-processing";
-import { ServicesClient } from "@/components/ServicesClient";
+import { ServicesClient } from "@/components/features/services/ServicesClient";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;

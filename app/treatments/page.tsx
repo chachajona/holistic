@@ -7,8 +7,8 @@ import stretching from "@/assets/images/Stretching.jpg";
 import { ChevronRight } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import PageLoaderWrapper from "@/components/PageLoaderWrapper";
-import SwiperCarousel from "@/components/SwiperCarousel";
+import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
+import SwiperCarousel from "@/components/common/SwiperCarousel";
 
 const treatments = [
     {

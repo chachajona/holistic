@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { BookingFormClient } from "@/components/BookingFormClient";
+import { BookingFormClient } from "@/components/features/booking/BookingFormClient";
 
 export async function generateMetadata({
     params,

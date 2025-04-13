@@ -8,8 +8,8 @@ import Michael from "@/assets/avatars/Michael.jpg";
 import { FaLinkedin } from "react-icons/fa";
 import { StaticImageData } from "next/image";
 
-import { AspectRatio } from "../ui/aspect-ratio";
-import { OptimizedImage } from "../ui/optimized-image";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 interface TeamMember {
     name: string;

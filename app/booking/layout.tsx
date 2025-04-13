@@ -1,10 +1,10 @@
 import React from "react";
 
 import { getBookingPage } from "@/lib/api";
-import Banner from "@/components/Banner";
-import Footer from "@/components/Footer";
-import Header from "@/components/Header";
-import MainNavBar from "@/components/Navbar";
+import Banner from "@/components/common/Banner";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import MainNavBar from "@/components/layout/Navbar";
 
 export default async function BookingLayout({
     children,

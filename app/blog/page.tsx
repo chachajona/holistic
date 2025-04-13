@@ -14,9 +14,9 @@ import {
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import FAQ from "@/components/FAQ";
-import PageLoaderWrapper from "@/components/PageLoaderWrapper";
-import { PopularBlogPosts, RecentBlogPosts } from "@/components/Post";
+import FAQ from "@/components/features/marketing/FAQ";
+import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
+import { PopularBlogPosts, RecentBlogPosts } from "@/components/features/blog/Post";
 
 const BlogPage = () => {
     const [isContentLoaded, setIsContentLoaded] = useState(false);

@@ -2,7 +2,7 @@
 
 import { Header as HeaderType } from "@/types/header";
 
-import { SanityImageLoader } from "../ui/sanity-image-loader";
+import { SanityImageLoader } from "@/components/ui/sanity-image-loader";
 
 interface HeaderProps {
     slug: string;
