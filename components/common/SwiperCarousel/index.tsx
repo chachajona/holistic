@@ -1,161 +1,284 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { customIcons, isCustomIcon } from "@/assets/icons/custom";
 import Autoplay from "embla-carousel-autoplay";
+import { motion } from "motion/react";
 
-import { useMediaQuery } from "@/hooks/use-media-query";
-import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Card, CardContent } from "@/components/ui/card";
 import {
     Carousel,
+    CarouselApi,
     CarouselContent,
     CarouselItem,
     CarouselNext,
     CarouselPrevious,
 } from "@/components/ui/carousel";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-type CarouselItem = {
+type CarouselItemData = {
     title: string;
     description: string;
     image: string;
+    id?: string;
+    href?: string;
+    icon?: string;
+    slug?: string;
+    category?: string;
 };
 
-interface CarouselProps {
-    items: CarouselItem[];
+interface SwiperCarouselProps {
+    items: CarouselItemData[];
+    setApi?: (api: CarouselApi) => void;
+    arrows?: boolean;
 }
 
-const SwiperCarousel: React.FC<CarouselProps> = ({ items }) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const [api, setApi] = useState<any>();
-    const [current, setCurrent] = useState(0);
-    const [count, setCount] = useState(0);
+const SwiperCarousel: React.FC<SwiperCarouselProps> = ({
+    items,
+    setApi,
+    arrows = true,
+}) => {
+    const [api, setApiInternal] = useState<CarouselApi>();
+    const [activeIndex, setActiveIndex] = useState(0);
     const autoplayPlugin = useRef(
-        Autoplay({ delay: 5000, stopOnInteraction: true }),
+        Autoplay({ delay: 4000, stopOnInteraction: true }),
     );
-    const isTablet = useMediaQuery("(max-width: 1023px)");
+    const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
-    const onSelect = useCallback(() => {
-        if (!api) return;
-        setCurrent(api.selectedScrollSnap() + 1);
-    }, [api]);
+    // Handle carousel slide changes
+    useEffect(() => {
+        if (!api) {
+            return;
+        }
+
+        if (setApi) {
+            setApi(api);
+        }
+
+        const handleSelect = () => {
+            const currentIndex = api.selectedScrollSnap();
+            setActiveIndex(currentIndex);
+        };
+
+        // Initial setup - set active index when carousel is first loaded
+        const initialIndex = api.selectedScrollSnap();
+        setActiveIndex(initialIndex);
+
+        // Listen for slide changes
+        api.on("select", handleSelect);
+
+        // Also listen for scroll to ensure more responsive updates
+        api.on("scroll", () => {
+            handleSelect();
+        });
+
+        return () => {
+            api.off("select", handleSelect);
+            api.off("scroll", () => {});
+        };
+    }, [api, setApi]);
 
     useEffect(() => {
-        if (!api) return;
-        setCount(api.scrollSnapList().length);
-        setCurrent(api.selectedScrollSnap() + 1);
-        api.on("select", onSelect);
-        return () => api.off("select", onSelect);
-    }, [api, onSelect]);
-
-    const renderTabletView = () => (
-        <Carousel
-            setApi={setApi}
-            opts={{ align: "start", loop: true }}
-            plugins={[autoplayPlugin.current]}
-            onMouseEnter={autoplayPlugin.current.stop}
-            onMouseLeave={autoplayPlugin.current.reset}
-            className="size-full max-w-sm md:max-w-4xl"
-        >
-            <CarouselContent className="h-full">
-                {items.map(item => (
-                    <CarouselItem
-                        key={item.title}
-                        className="h-full w-[90%] md:basis-1/2"
-                    >
-                        <Card className="h-full border-none bg-transparent">
-                            <CardContent className="flex h-full flex-col items-center justify-start gap-5 p-4 md:h-[85dvh] md:p-6">
-                                <AspectRatio
-                                    ratio={1 / 1}
-                                    className="relative w-full"
-                                >
-                                    <Image
-                                        src={item.image}
-                                        alt={item.title}
-                                        fill
-                                        className="rounded-lg object-cover"
-                                    />
-                                </AspectRatio>
-                                <div className="flex h-2/5 flex-col items-start justify-between">
-                                    <h3 className="text-primary-text font-robotoSerif text-left text-base font-semibold sm:text-lg md:text-xl lg:text-2xl">
-                                        {item.title}
-                                    </h3>
-                                    <p className="font-robotoSlab !text-primary-text/40 whitespace-normal break-words text-xs !font-normal sm:text-sm">
-                                        {item.description}
-                                    </p>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </CarouselItem>
-                ))}
-            </CarouselContent>
-            <CarouselNext className="text-primary-text focus:bg-primary-text absolute bottom-0 right-0 border-none focus:text-white" />
-            <CarouselPrevious className="text-primary-text focus:bg-primary-text absolute bottom-0 left-0 border-none focus:text-white" />
-            <div className="font-robotoMono text-primary-text/40 py-2 text-right text-sm">
-                {current} / {count}
-            </div>
-        </Carousel>
-    );
-
-    const renderDesktopView = () => (
-        <Tabs
-            className="relative flex h-full flex-col items-start justify-start gap-5 lg:flex-row-reverse"
-            defaultValue={items[0].title}
-        >
-            <ScrollArea className="size-full lg:w-1/2">
-                <div className="relative h-auto lg:h-[calc(100dvh-10vh)]">
-                    <TabsList className="relative flex size-full min-h-20 flex-row justify-normal overflow-x-auto bg-transparent lg:absolute lg:flex-col">
-                        {items.map(item => (
-                            <TabsTrigger
-                                key={item.title}
-                                className="text-primary-text/60 data-[state=active]:text-primary-text mb-2 flex shrink-0 flex-col items-start justify-start bg-transparent p-3 text-left data-[state=active]:border-b-2 data-[state=active]:border-[#90776E] data-[state=active]:bg-[#D2C9C3] data-[state=active]:font-bold lg:p-4 lg:data-[state=active]:border-b-0 lg:data-[state=active]:border-l-2"
-                                value={item.title}
-                            >
-                                <div className="flex w-full flex-col">
-                                    <h4 className="font-robotoSerif mb-1 text-base font-semibold sm:text-lg md:text-xl lg:text-2xl">
-                                        {item.title}
-                                    </h4>
-                                    <p className="font-robotoSlab !text-primary-text/40 hidden whitespace-normal break-words text-xs !font-normal sm:text-sm lg:block">
-                                        {item.description}
-                                    </p>
-                                </div>
-                            </TabsTrigger>
-                        ))}
-                    </TabsList>
-                </div>
-            </ScrollArea>
-
-            <div className="h-80 w-full grow lg:h-[calc(100dvh-30vh)] lg:w-1/2">
-                {items.map((item, index) => (
-                    <TabsContent
-                        key={item.title}
-                        value={item.title}
-                        className="h-full"
-                    >
-                        <div className="relative size-full overflow-hidden rounded-lg">
-                            <Image
-                                src={item.image}
-                                alt={item.title}
-                                fill
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                priority={index === 0}
-                                className="object-cover"
-                            />
-                        </div>
-                        <p className="font-robotoSlab !text-primary-text/40 mt-4 block whitespace-normal break-words text-xs !font-normal sm:text-sm lg:hidden">
-                            {item.description}
-                        </p>
-                    </TabsContent>
-                ))}
-            </div>
-        </Tabs>
-    );
+        if (api) {
+            autoplayPlugin.current.play();
+        }
+    }, [api]);
 
     return (
-        <div className="bg-brown-50 relative m-auto w-full rounded-lg p-4 sm:p-6 lg:h-[calc(100dvh-20dvh)]">
-            {isTablet ? renderTabletView() : renderDesktopView()}
+        <div className="relative w-full py-8">
+            <Carousel
+                opts={{
+                    align: "center",
+                    loop: true,
+                    dragFree: true,
+                    containScroll: "trimSnaps",
+                }}
+                className="w-full"
+                setApi={setApiInternal}
+                plugins={[autoplayPlugin.current]}
+                onMouseEnter={autoplayPlugin.current.stop}
+                onMouseLeave={autoplayPlugin.current.reset}
+            >
+                <CarouselContent className="-ml-2 md:-ml-4">
+                    {items.map((item, index) => (
+                        <CarouselItem
+                            key={item.id || item.title}
+                            className="pl-2 md:basis-1/2 md:pl-4 lg:basis-2/5"
+                        >
+                            <div
+                                ref={el => {
+                                    cardsRef.current[index] = el;
+                                }}
+                                className={`group block transition-all duration-700 ${
+                                    activeIndex === index
+                                        ? "z-20 scale-100 opacity-100"
+                                        : "z-10 scale-95 opacity-80"
+                                }`}
+                                onClick={() => {
+                                    if (api) api.scrollTo(index);
+                                }}
+                                role="button"
+                                tabIndex={0}
+                                aria-label={`View ${item.title} details`}
+                                onKeyDown={e => {
+                                    if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault();
+                                        if (api) api.scrollTo(index);
+                                    }
+                                }}
+                                style={{ cursor: "pointer" }}
+                            >
+                                <div className="card-shadow relative aspect-[4/3] h-[300px] w-full overflow-hidden rounded-3xl transition-all duration-700 ease-in-out hover:shadow-[0_20px_60px_-15px_rgba(255,210,130,0.3)] md:h-[400px] lg:h-[450px]">
+                                    {/* Decorative blur effect */}
+                                    <div
+                                        className="absolute -inset-1 z-0 rounded-3xl bg-gradient-to-br from-amber-100/20 via-amber-300/10 to-amber-600/10 opacity-0 blur transition-all duration-700 group-hover:opacity-100"
+                                        aria-hidden="true"
+                                    ></div>
+
+                                    {/* Therapy light glow effect */}
+                                    <motion.div
+                                        className="absolute -bottom-10 left-1/2 h-20 w-4/5 -translate-x-1/2 rounded-full bg-amber-200/20 blur-2xl"
+                                        whileHover={{
+                                            backgroundColor:
+                                                "rgba(253, 230, 138, 0.4)",
+                                            filter: "blur(24px)",
+                                        }}
+                                        transition={{ duration: 0.7 }}
+                                    ></motion.div>
+
+                                    <div className="bg-brown-50/50 group-hover:bg-brown-50/70 card-content relative size-full overflow-hidden rounded-3xl p-2 backdrop-blur-sm transition-all duration-700 ease-in-out">
+                                        <div className="parallax-bg relative size-full overflow-hidden rounded-2xl shadow-inner">
+                                            {/* Display the treatment icon if available - Moved to top-left */}
+                                            {item.icon && (
+                                                <div className="absolute left-4 top-4 z-20 flex">
+                                                    <div className="text-white transition-transform duration-300 ease-in-out group-hover:scale-110">
+                                                        {isCustomIcon(
+                                                            item.icon,
+                                                        ) ? (
+                                                            React.createElement(
+                                                                customIcons[
+                                                                    item.icon
+                                                                ],
+                                                                {
+                                                                    className:
+                                                                        "size-10 drop-shadow-md",
+                                                                },
+                                                            )
+                                                        ) : (
+                                                            <span className="text-xl">
+                                                                {item.icon}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            <Image
+                                                src={item.image}
+                                                alt={item.title}
+                                                fill
+                                                sizes="(max-width: 768px) 90vw, (max-width: 1200px) 50vw, 40vw"
+                                                className="object-cover transition-all duration-700 ease-in-out group-hover:scale-110"
+                                                style={{
+                                                    transform: `scale(${activeIndex === index ? 1.05 : 1})`,
+                                                    transitionProperty:
+                                                        "transform",
+                                                    transitionDuration: "0.7s",
+                                                    transitionTimingFunction:
+                                                        "ease-in-out",
+                                                }}
+                                                priority={index < 3}
+                                            />
+                                            {/* Gradient overlay for text contrast */}
+                                            <div
+                                                className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"
+                                                aria-hidden="true"
+                                            ></div>
+
+                                            <div className="absolute bottom-0 left-0 w-full p-6">
+                                                {/* Add a wrapper div with transform animation for both title and description */}
+                                                <div
+                                                    className={`transition-transform duration-500 ease-out${
+                                                        activeIndex === index
+                                                            ? "-translate-y-3"
+                                                            : "translate-y-0"
+                                                    }`}
+                                                >
+                                                    {/* Clickable treatment title with underline animation */}
+                                                    <Link
+                                                        href={
+                                                            item.slug
+                                                                ? `/treatments/${item.slug}`
+                                                                : item.href ||
+                                                                  "#"
+                                                        }
+                                                        className="group inline-block"
+                                                    >
+                                                        <h3 className="font-robotoSerif text-2xl font-medium text-white">
+                                                            {item.title}
+                                                            <span className="block h-0.5 max-w-0 bg-white transition-all duration-500 group-hover:max-w-full"></span>
+                                                        </h3>
+                                                    </Link>
+
+                                                    <div
+                                                        className={`font-robotoSlab mt-2 overflow-hidden text-base text-white/60 transition-all duration-500 ease-out ${
+                                                            activeIndex ===
+                                                            index
+                                                                ? "max-h-24 translate-y-0 opacity-100 delay-200"
+                                                                : "max-h-0 translate-y-5 opacity-0"
+                                                        }`}
+                                                    >
+                                                        {item.description
+                                                            .length > 100
+                                                            ? `${item.description.substring(0, 97)}...`
+                                                            : item.description}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </CarouselItem>
+                    ))}
+                </CarouselContent>
+
+                {/* Navigation Buttons - Moved to top-left */}
+                {arrows && (
+                    <div className="absolute -top-8 right-16 z-30 flex space-x-2">
+                        <CarouselPrevious
+                            className="font-roboto text-brown-600 hover:text-brown-800 size-10 rounded-full border-none bg-transparent hover:bg-transparent md:size-12"
+                            aria-label="Previous slide"
+                        />
+                        <CarouselNext
+                            className="font-roboto text-brown-600 hover:text-brown-800 size-10 rounded-full border-none bg-transparent hover:bg-transparent"
+                            aria-label="Next slide"
+                        />
+                    </div>
+                )}
+            </Carousel>
+
+            {/* Pagination Dots */}
+            <div
+                className="font-roboto mt-4 flex justify-center gap-1"
+                role="tablist"
+                aria-label="Carousel Pagination"
+            >
+                {items.map((_, index) => (
+                    <button
+                        key={index}
+                        role="tab"
+                        aria-selected={activeIndex === index}
+                        aria-label={`Go to slide ${index + 1}`}
+                        className={`bg-primary-text/30 hover:bg-primary-text/50 focus:ring-primary-text/50 h-1.5 w-2 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+                            activeIndex === index ? "bg-brown-600 w-6" : ""
+                        }`}
+                        onClick={() => {
+                            if (api) api.scrollTo(index);
+                        }}
+                    />
+                ))}
+            </div>
         </div>
     );
 };

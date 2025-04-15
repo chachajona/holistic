@@ -179,7 +179,6 @@ export function ServicesClient({ services }: ServicesClientProps) {
                         <Link href="/treatments">
                             <Button
                                 variant="outline"
-                                size="lg"
                                 className="border-primary-text text-primary-text hover:bg-primary-text w-full bg-transparent px-8 py-3 text-base hover:text-white sm:w-auto"
                             >
                                 Tất cả liệu trình
@@ -187,12 +186,11 @@ export function ServicesClient({ services }: ServicesClientProps) {
                         </Link>
                         <Link href="/booking/consultation">
                             <Button
-                                size="lg"
-                                variant={"default"}
-                                className="group flex w-full flex-row items-center bg-amber-600 px-8 py-3 text-base text-white hover:bg-amber-700 sm:w-auto"
+                                variant={"link"}
+                                className="text-primary-text group flex w-full flex-row items-center px-8 py-3 text-base sm:w-auto"
                             >
-                                Đặt lịch tư vấn miễn phí
-                                <ChevronRight className="ml-2 size-4 transition-transform duration-200 group-hover:translate-x-1" />
+                                Đặt lịch hẹn
+                                <ChevronRight className="animate-shake ml-2 size-4 group-hover:translate-x-1" />
                             </Button>
                         </Link>
                     </div>

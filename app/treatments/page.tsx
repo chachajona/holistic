@@ -1,115 +1,106 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import acupuncture from "@/assets/images/acupuncture.jpg";
-import exercise from "@/assets/images/Exercise.jpg";
-import stretching from "@/assets/images/Stretching.jpg";
+import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
+import { getAllTreatments, getTreatmentBySlug } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 import SwiperCarousel from "@/components/common/SwiperCarousel";
 
-const treatments = [
-    {
-        title: "Giác hơi",
-        href: "/treatments/cupping",
-        description:
-            "Giác hơi là phương pháp y học cổ truyền sử dụng cốc để tạo áp lực hút trên da, giúp tăng cường lưu thông máu, giảm đau nhức cơ và cải thiện sức khỏe tổng thể.",
-        image: stretching,
-    },
-    {
-        title: "Tapping",
-        href: "/treatments/tapping",
-        description:
-            "Tapping, hay còn gọi là Emotional Freedom Technique (EFT), kết hợp giữa việc gõ nhẹ vào các huyệt đạo trên cơ thể và thực hành tâm lý để giảm căng thẳng, lo âu và tăng cường tinh thần.",
-        image: exercise,
-    },
-    {
-        title: "Đèn hồng ngoại",
-        href: "/treatments/heat-light",
-        description:
-            "Liệu pháp đèn hồng ngoại sử dụng ánh sáng nhiệt để thâm nhập sâu vào mô cơ thể, kích thích tuần hoàn máu, giảm viêm, và giúp phục hồi các tổn thương mô mềm.",
-        image: acupuncture,
-    },
-    {
-        title: "Cao mạc (IASTM)",
-        href: "/treatments/iastm",
-        description:
-            "IASTM (Công cụ kích thích mô mềm) là phương pháp sử dụng dụng cụ chuyên dụng để giảm đau cơ, tăng tính linh hoạt và cải thiện hiệu quả vận động.",
-        image: acupuncture,
-    },
-    {
-        title: "Ngâm lạnh",
-        href: "/treatments/cold-plunge",
-        description:
-            "Phương pháp ngâm mình trong nước lạnh để giảm sưng, đau nhức cơ và tăng cường hồi phục.",
-        image: stretching,
-    },
-    {
-        title: "Châm khô",
-        href: "/treatments/dry-needling",
-        description:
-            "Kỹ thuật sử dụng kim nhỏ để kích thích điểm co thắt cơ và giảm đau mãn tính.",
-        image: stretching,
-    },
-];
+interface TreatmentItem {
+    id: string;
+    title: string;
+    href: string;
+    description: string;
+    image: string;
+    imageObj?: any;
+}
+
+async function fetchTreatments(): Promise<TreatmentItem[]> {
+    const treatments = await getAllTreatments();
+
+    const detailedTreatments = await Promise.all(
+        treatments.map(async (treatment: any, index: number) => {
+            const fullTreatment = await getTreatmentBySlug(treatment.slug);
+            return {
+                id: String(index + 1).padStart(2, "0"),
+                title: fullTreatment.title,
+                href: `/treatments/${fullTreatment.slug}`,
+                description:
+                    fullTreatment.shortDescription ||
+                    "Không có mô tả cho phương pháp này",
+                image: fullTreatment.imageUrl || "/placeholder-image.jpg",
+                imageObj: fullTreatment.image,
+            };
+        }),
+    );
+
+    return detailedTreatments;
+}
 
 export default function TreatmentsPage() {
     const [isContentLoaded, setIsContentLoaded] = useState(false);
+    const [treatments, setTreatments] = useState<TreatmentItem[]>([]);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsContentLoaded(true);
-        }, 500);
-        return () => clearTimeout(timer);
+        const loadContent = async () => {
+            try {
+                const treatmentsData = await fetchTreatments();
+                setTreatments(treatmentsData);
+                setIsContentLoaded(true);
+            } catch (error) {
+                console.error("Error loading treatments:", error);
+                setIsContentLoaded(true);
+            }
+        };
+
+        loadContent();
     }, []);
 
     return (
-        <PageLoaderWrapper
-            isContentLoaded={isContentLoaded}
-        >
-            <div className="bg-primary-background relative w-full py-16 sm:px-16">
-                <div className="text-primary-text relative z-10 mx-auto flex max-w-3xl flex-col items-center justify-center text-center">
-                    <span className="bg-primary-text/10 font-robotoMono mb-4 inline-block rounded-lg px-3 py-1 text-base font-light">
-                        Khám phá
-                    </span>
-                    <h2 className="font-robotoSerif mb-6 max-w-2xl p-1 text-3xl font-bold capitalize">
-                        Các phương pháp điều trị toàn diện cho sự phục hồi tối
-                        ưu
-                    </h2>
-                    <p className="font-robotoSlab text-primary-text/50 mb-8 max-w-xl p-1 font-normal">
-                        Các phương pháp điều trị vật lý trị trị liệu của chúng
-                        tôi bao gồm một lọa các giải pháp để đáp ứng nhu cầu
-                        riêng của bạn. Từ liệu pháp thủ công đến điện châm,
-                        chúng tôi sẽ giúp bạn tạo ra một phương pháp điều trị cá
-                        nhân hóa để giúp bạn đạt được sự phục hồi tối ưu.
-                    </p>
+        <PageLoaderWrapper isContentLoaded={isContentLoaded}>
+            <div className="bg-primary-background relative w-full px-4 py-16 sm:px-8 lg:px-16">
+                <div className="mb-8 flex flex-col lg:mb-16 lg:flex-row lg:items-start lg:justify-between">
+                    <div className="w-full max-w-full lg:w-1/2 lg:max-w-2xl">
+                        <span className="bg-primary-text/10 font-robotoMono mb-4 inline-block rounded-lg px-3 py-1 text-base font-light">
+                            Khám phá
+                        </span>
+                        <h2 className="text-primary-text font-robotoSerif mb-6 text-5xl font-bold">
+                            Phương pháp trị liệu
+                        </h2>
+                    </div>
+
+                    <div className="mt-6 flex size-full flex-col items-start justify-start gap-2 md:flex-row md:items-center lg:mt-0 lg:w-1/2 lg:justify-between">
+                        <p className="text-primary-text/70 font-robotoSlab mr-4 max-w-md text-justify text-base md:text-lg">
+                            Các phương pháp điều trị vật lý trị trị liệu của
+                            chúng tôi bao gồm một lọa các giải pháp để đáp ứng
+                            nhu cầu riêng của bạn.
+                        </p>
+                        <Link href="/booking/consultation">
+                            <Button
+                                variant={"link"}
+                                className="text-primary-text group flex w-full flex-row items-center px-0 py-3 text-base sm:w-auto md:px-8"
+                            >
+                                Đặt lịch hẹn
+                                <ChevronRight className="animate-shake ml-2 size-4 group-hover:translate-x-1" />
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
-                <div className="font-robotoSerif text-primary-text relative z-10 mt-12 flex flex-row items-center justify-center text-center font-normal">
-                    <Button
-                        variant={"outline"}
-                        className="border-primary-text text-primary-text hover:bg-primary-text bg-transparent hover:text-white"
-                    >
-                        Tìm hiểu thêm
-                    </Button>
-                    <Button
-                        variant={"link"}
-                        className="text-primary-text group flex flex-row"
-                    >
-                        Đặt lịch hẹn
-                        <ChevronRight className="animate-shake ml-2 size-4" />
-                    </Button>
-                </div>
-                <div className="mt-12">
-                    <SwiperCarousel
-                        items={treatments.map(treatment => ({
-                            ...treatment,
-                            image: treatment.image.src,
-                            link: treatment.href,
-                        }))}
-                    />
-                </div>
+
+                {treatments.length > 0 && (
+                    <div className="relative py-8">
+                        <SwiperCarousel
+                            items={treatments.map(t => ({
+                                title: t.title,
+                                description: t.description,
+                                image: t.image,
+                            }))}
+                        />
+                    </div>
+                )}
             </div>
         </PageLoaderWrapper>
     );

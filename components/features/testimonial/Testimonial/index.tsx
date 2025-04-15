@@ -48,6 +48,11 @@ export default function Testimonial({
 }: TestimonialComponentProps): JSX.Element {
     const [testimonials, setTestimonials] = useState<TestimonialData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     useEffect(() => {
         const fetchTestimonials = async () => {
@@ -69,8 +74,20 @@ export default function Testimonial({
             }
         };
 
-        fetchTestimonials();
-    }, [onDataLoaded]);
+        if (mounted) {
+            fetchTestimonials();
+        }
+    }, [mounted, onDataLoaded]);
+
+    if (!mounted) {
+        return (
+            <section className="bg-brown-50 text-primary-text w-full py-12 md:px-16 md:py-24 lg:py-32">
+                <div className="flex min-h-[300px] items-center justify-center">
+                    <div className="border-brown-200 border-t-brown-500 size-16 animate-spin rounded-full border-4"></div>
+                </div>
+            </section>
+        );
+    }
 
     if (isLoading) {
         return (
