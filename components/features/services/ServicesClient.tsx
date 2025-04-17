@@ -30,10 +30,7 @@ export function ServicesClient({ services }: ServicesClientProps) {
 
     useEffect(() => {
         if (services && services.length > 0) {
-            const timer = setTimeout(() => {
-                setIsContentLoaded(true);
-            }, 500);
-            return () => clearTimeout(timer);
+            setIsContentLoaded(true);
         }
     }, [services]);
 

@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { customIcons, isCustomIcon } from "@/assets/icons/custom";
 import Autoplay from "embla-carousel-autoplay";
+import { ArrowUpRight } from "lucide-react";
 import { motion } from "motion/react";
 
 import {
@@ -90,7 +91,7 @@ const SwiperCarousel: React.FC<SwiperCarouselProps> = ({
                 opts={{
                     align: "center",
                     loop: true,
-                    dragFree: true,
+                    dragFree: false,
                     containScroll: "trimSnaps",
                 }}
                 className="w-full"
@@ -204,7 +205,7 @@ const SwiperCarousel: React.FC<SwiperCarouselProps> = ({
                                                             : "translate-y-0"
                                                     }`}
                                                 >
-                                                    {/* Clickable treatment title with underline animation */}
+                                                    {/* Clickable treatment title with underline animation and hover arrow */}
                                                     <Link
                                                         href={
                                                             item.slug
@@ -212,12 +213,16 @@ const SwiperCarousel: React.FC<SwiperCarouselProps> = ({
                                                                 : item.href ||
                                                                   "#"
                                                         }
-                                                        className="group inline-block"
+                                                        className="group relative inline-flex items-center"
                                                     >
-                                                        <h3 className="font-robotoSerif text-2xl font-medium text-white">
+                                                        <h3 className="font-robotoSerif mr-1.5 text-2xl font-medium text-white">
                                                             {item.title}
                                                             <span className="block h-0.5 max-w-0 bg-white transition-all duration-500 group-hover:max-w-full"></span>
                                                         </h3>
+                                                        <ArrowUpRight
+                                                            className="size-4 text-white opacity-0 transition-all duration-500 group-hover:opacity-100"
+                                                            aria-hidden="true"
+                                                        />
                                                     </Link>
 
                                                     <div
@@ -271,7 +276,7 @@ const SwiperCarousel: React.FC<SwiperCarouselProps> = ({
                         aria-selected={activeIndex === index}
                         aria-label={`Go to slide ${index + 1}`}
                         className={`bg-primary-text/30 hover:bg-primary-text/50 focus:ring-primary-text/50 h-1.5 w-2 rounded-full transition-all duration-300 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 ${
-                            activeIndex === index ? "bg-brown-600 w-6" : ""
+                            activeIndex === index ? "bg-brown-700 w-6" : ""
                         }`}
                         onClick={() => {
                             if (api) api.scrollTo(index);

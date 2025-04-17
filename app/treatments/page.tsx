@@ -9,40 +9,49 @@ import { Button } from "@/components/ui/button";
 import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 import SwiperCarousel from "@/components/common/SwiperCarousel";
 
-interface TreatmentItem {
+// Updated interface to match the data structure passed on HomePage
+interface TreatmentCarouselItem {
     id: string;
     title: string;
-    href: string;
     description: string;
     image: string;
-    imageObj?: any;
+    icon?: string;
+    slug?: string;
+    category?: string;
 }
 
-async function fetchTreatments(): Promise<TreatmentItem[]> {
+// Updated fetch function to return the desired structure
+async function fetchTreatments(): Promise<TreatmentCarouselItem[]> {
     const treatments = await getAllTreatments();
 
     const detailedTreatments = await Promise.all(
         treatments.map(async (treatment: any, index: number) => {
             const fullTreatment = await getTreatmentBySlug(treatment.slug);
             return {
-                id: String(index + 1).padStart(2, "0"),
+                id: String(index + 1),
                 title: fullTreatment.title,
-                href: `/treatments/${fullTreatment.slug}`,
                 description:
                     fullTreatment.shortDescription ||
                     "Không có mô tả cho phương pháp này",
                 image: fullTreatment.imageUrl || "/placeholder-image.jpg",
-                imageObj: fullTreatment.image,
+                // Add missing fields
+                icon: fullTreatment.icon,
+                slug: fullTreatment.slug,
+                category: fullTreatment.icon || "Phương pháp",
             };
         }),
     );
 
-    return detailedTreatments;
+    // Filter out any potential nulls if getTreatmentBySlug fails, although it shouldn't normally
+    return detailedTreatments.filter(
+        (t): t is TreatmentCarouselItem => t !== null,
+    );
 }
 
 export default function TreatmentsPage() {
     const [isContentLoaded, setIsContentLoaded] = useState(false);
-    const [treatments, setTreatments] = useState<TreatmentItem[]>([]);
+    // Update state type to use the new interface
+    const [treatments, setTreatments] = useState<TreatmentCarouselItem[]>([]);
 
     useEffect(() => {
         const loadContent = async () => {
@@ -93,11 +102,8 @@ export default function TreatmentsPage() {
                 {treatments.length > 0 && (
                     <div className="relative py-8">
                         <SwiperCarousel
-                            items={treatments.map(t => ({
-                                title: t.title,
-                                description: t.description,
-                                image: t.image,
-                            }))}
+                            // Pass the treatments array directly, removing the extra map
+                            items={treatments}
                         />
                     </div>
                 )}

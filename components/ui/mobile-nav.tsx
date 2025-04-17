@@ -13,7 +13,13 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import {
+    Sheet,
+    SheetContent,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "@/components/ui/sheet";
 
 const MenuIcon: React.FC = () => (
     <svg
@@ -138,9 +144,12 @@ export const MobileNav: React.FC = () => {
                 side="right"
                 className="bg-primary-background text-primary-text"
             >
+                <SheetHeader>
+                    <SheetTitle></SheetTitle>
+                </SheetHeader>
                 <MobileLink
                     href="/"
-                    className="flex items-center"
+                    className="flex items-center pt-4"
                     onOpenChange={setOpen}
                 >
                     <Icons.logo className="mr-1 size-16" />
@@ -148,7 +157,7 @@ export const MobileNav: React.FC = () => {
                         {siteConfig.name}
                     </span>
                 </MobileLink>
-                <ScrollArea className="h-[calc(100vh-8rem)]">
+                <ScrollArea className="h-[calc(100vh-10rem)]">
                     <div className="grid gap-2 py-4">
                         <NavLink href="/">Trang chủ</NavLink>
                         <CollapsibleNavItem title="Dịch vụ">

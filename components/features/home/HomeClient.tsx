@@ -19,7 +19,6 @@ import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import QuickLinks from "@/components/layout/QuickLinks";
 
-// Define a treatment item type for the carousel
 interface TreatmentItem {
     id: string;
     title: string;
@@ -34,14 +33,14 @@ interface HomeClientProps {
     heroBlurDataURL?: string;
     ctaBlurDataURL: string;
     formData: FormData;
-    treatments?: TreatmentItem[]; // Add treatments as optional prop
+    treatments?: TreatmentItem[];
 }
 
 export default function HomeClient({
     heroBlurDataURL,
     ctaBlurDataURL,
     formData,
-    treatments = [], // Default to empty array
+    treatments = [],
 }: HomeClientProps) {
     const [heroLoaded, setHeroLoaded] = useState(false);
     const [ctaLoaded, setCtaLoaded] = useState(false);
@@ -54,7 +53,6 @@ export default function HomeClient({
     const handleCtaLoaded = () => setCtaLoaded(true);
 
     useEffect(() => {
-        // Set treatments as loaded immediately since it's using data from props
         setTreatmentsLoaded(true);
     }, []);
 
@@ -79,7 +77,7 @@ export default function HomeClient({
             <main className="bg-primary-background flex min-h-screen flex-col">
                 <Banner />
                 <Navbar />
-                <HeroContainer // Now correctly refers to the client container
+                <HeroContainer
                     formData={formData}
                     heroBlurDataURL={heroBlurDataURL}
                     onImageLoaded={handleHeroLoaded}
