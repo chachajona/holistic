@@ -87,7 +87,7 @@ export default function TreatmentsPage() {
                             chúng tôi bao gồm một lọa các giải pháp để đáp ứng
                             nhu cầu riêng của bạn.
                         </p>
-                        <Link href="/booking/consultation">
+                        <Link href="/booking">
                             <Button
                                 variant={"link"}
                                 className="text-primary-text group flex w-full flex-row items-center px-0 py-3 text-base sm:w-auto md:px-8"

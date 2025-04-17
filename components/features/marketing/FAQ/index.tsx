@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 
 import { FAQ as FAQType } from "@/types/faq";
 import { getFAQs } from "@/lib/api";
@@ -10,8 +12,20 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 
-const FAQ = async () => {
-    const faqs = await getFAQs();
+const FAQ = () => {
+    const [faqs, setFaqs] = useState<FAQType[]>([]);
+
+    useEffect(() => {
+        const fetchFAQs = async () => {
+            const data = await getFAQs();
+            setFaqs(data);
+        };
+        fetchFAQs();
+    }, []);
+
+    if (faqs.length === 0) {
+        return null;
+    }
 
     return (
         <section className="container mx-auto w-full py-6 md:px-16 md:py-8">

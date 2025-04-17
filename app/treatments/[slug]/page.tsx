@@ -248,7 +248,7 @@ export default async function TreatmentPage({
                     {/* Main content column */}
                     <div className="lg:w-2/3">
                         {/* Contents */}
-                        <div className="px-4">
+                        <div>
                             <Card className="w-full border-gray-400 bg-transparent">
                                 <CardContent className="bg-transparent p-10">
                                     <div className="prose prose-lg font-robotoSlab text-primary-text prose-strong:text-primary-text prose-strong:font-robotoSerif prose-headings:font-robotoSerif prose-headings:text-primary-text max-w-none">
@@ -372,7 +372,7 @@ export default async function TreatmentPage({
 
                     {/* Sidebar column */}
                     <div className="lg:w-1/3">
-                        <div className="px-4">
+                        <div>
                             {/* Treatments sidebar */}
                             <TreatmentsSidebar
                                 treatments={allTreatments}

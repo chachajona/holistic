@@ -181,7 +181,7 @@ export function ServicesClient({ services }: ServicesClientProps) {
                                 Tất cả liệu trình
                             </Button>
                         </Link>
-                        <Link href="/booking/consultation">
+                        <Link href="/booking">
                             <Button
                                 variant={"link"}
                                 className="text-primary-text group flex w-full flex-row items-center px-8 py-3 text-base sm:w-auto"
