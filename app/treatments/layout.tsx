@@ -1,5 +1,6 @@
 import React from "react";
 
+import type { TreatmentsPageData } from "@/types/sanity";
 import { getTreatmentsPage } from "@/lib/api";
 import Banner from "@/components/common/Banner";
 import Footer from "@/components/layout/Footer";
@@ -11,12 +12,12 @@ export default async function TreatmentsLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const pageData = await getTreatmentsPage();
+    const pageData: TreatmentsPageData | null = await getTreatmentsPage();
     return (
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
             <Banner />
             <MainNavBar />
-            <Header slug="treatments" header={pageData?.Header || {}} />
+            <Header slug="treatments" header={pageData?.Header} />
             <main>
                 <div className="content-normal">{children}</div>
             </main>

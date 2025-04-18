@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import { ArrowDown, Clock } from "lucide-react";
 import Markdown from "react-markdown";
 
+import type { TreatmentSummary } from "@/types/sanity";
 import {
     Treatment,
     TreatmentBenefit,
@@ -120,7 +121,7 @@ function TreatmentsSidebar({
     treatments,
     currentSlug,
 }: {
-    treatments: Treatment[];
+    treatments: TreatmentSummary[];
     currentSlug: string;
 }) {
     return (
@@ -129,20 +130,22 @@ function TreatmentsSidebar({
                 Phương pháp điều trị
             </h3>
             <ul className="space-y-2">
-                {treatments.map(treatment => (
-                    <li key={treatment.id}>
-                        <Link
-                            href={`/treatments/${treatment.slug}`}
-                            className={`block rounded-lg px-3 py-2 transition-colors ${
-                                treatment.slug === currentSlug
-                                    ? "bg-primary-text font-medium text-white"
-                                    : "hover:bg-brown-100 text-primary-text/80"
-                            }`}
-                        >
-                            {treatment.title}
-                        </Link>
-                    </li>
-                ))}
+                {treatments
+                    .filter(treatment => treatment.slug?.current != null)
+                    .map(treatment => (
+                        <li key={treatment._id}>
+                            <Link
+                                href={`/treatments/${treatment.slug!.current}`}
+                                className={`block rounded-lg px-3 py-2 transition-colors ${
+                                    treatment.slug!.current === currentSlug
+                                        ? "bg-primary-text font-medium text-white"
+                                        : "hover:bg-brown-100 text-primary-text/80"
+                                }`}
+                            >
+                                {treatment.title ?? "Untitled"}
+                            </Link>
+                        </li>
+                    ))}
             </ul>
         </div>
     );
@@ -375,7 +378,7 @@ export default async function TreatmentPage({
                         <div>
                             {/* Treatments sidebar */}
                             <TreatmentsSidebar
-                                treatments={allTreatments}
+                                treatments={allTreatments ?? []}
                                 currentSlug={treatment.slug}
                             />
 

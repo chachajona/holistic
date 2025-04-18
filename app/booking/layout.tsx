@@ -1,5 +1,6 @@
 import React from "react";
 
+import type { BookingPageData } from "@/types/sanity";
 import { getBookingPage } from "@/lib/api";
 import Banner from "@/components/common/Banner";
 import Footer from "@/components/layout/Footer";
@@ -11,7 +12,8 @@ export default async function BookingLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const pageData = await getBookingPage();
+    const pageData: BookingPageData | null = await getBookingPage();
+
     return (
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
             <Banner />

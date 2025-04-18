@@ -1,35 +1,19 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import { client } from "@/sanity/lib/client";
 import { groq } from "next-sanity";
 
-export default async function handler(
-    req: NextApiRequest,
-    res: NextApiResponse,
-) {
-    if (req.method === "POST") {
-        try {
-            const { phoneNumber } = req.body;
+import type {
+    AboutPageData,
+    BookingPageData,
+    FAQData,
+    HomePageData,
+    ServiceDetailed,
+    ServicesPageData,
+    TestimonialData,
+    TreatmentsPageData,
+    TreatmentSummary,
+} from "@/types/sanity";
 
-            const doc = {
-                _type: "contactSubmission",
-                phoneNumber,
-                submittedAt: new Date().toISOString(),
-            };
-
-            await client.create(doc);
-
-            res.status(200).json({ message: "Form submitted successfully" });
-        } catch (error) {
-            console.error("Error submitting form:", error);
-            res.status(500).json({ message: "Error submitting form" });
-        }
-    } else {
-        res.setHeader("Allow", ["POST"]);
-        res.status(405).end(`Method ${req.method} Not Allowed`);
-    }
-}
-
-export async function getHomePage() {
+export async function getHomePage(): Promise<HomePageData | null> {
     try {
         const getPageQuery = groq`*[_type == "page"][slug == 'home'][0]{
             'Heading': title,
@@ -42,28 +26,28 @@ export async function getHomePage() {
                 submitButtonText
             }
         }`;
-        const result = await client.fetch(getPageQuery, {
-            revalidate: new Date().getSeconds(),
-        });
+        const result = await client.fetch<HomePageData>(getPageQuery);
 
-        if (!result || !result.FormContact) {
-            console.error("Home page data or FormContact is missing");
-            return { FormContact: {} };
+        if (!result) {
+            console.error("Home page data is missing or invalid");
+            return null;
         }
 
         return result;
     } catch (error) {
         console.error("Error fetching homepage:", error);
-        return { FormContact: {} };
+        return null;
     }
 }
 
-export async function getAboutPage() {
+export async function getAboutPage(): Promise<AboutPageData | null> {
     try {
-        const getPageQuery = groq`*[_type == "page"][slug == 'about'][0]{
+        const getPageQuery = groq`*[_type == "page"][slug.current == 'about'][0]{
             'Heading': title,
             slug,
             'Header': pageBuilder[][_type == "header"][0]{
+                _id,
+                slug,
                 heading,
                 subheading,
                 image {
@@ -74,9 +58,12 @@ export async function getAboutPage() {
                 }
             }
         }`;
-        const result = await client.fetch(getPageQuery, {
-            revalidate: new Date().getSeconds(),
-        });
+        const result = await client.fetch<AboutPageData>(getPageQuery);
+
+        if (!result) {
+            console.error("About page data is missing or invalid");
+            return null;
+        }
         return result;
     } catch (error) {
         console.error("Error fetching about page:", error);
@@ -84,7 +71,7 @@ export async function getAboutPage() {
     }
 }
 
-export async function getServicesPage() {
+export async function getServicesPage(): Promise<ServicesPageData | null> {
     try {
         const getPageQuery = groq`*[_type == "page"][slug == 'services'][0]{
             'Heading': title,
@@ -100,10 +87,11 @@ export async function getServicesPage() {
                 }
             }
         }`;
-
-        const result = await client.fetch(getPageQuery, {
-            revalidate: new Date().getSeconds(),
-        });
+        const result = await client.fetch<ServicesPageData>(getPageQuery);
+        if (!result) {
+            console.error("Services page data is missing or invalid");
+            return null;
+        }
         return result;
     } catch (error) {
         console.error("Error fetching services page:", error);
@@ -111,7 +99,7 @@ export async function getServicesPage() {
     }
 }
 
-export async function getTreatmentsPage() {
+export async function getTreatmentsPage(): Promise<TreatmentsPageData | null> {
     try {
         const getPageQuery = groq`*[_type == "page"][slug == 'treatments'][0]{
             'Heading': title,
@@ -127,9 +115,11 @@ export async function getTreatmentsPage() {
                 }
             }
         }`;
-        const result = await client.fetch(getPageQuery, {
-            revalidate: new Date().getSeconds(),
-        });
+        const result = await client.fetch<TreatmentsPageData>(getPageQuery);
+        if (!result) {
+            console.error("Treatments page data is missing or invalid");
+            return null;
+        }
         return result;
     } catch (error) {
         console.error("Error fetching treatments page:", error);
@@ -137,7 +127,7 @@ export async function getTreatmentsPage() {
     }
 }
 
-export async function getBookingPage() {
+export async function getBookingPage(): Promise<BookingPageData | null> {
     try {
         const getPageQuery = groq`*[_type == "page"][slug == 'booking'][0]{
             'Heading': title,
@@ -160,10 +150,11 @@ export async function getBookingPage() {
                 submitButtonText
             }
         }`;
-
-        const result = await client.fetch(getPageQuery, {
-            revalidate: new Date().getSeconds(),
-        });
+        const result = await client.fetch<BookingPageData>(getPageQuery);
+        if (!result) {
+            console.error("Booking page data is missing or invalid");
+            return null;
+        }
         return result;
     } catch (error) {
         console.error("Error fetching booking page:", error);
@@ -171,9 +162,8 @@ export async function getBookingPage() {
     }
 }
 
-export async function getTestimonials() {
+export async function getTestimonials(): Promise<TestimonialData[] | null> {
     try {
-        console.log("Fetching testimonials...");
         const query = groq`*[_type == "testimonial"]{
             _id,
             icon {
@@ -185,29 +175,34 @@ export async function getTestimonials() {
             quote,
             author
         }`;
-        const result = await client.fetch(query);
-        console.log("Fetched testimonials:", result);
+        const result = await client.fetch<TestimonialData[]>(query);
+        if (!result) {
+            console.error("Error fetching testimonials: No result");
+            return []; // Return empty array if none found
+        }
         return result;
     } catch (error) {
         console.error("Error fetching testimonials:", error);
-        return [];
+        return null;
     }
 }
 
-export async function getFAQs() {
+export async function getFAQs(): Promise<FAQData[] | null> {
     try {
-        console.log("Fetching FAQs...");
         const query = groq`*[_type == "faq"] {
             _id,
             question,
             answer
         }`;
-        const result = await client.fetch(query);
-        console.log("Fetched FAQs:", result);
+        const result = await client.fetch<FAQData[]>(query);
+        if (!result) {
+            console.error("Error fetching FAQs: No result");
+            return []; // Return empty array if none found
+        }
         return result;
     } catch (error) {
         console.error("Error fetching FAQs:", error);
-        return [];
+        return null;
     }
 }
 
@@ -259,17 +254,66 @@ export async function getAllTreatmentSlugs() {
     }
 }
 
-export async function getAllTreatments() {
+export async function getAllTreatments(): Promise<TreatmentSummary[] | null> {
     try {
         const query = groq`*[_type == "treatment"] | order(title asc) {
-            "id": id.current,
+            _id,
             title,
-            "slug": slug.current
+            slug,
+            shortDescription,
+            "imageUrl": image.asset->url,
+            icon
         }`;
 
-        return await client.fetch(query);
+        const result = await client.fetch<TreatmentSummary[]>(query);
+
+        if (!result) {
+            console.error("Error fetching treatments: No result");
+            return [];
+        }
+
+        return result;
     } catch (error) {
         console.error("Error fetching all treatments:", error);
-        return [];
+        return null;
+    }
+}
+
+export async function getAllServicesDetailed(): Promise<
+    ServiceDetailed[] | null
+> {
+    try {
+        const query = groq`
+          *[_type == "service"] | order(isPrimary desc) {
+            "id": id.current,
+            title,
+            description,
+            icon,
+            "image": image.asset->url,
+            "imageSource": image,
+            isPrimary,
+            details {
+              outcome,
+              protocol,
+              evidence,
+              treatments[]-> {
+                "id": id.current,
+                "name": title,
+                "description": shortDescription,
+                icon,
+                "href": "/treatments/" + slug.current
+              }
+            }
+          }
+        `;
+        const result = await client.fetch<ServiceDetailed[]>(query);
+        if (!result) {
+            console.error("Error fetching detailed services: No result");
+            return [];
+        }
+        return result;
+    } catch (error) {
+        console.error("Error fetching detailed services:", error);
+        return null;
     }
 }

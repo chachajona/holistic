@@ -1,5 +1,6 @@
 import React from "react";
 
+import type { ServicesPageData } from "@/types/sanity";
 import { getServicesPage } from "@/lib/api";
 import Banner from "@/components/common/Banner";
 import Footer from "@/components/layout/Footer";
@@ -11,7 +12,7 @@ export default async function ServicesLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const pageData = await getServicesPage();
+    const pageData: ServicesPageData | null = await getServicesPage();
     return (
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
             <Banner />

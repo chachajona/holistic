@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 
 import { FAQ as FAQType } from "@/types/faq";
+import { FAQData } from "@/types/sanity";
 import { getFAQs } from "@/lib/api";
 import {
     Accordion,
@@ -17,8 +18,13 @@ const FAQ = () => {
 
     useEffect(() => {
         const fetchFAQs = async () => {
-            const data = await getFAQs();
-            setFaqs(data);
+            const data: FAQData[] | null = await getFAQs();
+            const formattedFaqs: FAQType[] = (data ?? []).map(faq => ({
+                ...faq,
+                question: faq.question ?? "",
+                answer: faq.answer ?? "",
+            }));
+            setFaqs(formattedFaqs);
         };
         fetchFAQs();
     }, []);
