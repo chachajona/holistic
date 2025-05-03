@@ -1,19 +1,12 @@
 import { notFound } from "next/navigation";
 
 import type { ServiceDetailed } from "@/types/sanity";
-// Remove old Service type import if no longer needed elsewhere
 import { Service } from "@/types/services";
-// Remove direct client/groq import
-// import { client } from "@/sanity/lib/client";
-// import { groq } from "next-sanity";
-
-// Import the new function and type
 import { getAllServicesDetailed } from "@/lib/api";
 import { getCachedSanityImageData } from "@/lib/server/image-processing";
 import { ServicesClient } from "@/components/features/services/ServicesClient";
 
-// export const dynamic = "force-dynamic"; // Keep if needed, otherwise remove
-export const revalidate = 3600; // Already set
+export const revalidate = 3600;
 
 export const metadata = {
     title: "Phương Pháp Điều Trị Chuyên Biệt - Holistic Rehab",
@@ -28,8 +21,6 @@ export const metadata = {
     },
 };
 
-// Define a type for the processed service, matching what ServicesClient expects
-// This might be identical to the original Service type but adds processedImage
 type ProcessedService = Service & {
     processedImage: {
         imageUrl: string;
@@ -48,7 +39,7 @@ export default async function ServicesPage() {
     }
 
     const batchSize = 3;
-    // Explicitly type the array to hold objects matching the client's expectation
+
     const processedServices: ProcessedService[] = [];
 
     for (let i = 0; i < validServicesData.length; i += batchSize) {
@@ -76,15 +67,14 @@ export default async function ServicesPage() {
                         aspectRatio: 16 / 9,
                     };
                 }
-                // Map ServiceDetailed to ProcessedService, providing defaults
+
                 return {
-                    // Ensure all fields required by Service type are present and non-null
-                    id: service.id, // Already filtered for non-null
+                    id: service.id,
                     title: service.title ?? "Untitled Service",
-                    description: service.description ?? "", // Default to empty string or suitable default
-                    icon: service.icon ?? null, // Provide appropriate default if null not allowed
+                    description: service.description ?? "",
+                    icon: service.icon ?? null,
                     image: service.image ?? "/placeholder-image.jpg",
-                    imageSource: service.imageSource, // May not be needed by client?
+                    imageSource: service.imageSource,
                     isPrimary: service.isPrimary ?? false,
                     details: service.details
                         ? {
@@ -94,16 +84,16 @@ export default async function ServicesPage() {
                               treatments: (
                                   service.details.treatments || []
                               ).map(t => ({
-                                  id: t?.id ?? "", // Ensure non-null id
+                                  id: t?.id ?? "",
                                   name: t?.name ?? "",
                                   description: t?.description ?? "",
                                   icon: t?.icon ?? null,
                                   href: t?.href ?? "#",
                               })),
                           }
-                        : null, // Handle null details object
+                        : null,
                     processedImage: processedImage,
-                } as ProcessedService; // Assert the final structure conforms
+                } as ProcessedService;
             });
 
         const processedBatch = await Promise.all(processedBatchPromises);

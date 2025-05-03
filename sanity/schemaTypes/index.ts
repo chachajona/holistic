@@ -5,6 +5,7 @@ import { faqType } from "./faqType";
 import { formType } from "./formType";
 import { headerType } from "./headerType";
 import { pageType } from "./pageType";
+import { problemCategoryType } from "./problemCategoryType";
 import { serviceType } from "./serviceType";
 import { testimonialType } from "./testimonialType";
 import { treatmentType } from "./treatmentType";
@@ -19,5 +20,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         contactType,
         serviceType,
         treatmentType,
+        problemCategoryType,
     ],
 };

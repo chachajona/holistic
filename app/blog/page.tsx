@@ -12,11 +12,13 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import FAQ from "@/components/features/marketing/FAQ";
 import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
-import { PopularBlogPosts, RecentBlogPosts } from "@/components/features/blog/Post";
+import {
+    PopularBlogPosts,
+    RecentBlogPosts,
+} from "@/components/features/blog/Post";
+import FAQ from "@/components/features/marketing/FAQ";
+import { NewsletterSignupClient } from "@/components/features/marketing/NewsletterSignupClient";
 
 const BlogPage = () => {
     const [isContentLoaded, setIsContentLoaded] = useState(false);
@@ -90,40 +92,8 @@ const BlogPage = () => {
                 {/* FAQ Section */}
                 <FAQ />
 
-                {/* Newsletter Signup */}
-                <section className="container mx-auto w-full py-6 md:px-16 md:py-8">
-                    <div className="border-primary-text flex flex-col items-center gap-8 rounded-lg border bg-transparent shadow-md md:flex-row">
-                        <div className="p-8 md:w-1/2">
-                            <h2 className="font-robotoSerif text-primary-text mb-4 text-5xl font-bold leading-tight">
-                                Cập nhật thông tin với Blog của chúng tôi
-                            </h2>
-                            <p className="font-robotoSlab text-primary-text/60 mb-4 text-base">
-                                Đăng ký blog hàng tuần của chúng tôi để nhận
-                                thông tin cập nhật thường xuyên về các chủ đề
-                                sức khỏe.
-                            </p>
-                            <div className="flex gap-4">
-                                <Input
-                                    type="phone"
-                                    placeholder="Nhập số điện thoại của bạn"
-                                    className="font-robotoSlab grow text-sm"
-                                />
-                                <Button className="bg-primary-text font-robotoSerif hover:bg-brown-950 text-base">
-                                    Đăng ký
-                                </Button>
-                            </div>
-                        </div>
-                        <div className="md:w-1/2">
-                            <Image
-                                src="https://images.unsplash.com/photo-1523966211575-eb4a01e7dd51?q=80&w=1420&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Newsletter signup"
-                                width={1000}
-                                height={100}
-                                className="max-h-fit rounded-lg"
-                            />
-                        </div>
-                    </div>
-                </section>
+                {/* Render the new Newsletter Signup Client Component */}
+                <NewsletterSignupClient />
             </div>
         </PageLoaderWrapper>
     );

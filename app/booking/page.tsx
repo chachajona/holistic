@@ -1,16 +1,12 @@
 import React from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { ContactFormClient } from "@/components/features/forms/ContactFormClient";
 import FAQ from "@/components/features/marketing/FAQ";
 
 export const revalidate = 3600;
 
-const BookingPage = async () => {
+const BookingPage = () => {
     return (
         <div>
             <div className="container mx-auto w-full py-6 md:px-16 md:py-8">
@@ -44,64 +40,7 @@ const BookingPage = async () => {
                             </div>
                         </div>
                     </div>
-                    <Card className="font-robotoSlab flex-1 bg-white">
-                        <CardHeader>
-                            <CardTitle className="text-brown-700 text-2xl font-normal">
-                                Form liên hệ
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <form className="space-y-4">
-                                <div>
-                                    <label
-                                        htmlFor="name"
-                                        className="text-brown-700 block text-sm font-medium"
-                                    >
-                                        Họ và tên
-                                    </label>
-                                    <Input id="name" className="mt-1" />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="email"
-                                        className="text-brown-700 block text-sm font-medium"
-                                    >
-                                        Email
-                                    </label>
-                                    <Input
-                                        id="email"
-                                        type="email"
-                                        className="mt-1"
-                                    />
-                                </div>
-                                <div>
-                                    <label
-                                        htmlFor="message"
-                                        className="text-brown-700 block text-sm font-medium"
-                                    >
-                                        Tin nhắn đính kèm
-                                    </label>
-                                    <Textarea
-                                        id="message"
-                                        className="mt-1"
-                                        placeholder="Điền tin nhắn của bạn"
-                                    />
-                                </div>
-                                <div className="flex items-center space-x-2">
-                                    <Checkbox id="terms" />
-                                    <label
-                                        htmlFor="terms"
-                                        className="text-brown-600 text-sm"
-                                    >
-                                        Tôi đồng ý chia sẻ thông tin
-                                    </label>
-                                </div>
-                                <Button className="bg-primary-text hover:bg-brown-800 w-full text-white">
-                                    Gửi
-                                </Button>
-                            </form>
-                        </CardContent>
-                    </Card>
+                    <ContactFormClient />
                 </div>
             </div>
             <FAQ />

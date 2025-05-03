@@ -16,6 +16,13 @@ export interface ServiceDetails {
     treatments: Treatment[];
 }
 
+export interface ProblemCategory {
+    _id: string;
+    title: string;
+    icon?: string;
+    description?: string;
+}
+
 export interface Service {
     id: string;
     title: string;
@@ -24,6 +31,7 @@ export interface Service {
     image: string;
     imageSource: SanityImageSource;
     isPrimary: boolean;
+    problemCategories?: ProblemCategory[];
     details: ServiceDetails;
     processedImage: {
         imageUrl: string;

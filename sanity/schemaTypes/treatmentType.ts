@@ -164,8 +164,9 @@ export const treatmentType = defineType({
         {
             name: "content",
             title: "Detailed Content",
-            type: "markdown",
-            description: "Markdown content for the treatment page (optional)",
+            type: "array",
+            of: [{ type: "block" }],
+            description: "Rich text content for the treatment page (optional)",
         },
         {
             name: "booking",

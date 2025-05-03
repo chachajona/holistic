@@ -279,41 +279,34 @@ export async function getAllTreatments(): Promise<TreatmentSummary[] | null> {
     }
 }
 
-export async function getAllServicesDetailed(): Promise<
-    ServiceDetailed[] | null
-> {
-    try {
-        const query = groq`
-          *[_type == "service"] | order(isPrimary desc) {
-            "id": id.current,
-            title,
-            description,
-            icon,
-            "image": image.asset->url,
-            "imageSource": image,
-            isPrimary,
-            details {
-              outcome,
-              protocol,
-              evidence,
-              treatments[]-> {
-                "id": id.current,
-                "name": title,
-                "description": shortDescription,
-                icon,
-                "href": "/treatments/" + slug.current
-              }
-            }
-          }
-        `;
-        const result = await client.fetch<ServiceDetailed[]>(query);
-        if (!result) {
-            console.error("Error fetching detailed services: No result");
-            return [];
+export async function getAllServicesDetailed(): Promise<ServiceDetailed[]> {
+    const query = `*[_type == "service"] {
+      "id": id.current,
+      title,
+      description,
+      icon,
+      image,
+      imageSource,
+      isPrimary,
+      "problemCategories": problemCategories[]-> {
+        "_id": id.current,
+        title,
+        icon,
+        description
+      },
+      details {
+        outcome,
+        protocol,
+        evidence,
+        "treatments": treatments[]-> {
+          "id": _id,
+          name,
+          description,
+          icon,
+          "href": slug.current
         }
-        return result;
-    } catch (error) {
-        console.error("Error fetching detailed services:", error);
-        return null;
-    }
+      }
+    }`;
+
+    return await client.fetch(query);
 }

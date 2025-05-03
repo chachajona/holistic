@@ -59,6 +59,18 @@ export const serviceType = defineType({
             description: "Mark this service as the primary/most popular option",
         },
         {
+            name: "problemCategories",
+            title: "Problem Categories",
+            description: "Which problem categories does this service address?",
+            type: "array",
+            of: [
+                {
+                    type: "reference",
+                    to: [{ type: "problemCategory" }],
+                },
+            ],
+        },
+        {
             name: "details",
             title: "Service Details",
             type: "object",
