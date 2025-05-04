@@ -1,4 +1,5 @@
 import BackPain from "./BackPain";
+import Crutch from "./Crutch";
 import Cupping from "./Cupping";
 import DryNeedle from "./DryNeedle";
 import Exercise from "./Exercise";
@@ -18,6 +19,7 @@ export const customIcons = {
     JointPain,
     SportInjuries,
     PostSurgery,
+    Crutch,
 };
 
 export type CustomIconName = keyof typeof customIcons;
