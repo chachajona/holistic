@@ -76,6 +76,7 @@ export default async function ServicesPage() {
                     image: service.image ?? "/placeholder-image.jpg",
                     imageSource: service.imageSource,
                     isPrimary: service.isPrimary ?? false,
+                    problemCategories: service.problemCategories ?? [],
                     details: service.details
                         ? {
                               outcome: service.details.outcome ?? null,
@@ -83,13 +84,22 @@ export default async function ServicesPage() {
                               evidence: service.details.evidence ?? null,
                               treatments: (
                                   service.details.treatments || []
-                              ).map(t => ({
-                                  id: t?.id ?? "",
-                                  name: t?.name ?? "",
-                                  description: t?.description ?? "",
-                                  icon: t?.icon ?? null,
-                                  href: t?.href ?? "#",
-                              })),
+                              ).map(t => {
+                                  // Log any treatments with missing data
+                                  if (!t || !t.name || !t.description) {
+                                      console.log(
+                                          `WARNING: Treatment missing data:`,
+                                          JSON.stringify(t, null, 2),
+                                      );
+                                  }
+                                  return {
+                                      id: t?.id ?? "",
+                                      name: t?.name ?? "",
+                                      description: t?.description ?? "",
+                                      icon: t?.icon ?? null,
+                                      href: t?.href ?? "#",
+                                  };
+                              }),
                           }
                         : null,
                     processedImage: processedImage,

@@ -120,6 +120,14 @@ export interface ServiceDetailed {
     image: string | null; // Direct URL
     imageSource: any | null; // Asset reference for processing
     isPrimary: boolean | null;
+    problemCategories?:
+        | {
+              _id: string;
+              title: string;
+              icon?: string;
+              description?: string;
+          }[]
+        | null;
     details: {
         outcome: any | null; // Block content?
         protocol: any | null; // Block content?

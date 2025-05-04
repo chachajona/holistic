@@ -289,7 +289,7 @@ export async function getAllServicesDetailed(): Promise<ServiceDetailed[]> {
       imageSource,
       isPrimary,
       "problemCategories": problemCategories[]-> {
-        "_id": id.current,
+        "_id": _id,
         title,
         icon,
         description
@@ -300,13 +300,33 @@ export async function getAllServicesDetailed(): Promise<ServiceDetailed[]> {
         evidence,
         "treatments": treatments[]-> {
           "id": _id,
-          name,
-          description,
-          icon,
+          "name": title,
+          "description": shortDescription,
+          "icon": icon,
           "href": slug.current
         }
       }
     }`;
 
-    return await client.fetch(query);
+    try {
+        console.log("Fetching services data from Sanity...");
+        const result = await client.fetch(query);
+        console.log(`Retrieved ${result?.length || 0} services`);
+
+        // Count treatments for diagnostic purposes
+        if (result && result.length > 0) {
+            let treatmentCount = 0;
+
+            result.forEach((service: ServiceDetailed) => {
+                treatmentCount += service.details?.treatments?.length || 0;
+            });
+
+            console.log(`Total treatments found: ${treatmentCount}`);
+        }
+
+        return result || [];
+    } catch (error) {
+        console.error("Error fetching services:", error);
+        return [];
+    }
 }

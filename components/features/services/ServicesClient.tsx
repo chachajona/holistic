@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
@@ -17,7 +17,9 @@ export function ServicesClient({ services }: ServicesClientProps) {
         null,
     );
     const [isContentLoaded, setIsContentLoaded] = useState(false);
-    const [selectedServiceIds, setSelectedServiceIds] = useState<string[]>([]);
+    const [selectedCategoryIds, setSelectedCategoryIds] = useState<string[]>(
+        [],
+    );
 
     useEffect(() => {
         if (services && services.length > 0) {
@@ -29,20 +31,33 @@ export function ServicesClient({ services }: ServicesClientProps) {
         setQuickBookService(service);
     }, []);
 
-    const handleSelectService = useCallback((id: string) => {
-        setSelectedServiceIds(prev => {
+    const handleSelectCategory = useCallback((categoryId: string) => {
+        setSelectedCategoryIds(prev => {
             // Toggle selection
-            if (prev.includes(id)) {
-                return prev.filter(sId => sId !== id);
+            if (prev.includes(categoryId)) {
+                return prev.filter(id => id !== categoryId);
             } else {
-                return [...prev, id];
+                return [...prev, categoryId];
             }
         });
     }, []);
 
     const handleClearFilters = useCallback(() => {
-        setSelectedServiceIds([]);
+        setSelectedCategoryIds([]);
     }, []);
+
+    // Create a mapping of category IDs to category names for the filter display
+    const categoryNames = useMemo(() => {
+        const names = new Map<string, string>();
+        services.forEach(service => {
+            if (service.problemCategories) {
+                service.problemCategories.forEach(category => {
+                    names.set(category._id, category.title);
+                });
+            }
+        });
+        return names;
+    }, [services]);
 
     return (
         <PageLoaderWrapper isContentLoaded={isContentLoaded}>
@@ -67,43 +82,39 @@ export function ServicesClient({ services }: ServicesClientProps) {
                 </div>
 
                 <div className="container relative z-10 mx-auto">
-                    {/* Service Selection Filters */}
+                    {/* Problem Category Selection Filters */}
                     <ServiceFilterSelection
                         services={services}
-                        selectedServiceIds={selectedServiceIds}
-                        onSelectService={handleSelectService}
+                        selectedCategoryIds={selectedCategoryIds}
+                        onSelectCategory={handleSelectCategory}
                     />
 
                     {/* Selected Filters UI */}
-                    {selectedServiceIds.length > 0 && (
+                    {selectedCategoryIds.length > 0 && (
                         <div className="mb-8 flex items-center">
                             <span className="text-primary-text/70 mr-2 text-sm">
                                 Bộ lọc đã chọn:
                             </span>
                             <div className="flex flex-wrap gap-2">
-                                {selectedServiceIds.map(id => {
-                                    const service = services.find(
-                                        s => s.id === id,
-                                    );
-                                    return service ? (
-                                        <div
-                                            key={id}
-                                            className="bg-primary-text/10 flex items-center rounded-full px-3 py-1 text-sm"
+                                {selectedCategoryIds.map(id => (
+                                    <div
+                                        key={id}
+                                        className="bg-primary-text/10 flex items-center rounded-full px-3 py-1 text-sm"
+                                    >
+                                        <span className="text-primary-text">
+                                            {categoryNames.get(id) ||
+                                                "Unknown Category"}
+                                        </span>
+                                        <button
+                                            onClick={() =>
+                                                handleSelectCategory(id)
+                                            }
+                                            className="text-primary-text/60 hover:text-primary-text ml-2"
                                         >
-                                            <span className="text-primary-text">
-                                                {service.title}
-                                            </span>
-                                            <button
-                                                onClick={() =>
-                                                    handleSelectService(id)
-                                                }
-                                                className="text-primary-text/60 hover:text-primary-text ml-2"
-                                            >
-                                                ✕
-                                            </button>
-                                        </div>
-                                    ) : null;
-                                })}
+                                            ✕
+                                        </button>
+                                    </div>
+                                ))}
                                 <button
                                     onClick={handleClearFilters}
                                     className="text-primary-text/70 hover:text-primary-text text-sm underline"
@@ -117,7 +128,7 @@ export function ServicesClient({ services }: ServicesClientProps) {
                     {/* Treatment Recommendations */}
                     <TreatmentRecommendations
                         services={services}
-                        selectedServiceIds={selectedServiceIds}
+                        selectedCategoryIds={selectedCategoryIds}
                         onQuickBook={handleQuickBookService}
                     />
                 </div>
