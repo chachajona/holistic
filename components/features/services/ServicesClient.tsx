@@ -82,55 +82,70 @@ export function ServicesClient({ services }: ServicesClientProps) {
                 </div>
 
                 <div className="container relative z-10 mx-auto">
-                    {/* Problem Category Selection Filters */}
-                    <ServiceFilterSelection
-                        services={services}
-                        selectedCategoryIds={selectedCategoryIds}
-                        onSelectCategory={handleSelectCategory}
-                    />
-
-                    {/* Selected Filters UI */}
-                    {selectedCategoryIds.length > 0 && (
-                        <div className="mb-8 flex items-center">
-                            <span className="text-primary-text/70 mr-2 text-sm">
-                                Bộ lọc đã chọn:
-                            </span>
-                            <div className="flex flex-wrap gap-2">
-                                {selectedCategoryIds.map(id => (
-                                    <div
-                                        key={id}
-                                        className="bg-primary-text/10 flex items-center rounded-full px-3 py-1 text-sm"
-                                    >
-                                        <span className="text-primary-text">
-                                            {categoryNames.get(id) ||
-                                                "Unknown Category"}
-                                        </span>
-                                        <button
-                                            onClick={() =>
-                                                handleSelectCategory(id)
-                                            }
-                                            className="text-primary-text/60 hover:text-primary-text ml-2"
-                                        >
-                                            ✕
-                                        </button>
-                                    </div>
-                                ))}
-                                <button
-                                    onClick={handleClearFilters}
-                                    className="text-primary-text/70 hover:text-primary-text text-sm underline"
-                                >
-                                    Xóa tất cả
-                                </button>
-                            </div>
+                    <section aria-labelledby="filters-heading" role="region">
+                        <div className="sr-only" id="filters-heading">
+                            Bộ lọc dịch vụ
                         </div>
-                    )}
+                        {/* Problem Category Selection Filters */}
+                        <ServiceFilterSelection
+                            services={services}
+                            selectedCategoryIds={selectedCategoryIds}
+                            onSelectCategory={handleSelectCategory}
+                        />
+
+                        {/* Selected Filters UI */}
+                        {selectedCategoryIds.length > 0 && (
+                            <div className="mb-8 flex flex-col sm:flex-row sm:items-center">
+                                <span className="text-primary-text/70 mb-2 text-sm font-medium sm:mb-0 sm:mr-2">
+                                    Bộ lọc đã chọn:
+                                </span>
+                                <div className="flex flex-wrap gap-2">
+                                    {selectedCategoryIds.map(id => (
+                                        <div
+                                            key={id}
+                                            className="bg-primary-text/10 flex items-center rounded-full px-2 py-1 text-xs sm:text-sm"
+                                        >
+                                            <span className="text-primary-text line-clamp-1 max-w-[150px] sm:max-w-[200px]">
+                                                {categoryNames.get(id) ||
+                                                    "Unknown Category"}
+                                            </span>
+                                            <button
+                                                onClick={() =>
+                                                    handleSelectCategory(id)
+                                                }
+                                                className="text-primary-text/60 hover:text-primary-text ml-1 p-1 sm:ml-2"
+                                                aria-label={`Xóa bộ lọc ${categoryNames.get(id) || "Unknown Category"}`}
+                                            >
+                                                ✕
+                                            </button>
+                                        </div>
+                                    ))}
+                                    <button
+                                        onClick={handleClearFilters}
+                                        className="text-primary-text/70 hover:text-primary-text text-xs underline sm:text-sm"
+                                        aria-label="Xóa tất cả bộ lọc đã chọn"
+                                    >
+                                        Xóa tất cả
+                                    </button>
+                                </div>
+                            </div>
+                        )}
+                    </section>
 
                     {/* Treatment Recommendations */}
-                    <TreatmentRecommendations
-                        services={services}
-                        selectedCategoryIds={selectedCategoryIds}
-                        onQuickBook={handleQuickBookService}
-                    />
+                    <section
+                        aria-labelledby="recommendations-heading"
+                        role="region"
+                    >
+                        <div className="sr-only" id="recommendations-heading">
+                            Phương pháp điều trị phù hợp
+                        </div>
+                        <TreatmentRecommendations
+                            services={services}
+                            selectedCategoryIds={selectedCategoryIds}
+                            onQuickBook={handleQuickBookService}
+                        />
+                    </section>
                 </div>
 
                 <QuickBookingDialog
@@ -155,6 +170,7 @@ export function ServicesClient({ services }: ServicesClientProps) {
                             <Button
                                 variant="outline"
                                 className="border-primary-text text-primary-text hover:bg-primary-text w-full bg-transparent px-8 py-3 text-base hover:text-white sm:w-auto"
+                                aria-label="Xem tất cả liệu trình điều trị"
                             >
                                 Tất cả liệu trình
                             </Button>
@@ -163,9 +179,13 @@ export function ServicesClient({ services }: ServicesClientProps) {
                             <Button
                                 variant={"link"}
                                 className="text-primary-text group flex w-full flex-row items-center px-8 py-3 text-base sm:w-auto"
+                                aria-label="Đặt lịch hẹn ngay"
                             >
                                 Đặt lịch hẹn
-                                <ChevronRight className="animate-shake ml-2 size-4 group-hover:translate-x-1" />
+                                <ChevronRight
+                                    className="animate-shake ml-2 size-4 group-hover:translate-x-1"
+                                    aria-hidden="true"
+                                />
                             </Button>
                         </Link>
                     </div>

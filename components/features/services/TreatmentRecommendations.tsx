@@ -27,14 +27,25 @@ export const TreatmentRecommendations = memo(
             (
                 iconName: string | null,
                 className = "text-primary-text/70 size-6",
+                ariaHidden = true,
             ) => {
                 if (!iconName) {
-                    return <AlertCircle className={className} />;
+                    return (
+                        <AlertCircle
+                            className={className}
+                            aria-hidden={ariaHidden}
+                        />
+                    );
                 }
 
                 if (isCustomIcon(iconName)) {
                     const CustomIcon = customIcons[iconName];
-                    return <CustomIcon className={className} />;
+                    return (
+                        <CustomIcon
+                            className={className}
+                            aria-hidden={ariaHidden}
+                        />
+                    );
                 }
 
                 try {
@@ -43,13 +54,28 @@ export const TreatmentRecommendations = memo(
                     ] as React.ElementType;
 
                     if (Icon) {
-                        return <Icon className={className} />;
+                        return (
+                            <Icon
+                                className={className}
+                                aria-hidden={ariaHidden}
+                            />
+                        );
                     } else {
-                        return <AlertCircle className={className} />;
+                        return (
+                            <AlertCircle
+                                className={className}
+                                aria-hidden={ariaHidden}
+                            />
+                        );
                     }
-                // eslint-disable-next-line unused-imports/no-unused-vars
+                    // eslint-disable-next-line unused-imports/no-unused-vars
                 } catch (error) {
-                    return <AlertCircle className={className} />;
+                    return (
+                        <AlertCircle
+                            className={className}
+                            aria-hidden={ariaHidden}
+                        />
+                    );
                 }
             },
             [],
@@ -88,13 +114,25 @@ export const TreatmentRecommendations = memo(
 
                 return service.details.treatments
                     .filter(treatment => treatment && treatment.id) // Ensure treatment exists and has ID
-                    .map(treatment => ({
-                        ...treatment,
-                        sourceServiceId: service.id,
-                        sourceServiceTitle: service.title,
-                        problemCategories: service.problemCategories || [],
-                        problemCategoryNames,
-                    }));
+                    .map(treatment => {
+                        // Generate a standardized description if missing
+                        let standardDescription = treatment.description;
+                        if (
+                            !standardDescription ||
+                            standardDescription.trim() === ""
+                        ) {
+                            standardDescription = `${treatment.name}: Phương pháp điều trị ${problemCategoryNames || "chuyên biệt"}`;
+                        }
+
+                        return {
+                            ...treatment,
+                            description: standardDescription,
+                            sourceServiceId: service.id,
+                            sourceServiceTitle: service.title,
+                            problemCategories: service.problemCategories || [],
+                            problemCategoryNames,
+                        };
+                    });
             })
             // Remove duplicates by id
             .filter(
@@ -141,28 +179,39 @@ export const TreatmentRecommendations = memo(
 
         return (
             <div>
-                <h2 className="text-primary-text font-robotoSerif mb-5 text-2xl font-bold">
+                <h2 className="font-robotoSerif text-primary-text mb-5 text-2xl font-bold">
+                    <span className="bg-primary-text mr-2 inline-flex size-8 items-center justify-center rounded-full text-lg text-white">
+                        2
+                    </span>
                     Phương pháp điều trị phù hợp
                 </h2>
-                <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+                <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
                     {allTreatments.map(treatment =>
                         treatment && treatment.id ? (
                             <div
                                 key={treatment.id}
                                 className="border-primary-text flex flex-col overflow-hidden rounded-lg border"
+                                role="article"
+                                aria-labelledby={`treatment-${treatment.id}-title`}
                             >
-                                <div className="bg-primary-text/5 p-4">
+                                <div className="bg-primary-text/5 p-3 sm:p-4">
                                     <div className="mb-2 flex items-center justify-between">
-                                        <h3 className="text-primary-text font-robotoSerif text-lg font-medium">
+                                        <h3
+                                            id={`treatment-${treatment.id}-title`}
+                                            className="text-primary-text font-robotoSerif text-base font-medium sm:text-lg"
+                                        >
                                             {treatment.name || "Không có tên"}
                                         </h3>
                                         {treatment.icon ? (
                                             getIcon(treatment.icon)
                                         ) : (
-                                            <AlertCircle className="text-primary-text/70 size-6" />
+                                            <AlertCircle
+                                                className="text-primary-text/70 size-5 sm:size-6"
+                                                aria-hidden="true"
+                                            />
                                         )}
                                     </div>
-                                    <p className="text-primary-text/80 font-robotoSlab mb-2 text-sm">
+                                    <p className="font-robotoSlab text-primary-text/80 mb-2 line-clamp-2 text-xs sm:text-sm">
                                         {treatment.description ||
                                             "Không có mô tả"}
                                     </p>
@@ -177,18 +226,22 @@ export const TreatmentRecommendations = memo(
                                         )}
                                     </div>
                                 </div>
-                                <div className="bg-primary-background mt-auto p-4">
-                                    <div className="flex items-center justify-between">
+                                <div className="bg-primary-background mt-auto p-3 sm:p-4">
+                                    <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between sm:gap-0">
                                         <Link
                                             href={`/treatments/${treatment.href}`}
                                             passHref
                                         >
                                             <Button
                                                 variant="link"
-                                                className="text-primary-text group flex items-center px-0 py-2 text-sm"
+                                                className="text-primary-text group flex w-full items-center justify-center gap-1 px-0 py-2 text-sm transition-all duration-200 hover:underline sm:w-auto sm:justify-start"
+                                                aria-label={`Xem chi tiết về ${treatment.name || "liệu trình"}`}
                                             >
                                                 Chi tiết
-                                                <ChevronRight className="ml-1 size-4 group-hover:translate-x-1" />
+                                                <ChevronRight
+                                                    className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                                                    aria-hidden="true"
+                                                />
                                             </Button>
                                         </Link>
                                         <Button
@@ -202,9 +255,13 @@ export const TreatmentRecommendations = memo(
                                                 if (service)
                                                     onQuickBook(service);
                                             }}
-                                            className="bg-primary-text hover:bg-primary-text/90 flex items-center text-sm text-white"
+                                            className="bg-primary-text hover:bg-primary-text/90 flex w-full items-center justify-center rounded-md px-4 py-2 text-sm text-white shadow-md transition-all duration-300 hover:scale-[1.02] hover:shadow-lg sm:w-auto"
+                                            aria-label={`Đặt lịch cho ${treatment.name || "liệu trình"}`}
                                         >
-                                            <Calendar className="mr-1 size-4" />
+                                            <Calendar
+                                                className="mr-1 size-4"
+                                                aria-hidden="true"
+                                            />
                                             Đặt lịch
                                         </Button>
                                     </div>

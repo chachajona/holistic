@@ -8,12 +8,19 @@ import * as Icons from "lucide-react";
 import { Service } from "@/types/services";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Local interface for our component needs
 interface ProblemCategoryWithServices {
     id: string;
     label: string;
     icon: string;
+    description?: string;
     serviceIds: string[];
 }
 
@@ -52,6 +59,9 @@ export const ServiceFilterSelection = memo(
                                 id: categoryId,
                                 label: category.title,
                                 icon: category.icon || "Activity", // Default icon if none specified
+                                description:
+                                    category.description ||
+                                    `${category.title}: Điều trị chuyên biệt`,
                                 serviceIds: [service.id],
                             });
                         } else {
@@ -80,12 +90,16 @@ export const ServiceFilterSelection = memo(
             (iconName: string, className = "text-primary-text mb-2 size-6") => {
                 if (isCustomIcon(iconName)) {
                     const CustomIcon = customIcons[iconName];
-                    return <CustomIcon className={className} />;
+                    return (
+                        <CustomIcon className={className} aria-hidden="true" />
+                    );
                 }
                 const Icon = Icons[
                     iconName as keyof typeof Icons
                 ] as React.ElementType;
-                return Icon ? <Icon className={className} /> : null;
+                return Icon ? (
+                    <Icon className={className} aria-hidden="true" />
+                ) : null;
             },
             [],
         );
@@ -115,42 +129,62 @@ export const ServiceFilterSelection = memo(
 
         return (
             <div className="mb-10">
-                <h2 className="text-primary-text font-robotoSerif mb-5 text-2xl font-bold">
+                <h2 className="font-robotoSerif text-primary-text mb-5 text-2xl font-bold">
+                    <span className="bg-primary-text mr-2 inline-flex size-8 items-center justify-center rounded-full text-lg text-white">
+                        1
+                    </span>
                     Chọn vấn đề của bạn
                 </h2>
                 <ScrollArea className="pb-4">
-                    <div className="flex gap-3 md:grid md:grid-cols-4 lg:grid-cols-5">
+                    <div className="flex flex-wrap gap-3 sm:flex-row md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
                         {problemCategories.map(category => (
-                            <button
-                                key={category.id}
-                                onClick={() => onSelectCategory(category.id)}
-                                className={cn(
-                                    "border-primary-text flex min-h-[80px] min-w-[120px] flex-col items-center justify-center rounded-lg border p-3 text-center transition-all duration-300",
-                                    isProblemSelected(category)
-                                        ? "bg-primary-text text-white"
-                                        : "bg-primary-background/50 hover:bg-primary-text/10",
-                                )}
-                            >
-                                {getIcon(
-                                    category.icon,
-                                    cn(
-                                        "size-12",
-                                        isProblemSelected(category)
-                                            ? "text-white"
-                                            : "text-primary-text",
-                                    ),
-                                )}
-                                <span
-                                    className={cn(
-                                        "font-robotoSlab mt-1 text-sm",
-                                        isProblemSelected(category)
-                                            ? "text-white"
-                                            : "text-primary-text",
-                                    )}
-                                >
-                                    {category.label}
-                                </span>
-                            </button>
+                            <TooltipProvider key={category.id}>
+                                <Tooltip delayDuration={300}>
+                                    <TooltipTrigger asChild>
+                                        <button
+                                            onClick={() =>
+                                                onSelectCategory(category.id)
+                                            }
+                                            className={cn(
+                                                "border-primary-text flex min-h-[80px] min-w-[100px] flex-1 flex-col items-center justify-center rounded-lg border p-3 text-center transition-all duration-300 sm:min-w-[120px] sm:flex-none",
+                                                isProblemSelected(category)
+                                                    ? "bg-primary-text text-white"
+                                                    : "bg-primary-background/50 hover:bg-primary-text/10",
+                                            )}
+                                            aria-pressed={isProblemSelected(
+                                                category,
+                                            )}
+                                            aria-label={`Vấn đề: ${category.label}`}
+                                        >
+                                            {getIcon(
+                                                category.icon,
+                                                cn(
+                                                    "size-10 sm:size-12",
+                                                    isProblemSelected(category)
+                                                        ? "text-white"
+                                                        : "text-primary-text",
+                                                ),
+                                            )}
+                                            <span
+                                                className={cn(
+                                                    "font-robotoSlab mt-1 text-xs sm:text-sm",
+                                                    isProblemSelected(category)
+                                                        ? "text-white"
+                                                        : "text-primary-text",
+                                                )}
+                                            >
+                                                {category.label}
+                                            </span>
+                                        </button>
+                                    </TooltipTrigger>
+                                    <TooltipContent
+                                        side="bottom"
+                                        className="max-w-[200px] text-center"
+                                    >
+                                        <p>{category.description}</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         ))}
                     </div>
                 </ScrollArea>
