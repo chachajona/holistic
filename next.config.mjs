@@ -5,6 +5,34 @@ const nextConfig = {
     experimental: {
         esmExternals: true,
     },
+    async rewrites() {
+        return [
+            {
+                source: "/dich-vu",
+                destination: "/services",
+            },
+            {
+                source: "/gioi-thieu",
+                destination: "/about",
+            },
+            {
+                source: "/phuong-phap",
+                destination: "/treatments",
+            },
+            {
+                source: "/phuong-phap/:slug",
+                destination: "/treatments/:slug",
+            },
+            {
+                source: "/dat-lich",
+                destination: "/booking",
+            },
+            {
+                source: "/blog/:slug",
+                destination: "/blog/:slug",
+            },
+        ];
+    },
     turbopack: {
         rules: {
             "*.svg": {
