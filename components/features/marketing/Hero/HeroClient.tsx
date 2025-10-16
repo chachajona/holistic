@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { FormData } from "@/types/form";
+import { HeroData } from "@/types/sanity";
+import { getSanityBlurUrl, getSanityImageUrl } from "@/lib/sanity-image";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,11 +30,15 @@ const formSchema = z.object({
 
 interface HeroProps {
     formData: FormData;
-    heroBlurDataURL?: string;
     onImageLoaded?: () => void;
+    heroData?: HeroData | null;
 }
 
-const HeroClient: React.FC<HeroProps> = ({ formData, onImageLoaded }) => {
+const HeroClient: React.FC<HeroProps> = ({
+    formData,
+    onImageLoaded,
+    heroData,
+}) => {
     const { toast } = useToast();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -74,20 +80,31 @@ const HeroClient: React.FC<HeroProps> = ({ formData, onImageLoaded }) => {
         }
     }
 
+    const heroImageUrl = heroData?.image
+        ? getSanityImageUrl(heroData.image, {
+              format: "webp",
+              quality: 85,
+              width: 1920,
+          }) || "/Hero.png"
+        : "/Hero.png";
+    const heroImageAlt = heroData?.image?.alt || "Hero background";
+    const heroBlurDataUrl = heroData?.image
+        ? (getSanityBlurUrl(heroData.image) ?? undefined)
+        : undefined;
+
     return (
         <section className="relative max-h-screen min-h-[calc(100dvh-92px)] w-full overflow-y-auto py-16 md:min-h-[calc(100dvh-250px)] md:py-[85px]">
-            {/* Background image container */}
             <div className="absolute inset-0 z-0">
                 <OptimizedImage
-                    image="/Hero.png"
-                    alt="Hero background"
+                    image={heroImageUrl}
+                    alt={heroImageAlt}
                     fill
                     priority={true}
                     sizes="100vw"
                     className="object-cover object-center"
+                    blurDataURL={heroBlurDataUrl}
                     onLoad={onImageLoaded}
                 />
-                {/* Overlay */}
                 <div className="absolute inset-0 bg-black/60"></div>
             </div>
 

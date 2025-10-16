@@ -22,11 +22,11 @@ bun dev
 
 ## Project Structure
 
--   `app/`: Contains the main application pages and layouts
--   `components/`: Reusable React components
--   `assets/`: Static assets like images and icons
--   `config/`: Configuration files
--   `lib/`: Utility functions and helpers
+- `app/`: Contains the main application pages and layouts
+- `components/`: Reusable React components
+- `assets/`: Static assets like images and icons
+- `config/`: Configuration files
+- `lib/`: Utility functions and helpers
 
 ## Key Features
 
@@ -39,23 +39,23 @@ bun dev
 
 ## Technologies Used
 
--   Next.js 14
--   React 18
--   TypeScript
--   Tailwind CSS
--   Radix UI components
--   Framer Motion for animations
+- Next.js 14
+- React 18
+- TypeScript
+- Tailwind CSS
+- Radix UI components
+- Framer Motion for animations
 
 ## Custom Components
 
 The project includes several custom components:
 
--   MainNavBar: Main navigation component
--   Hero: Landing page hero section
--   Showcase: Team member showcase
--   FAQ: Frequently Asked Questions section
--   Misson: Company mission statement
--   Footer: Site-wide footer
+- MainNavBar: Main navigation component
+- Hero: Landing page hero section
+- Showcase: Team member showcase
+- FAQ: Frequently Asked Questions section
+- Mission: Company mission statement
+- Footer: Site-wide footer
 
 ## Styling
 
@@ -89,9 +89,9 @@ details.
 
 To learn more about Next.js, take a look at the following resources:
 
--   [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
-    features and API.
--   [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js
+  features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
 You can check out
 [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your

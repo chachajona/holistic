@@ -1,6 +1,8 @@
 import { Metadata } from "next";
 import Link from "next/link";
 import { PortableText } from "@portabletext/react";
+import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { PortableTextBlock } from "@sanity/types";
 
 import {
     Breadcrumb,
@@ -24,14 +26,14 @@ interface Post {
     publishedAt: string;
     author: {
         name: string;
-        image?: any; // Sanity image
+        image?: SanityImageSource;
     };
-    mainImage?: any; // Sanity image
+    mainImage?: SanityImageSource;
     categories?: {
         title: string;
     }[];
     excerpt?: string;
-    body?: any[]; // Portable Text content
+    body?: PortableTextBlock[];
     readingTime?: string;
 }
 
@@ -64,11 +66,15 @@ async function getPostData(_slug: string): Promise<Post> {
             "Tìm hiểu cách tập thể dục đều đặn có thể cải thiện sức khỏe thể chất và tinh thần của bạn như thế nào.",
         body: [
             {
+                _key: "block1",
                 _type: "block",
                 style: "normal",
+                markDefs: [],
                 children: [
                     {
+                        _key: "span1",
                         _type: "span",
+                        marks: [],
                         text: "Tập thể dục thường xuyên mang lại nhiều lợi ích cho sức khỏe thể chất và tinh thần. Nghiên cứu đã chỉ ra rằng hoạt động thể chất đều đặn có thể giúp giảm nguy cơ mắc nhiều bệnh mãn tính, cải thiện sức khỏe tim mạch, tăng cường sức mạnh cơ bắp và xương, và thậm chí cải thiện tâm trạng và giảm lo lắng.",
                     },
                 ],

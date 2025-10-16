@@ -118,7 +118,7 @@ export function MagneticSpinButton({
                                             rotate: 360,
                                             transition: {
                                                 rotate: {
-                                                    type: "linear",
+                                                    type: "tween",
                                                     ease: "linear",
                                                     duration: 10,
                                                     repeat: Number.POSITIVE_INFINITY,

@@ -34,12 +34,6 @@ export function OptimizedImage({
     // Check if image is a static import (has blur built-in)
     const isStaticImport = typeof image === "object";
 
-    console.log("OptimizedImage rendering:", {
-        imagePath: typeof image === "string" ? image : "Static import",
-        fill,
-        hasBlur: !!blurDataURL,
-    });
-
     // Create a simple loading blur effect without relying on server-generated blur
     const defaultBlur =
         "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MCIgaGVpZ2h0PSI0NSIgdmlld0JveD0iMCAwIDgwIDQ1Ij48cmVjdCB3aWR0aD0iODAiIGhlaWdodD0iNDUiIGZpbGw9IiNFMkU4RjAiLz48L3N2Zz4=";
@@ -63,9 +57,6 @@ export function OptimizedImage({
                     onLoad?.();
                 }}
                 onError={() => {
-                    console.error(
-                        `Failed to load image: ${typeof image === "string" ? image : "Static import"}`,
-                    );
                     setLoadError(true);
                 }}
             />

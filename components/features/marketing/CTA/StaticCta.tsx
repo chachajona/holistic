@@ -12,6 +12,7 @@ interface StaticCtaProps {
     primaryButtonUrl: string;
     secondaryButtonUrl?: string;
     backgroundImage?: string;
+    therapyImage?: string;
     blurDataURL?: string;
     theme?: "light" | "dark" | "blue";
     onImageLoaded?: () => void;
@@ -23,6 +24,7 @@ export function StaticCta({
     primaryButtonText,
     primaryButtonUrl,
     backgroundImage,
+    therapyImage,
     blurDataURL,
     theme = "light",
     onImageLoaded,
@@ -43,7 +45,7 @@ export function StaticCta({
         onImageLoaded?.();
     };
 
-    const therapyImagePath = "/Therapy.jpg";
+    const therapyImagePath = therapyImage || "/Therapy.jpg";
 
     return (
         <section className={sectionClasses}>

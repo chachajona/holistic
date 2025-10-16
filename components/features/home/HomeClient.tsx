@@ -5,6 +5,13 @@ import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
 import { FormData } from "@/types/form";
+import {
+    ContactInfo,
+    CTAData,
+    HeroData,
+    QuickLinkData,
+    SocialMedia,
+} from "@/types/sanity";
 import { Button } from "@/components/ui/button";
 import { CarouselApi } from "@/components/ui/carousel";
 import Banner from "@/components/common/Banner";
@@ -12,7 +19,6 @@ import MessengerChat from "@/components/common/MessengerChat";
 import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 import SwiperCarousel from "@/components/common/SwiperCarousel";
 import { StaticCTA } from "@/components/features/marketing/CTA";
-// Use named import for the client container
 import { HeroContainer } from "@/components/features/marketing/Hero";
 import Testimonial from "@/components/features/testimonial/Testimonial";
 import Footer from "@/components/layout/Footer";
@@ -30,17 +36,23 @@ interface TreatmentItem {
 }
 
 interface HomeClientProps {
-    heroBlurDataURL?: string;
-    ctaBlurDataURL: string;
     formData: FormData;
     treatments?: TreatmentItem[];
+    heroData?: HeroData | null;
+    quickLinksData?: QuickLinkData[] | null;
+    ctaData?: CTAData | null;
+    contactInfo?: ContactInfo | null;
+    socialMedia?: SocialMedia | null;
 }
 
 export default function HomeClient({
-    heroBlurDataURL,
-    ctaBlurDataURL,
     formData,
     treatments = [],
+    heroData = null,
+    quickLinksData = null,
+    ctaData = null,
+    contactInfo = null,
+    socialMedia = null,
 }: HomeClientProps) {
     const [heroLoaded, setHeroLoaded] = useState(false);
     const [ctaLoaded, setCtaLoaded] = useState(false);
@@ -75,14 +87,17 @@ export default function HomeClient({
     return (
         <PageLoaderWrapper isContentLoaded={isContentLoaded}>
             <main className="bg-primary-background flex min-h-screen flex-col">
-                <Banner />
+                <Banner
+                    contactInfo={contactInfo}
+                    socialMedia={socialMedia}
+                />
                 <Navbar />
                 <HeroContainer
                     formData={formData}
-                    heroBlurDataURL={heroBlurDataURL}
                     onImageLoaded={handleHeroLoaded}
+                    heroData={heroData}
                 />
-                <QuickLinks />
+                <QuickLinks quickLinksData={quickLinksData} />
                 <Testimonial onDataLoaded={handleTestimonialLoaded} />
 
                 {/* Treatments Section */}
@@ -170,11 +185,11 @@ export default function HomeClient({
                     </section>
                 )}
 
-                <StaticCTA
-                    blurDataURL={ctaBlurDataURL}
-                    onImageLoaded={handleCtaLoaded}
+                <StaticCTA onImageLoaded={handleCtaLoaded} ctaData={ctaData} />
+                <Footer
+                    contactInfo={contactInfo}
+                    socialMedia={socialMedia}
                 />
-                <Footer />
                 <MessengerChat />
             </main>
         </PageLoaderWrapper>

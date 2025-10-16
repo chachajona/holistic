@@ -42,10 +42,12 @@ export function NewsletterSignupClient() {
             setStatus("success");
             setFeedbackMessage(result.message || "Đăng ký thành công!");
             setPhoneNumber("");
-        } catch (error: any) {
+        } catch (error) {
             console.error("Subscription error:", error);
             setStatus("error");
-            setFeedbackMessage(`Lỗi: ${error.message || "Không thể đăng ký."}`);
+            const errorMessage =
+                error instanceof Error ? error.message : "Không thể đăng ký.";
+            setFeedbackMessage(`Lỗi: ${errorMessage}`);
         } finally {
             setTimeout(() => {
                 if (status !== "loading") setStatus("idle");

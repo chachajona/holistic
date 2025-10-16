@@ -20,9 +20,11 @@ const FAQ = () => {
         const fetchFAQs = async () => {
             const data: FAQData[] | null = await getFAQs();
             const formattedFaqs: FAQType[] = (data ?? []).map(faq => ({
-                ...faq,
+                _id: faq._id,
                 question: faq.question ?? "",
-                answer: faq.answer ?? "",
+                answer: Array.isArray(faq.answer)
+                    ? "Answer contains rich text content"
+                    : (faq.answer ?? ""),
             }));
             setFaqs(formattedFaqs);
         };

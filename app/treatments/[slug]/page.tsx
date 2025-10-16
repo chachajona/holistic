@@ -15,8 +15,11 @@ import {
 import {
     getAllTreatments,
     getAllTreatmentSlugs,
+    getSiteSettings,
     getTreatmentBySlug,
 } from "@/lib/api";
+import { getSanityImageUrl } from "@/lib/sanity-image";
+import { buildMetadata } from "@/lib/seo";
 import {
     Breadcrumb,
     BreadcrumbItem,
@@ -35,7 +38,10 @@ export async function generateMetadata({
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const { slug } = await params;
-    const treatment = await getTreatmentBySlug(slug);
+    const [treatment, settings] = await Promise.all([
+        getTreatmentBySlug(slug),
+        getSiteSettings(),
+    ]);
 
     if (!treatment) {
         return {
@@ -44,15 +50,25 @@ export async function generateMetadata({
         };
     }
 
-    return {
-        title: `${treatment.title} | Phương pháp`,
-        description: treatment.shortDescription,
-        openGraph: {
-            title: `${treatment.title} | Phương pháp`,
-            description: treatment.shortDescription,
-            images: [treatment.imageUrl],
+    const fallbackOg = treatment.image
+        ? getSanityImageUrl(treatment.image, { width: 1200, quality: 90 })
+        : undefined;
+
+    return buildMetadata({
+        docSeo: treatment.seo ?? null,
+        defaults: {
+            title: treatment.title
+                ? `${treatment.title} | Phương pháp`
+                : (settings?.defaultSeo?.title ?? undefined),
+            description:
+                treatment.shortDescription ??
+                settings?.defaultSeo?.description ??
+                undefined,
+            ogImage: fallbackOg,
+            siteUrl: settings?.siteUrl || "",
         },
-    };
+        path: `/treatments/${slug}`,
+    });
 }
 
 // Generate static params for all treatment slugs
@@ -235,7 +251,12 @@ export default async function TreatmentPage({
                             <div className="bg-primary-text relative aspect-[4/3] overflow-hidden rounded-2xl">
                                 <Image
                                     src={
-                                        treatment.imageUrl || "/placeholder.svg"
+                                        treatment.image
+                                            ? getSanityImageUrl(
+                                                  treatment.image,
+                                                  { width: 800, quality: 85 },
+                                              ) || "/placeholder.svg"
+                                            : "/placeholder.svg"
                                     }
                                     alt={treatment.title}
                                     fill

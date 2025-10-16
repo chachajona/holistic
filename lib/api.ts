@@ -8,6 +8,7 @@ import type {
     HomePageData,
     ServiceDetailed,
     ServicesPageData,
+    SiteSettings,
     TestimonialData,
     TreatmentsPageData,
     TreatmentSummary,
@@ -18,6 +19,78 @@ export async function getHomePage(): Promise<HomePageData | null> {
         const getPageQuery = groq`*[_type == "page"][slug == 'home'][0]{
             'Heading': title,
             slug,
+            seo{
+                title,
+                description,
+                canonicalUrl,
+                noindex,
+                nofollow,
+                twitterCard,
+                ogImage{asset->{_id,_ref,url,metadata{lqip}}}
+            },
+            'Hero': pageBuilder[][_type == "hero"][0]{
+                _id,
+                slug,
+                image {
+                    asset->{
+                        _id,
+                        _ref,
+                        url,
+                        metadata {
+                            lqip
+                        }
+                    },
+                    alt,
+                    hotspot,
+                    crop
+                }
+            },
+            'QuickLinks': quickLinks[]{
+                _key,
+                title,
+                link,
+                iconType,
+                disableScroll,
+                bgImage {
+                    asset->{
+                        _id,
+                        _ref,
+                        url,
+                        metadata {
+                            lqip
+                        }
+                    },
+                    hotspot,
+                    crop
+                }
+            },
+            'CTA': pageBuilder[][_type == "cta"][0]{
+                _key,
+                slug,
+                heading,
+                description,
+                primaryButtonText,
+                primaryButtonUrl,
+                theme,
+                therapyImage {
+                    asset->{
+                        _id,
+                        _ref,
+                        url,
+                        metadata {
+                            lqip,
+                            dimensions {
+                                width,
+                                height,
+                                aspectRatio
+                            }
+                        }
+                    },
+                    alt,
+                    hotspot,
+                    crop
+                }
+            },
             'FormContact': pageBuilder[][_type == "form" && formType == "contact"][0]{
                 label,
                 heading,
@@ -42,9 +115,18 @@ export async function getHomePage(): Promise<HomePageData | null> {
 
 export async function getAboutPage(): Promise<AboutPageData | null> {
     try {
-        const getPageQuery = groq`*[_type == "page"][slug.current == 'about'][0]{
+        const getPageQuery = groq`*[_type == "page"][slug == 'about'][0]{
             'Heading': title,
             slug,
+            seo{
+                title,
+                description,
+                canonicalUrl,
+                noindex,
+                nofollow,
+                twitterCard,
+                ogImage{asset->{url,metadata{lqip}}}
+            },
             'Header': pageBuilder[][_type == "header"][0]{
                 _id,
                 slug,
@@ -52,9 +134,16 @@ export async function getAboutPage(): Promise<AboutPageData | null> {
                 subheading,
                 image {
                     asset->{
-                        url
+                        _id,
+                        _ref,
+                        url,
+                        metadata {
+                            lqip
+                        }
                     },
-                    alt
+                    alt,
+                    hotspot,
+                    crop
                 }
             }
         }`;
@@ -76,14 +165,32 @@ export async function getServicesPage(): Promise<ServicesPageData | null> {
         const getPageQuery = groq`*[_type == "page"][slug == 'services'][0]{
             'Heading': title,
             slug,
+            seo{
+                title,
+                description,
+                canonicalUrl,
+                noindex,
+                nofollow,
+                twitterCard,
+                ogImage{asset->{url,metadata{lqip}}}
+            },
             'Header': pageBuilder[][_type == "header"][0]{
+                _id,
+                slug,
                 heading,
                 subheading,
                 image {
                     asset->{
-                        url
+                        _id,
+                        _ref,
+                        url,
+                        metadata {
+                            lqip
+                        }
                     },
-                    alt
+                    alt,
+                    hotspot,
+                    crop
                 }
             }
         }`;
@@ -104,14 +211,32 @@ export async function getTreatmentsPage(): Promise<TreatmentsPageData | null> {
         const getPageQuery = groq`*[_type == "page"][slug == 'treatments'][0]{
             'Heading': title,
             slug,
+            seo{
+                title,
+                description,
+                canonicalUrl,
+                noindex,
+                nofollow,
+                twitterCard,
+                ogImage{asset->{url,metadata{lqip}}}
+            },
             'Header': pageBuilder[][_type == "header"][0]{
+                _id,
+                slug,
                 heading,
                 subheading,
                 image {
                     asset->{
-                        url
+                        _id,
+                        _ref,
+                        url,
+                        metadata {
+                            lqip
+                        }
                     },
-                    alt
+                    alt,
+                    hotspot,
+                    crop
                 }
             }
         }`;
@@ -132,14 +257,32 @@ export async function getBookingPage(): Promise<BookingPageData | null> {
         const getPageQuery = groq`*[_type == "page"][slug == 'booking'][0]{
             'Heading': title,
             slug,
+            seo{
+                title,
+                description,
+                canonicalUrl,
+                noindex,
+                nofollow,
+                twitterCard,
+                ogImage{asset->{url,metadata{lqip}}}
+            },
             'Header': pageBuilder[][_type == "header"][0]{
+                _id,
+                slug,
                 heading,
                 subheading,
                 image {
                     asset->{
-                        url
+                        _id,
+                        _ref,
+                        url,
+                        metadata {
+                            lqip
+                        }
                     },
-                    alt
+                    alt,
+                    hotspot,
+                    crop
                 }
             },
             'FormContact': pageBuilder[][_type == "form" && formType == "contact"][0]{
@@ -168,8 +311,15 @@ export async function getTestimonials(): Promise<TestimonialData[] | null> {
             _id,
             icon {
                 asset->{
-                    url
-                }
+                    _id,
+                    _ref,
+                    url,
+                    metadata {
+                        lqip
+                    }
+                },
+                hotspot,
+                crop
             },
             rating,
             quote,
@@ -215,8 +365,28 @@ export async function getTreatmentBySlug(slug: string) {
             shortDescription,
             fullDescription,
             icon,
-            "image": image,
-            "imageUrl": image.asset->url,
+            seo{
+                title,
+                description,
+                canonicalUrl,
+                noindex,
+                nofollow,
+                twitterCard,
+                ogImage{asset->{_id,_ref,url,metadata{lqip}}}
+            },
+            "image": image {
+                asset->{
+                    _id,
+                    _ref,
+                    url,
+                    metadata {
+                        lqip
+                    }
+                },
+                alt,
+                hotspot,
+                crop
+            },
             benefits[] {
                 "id": id.current,
                 title,
@@ -261,7 +431,19 @@ export async function getAllTreatments(): Promise<TreatmentSummary[] | null> {
             title,
             slug,
             shortDescription,
-            "imageUrl": image.asset->url,
+            image {
+                asset->{
+                    _id,
+                    _ref,
+                    url,
+                    metadata {
+                        lqip
+                    }
+                },
+                alt,
+                hotspot,
+                crop
+            },
             icon
         }`;
 
@@ -279,6 +461,43 @@ export async function getAllTreatments(): Promise<TreatmentSummary[] | null> {
     }
 }
 
+export async function getSiteSettings(): Promise<SiteSettings | null> {
+    try {
+        const query = groq`*[_type == "siteSettings"][0]{
+            siteUrl,
+            defaultSeo{
+                title,
+                description,
+                canonicalUrl,
+                noindex,
+                nofollow,
+                twitterCard,
+                ogImage{asset->{_id,_ref,url,metadata{lqip}}}
+            },
+            contactInfo{
+                phone,
+                email,
+                locations[]{
+                    _key,
+                    name,
+                    address,
+                    mapUrl,
+                    isPrimary
+                }
+            },
+            socialMedia{
+                facebook,
+                instagram
+            }
+        }`;
+        const result = await client.fetch<SiteSettings>(query);
+        return result ?? null;
+    } catch (error) {
+        console.error("Error fetching site settings:", error);
+        return null;
+    }
+}
+
 export async function getAllServicesDetailed(): Promise<ServiceDetailed[]> {
     const query = `*[_type == "service"] {
       "id": id.current,
@@ -286,7 +505,6 @@ export async function getAllServicesDetailed(): Promise<ServiceDetailed[]> {
       description,
       icon,
       image,
-      imageSource,
       isPrimary,
       "problemCategories": problemCategories[]-> {
         "_id": _id,

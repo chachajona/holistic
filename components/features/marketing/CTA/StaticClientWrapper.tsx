@@ -2,7 +2,7 @@
 
 import { Suspense } from "react";
 
-import { StaticCtaServer } from "./StaticCtaServer";
+import { StaticCTA } from "./index";
 
 export default function StaticCTAClient() {
     return (
@@ -13,7 +13,7 @@ export default function StaticCTAClient() {
                 </div>
             }
         >
-            <StaticCtaServer />
+            <StaticCTA />
         </Suspense>
     );
 }

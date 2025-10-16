@@ -1,6 +1,8 @@
 import { CustomIconName } from "@/assets/icons/custom";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
+import { Seo } from "./sanity";
+
 export interface TreatmentBenefit {
     id: string;
     title: string;
@@ -37,4 +39,5 @@ export interface Treatment {
     price: number;
     isPopular: boolean;
     booking?: TreatmentBooking[];
+    seo?: Seo | null;
 }

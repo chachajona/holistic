@@ -1,22 +1,110 @@
 // types/sanity.ts
 
-// Interface based on the GROQ query in getHomePage
+import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import type { ImageCrop, ImageHotspot, PortableTextBlock } from "@sanity/types";
+
+export interface HeroData {
+    _id: string;
+    slug: { current: string } | null;
+    image: {
+        asset: {
+            _id: string;
+            _ref: string;
+            url: string | null;
+            metadata?: {
+                lqip?: string;
+                dimensions?: {
+                    width: number;
+                    height: number;
+                    aspectRatio: number;
+                };
+            };
+        } | null;
+        alt: string | null;
+        hotspot?: ImageHotspot;
+        crop?: ImageCrop;
+    } | null;
+}
+
+export interface QuickLinkData {
+    _key: string;
+    title: string | null;
+    link: string | null;
+    iconType: "service" | "treatment" | "team" | null;
+    disableScroll: boolean | null;
+    bgImage: {
+        asset: {
+            _id: string;
+            _ref: string;
+            url: string | null;
+            metadata?: {
+                lqip?: string;
+                dimensions?: {
+                    width: number;
+                    height: number;
+                    aspectRatio: number;
+                };
+            };
+        } | null;
+        hotspot?: ImageHotspot;
+        crop?: ImageCrop;
+    } | null;
+}
+
+export interface CTAData {
+    _key: string;
+    slug: { current: string } | null;
+    heading: string | null;
+    description: string | null;
+    primaryButtonText: string | null;
+    primaryButtonUrl: string | null;
+    theme: "blue" | "light" | "dark" | null;
+    therapyImage: {
+        asset: {
+            _id: string;
+            _ref: string;
+            url: string | null;
+            metadata?: {
+                lqip?: string;
+                dimensions?: {
+                    width: number;
+                    height: number;
+                    aspectRatio: number;
+                };
+            };
+        } | null;
+        alt: string | null;
+        hotspot?: ImageHotspot;
+        crop?: ImageCrop;
+    } | null;
+}
+
 export interface HomePageData {
     Heading: string | null;
-    slug: { current: string } | null; // Assuming slug is an object with 'current'
+    slug: { current: string } | null;
+    Hero: HeroData | null;
+    QuickLinks: QuickLinkData[] | null;
+    CTA: CTAData | null;
+    seo?: Seo | null;
     FormContact: {
         label: string | null;
         heading: string | null;
-        formType: string | null; // Could be a literal type e.g., 'contact'
-        contactFields: any[] | null; // Define more specific type if structure is known
+        formType: string | null;
+        contactFields: {
+            namePlaceholder: string | null;
+            emailPlaceholder: string | null;
+            messagePlaceholder: string | null;
+            phonePlaceholder: string | null;
+        } | null;
         submitButtonText: string | null;
-    } | null; // The whole FormContact object might be null
+    } | null;
 }
 
 // Interface based on the GROQ query in getAboutPage
 export interface AboutPageData {
     Heading: string | null;
     slug: { current: string } | null;
+    seo?: Seo | null;
     Header: {
         _id: string;
         slug: { current: string } | null;
@@ -33,12 +121,29 @@ export interface AboutPageData {
 
 // Interface for data fetched by the optimized getAllTreatments
 export interface TreatmentSummary {
-    _id: string; // Include Sanity document ID
+    _id: string;
     title: string | null;
     slug: { current: string } | null;
     shortDescription: string | null;
-    imageUrl: string | null;
-    icon: any | null; // Use a more specific type if known, e.g., { asset?: { url?: string } }
+    image: {
+        asset: {
+            _id: string;
+            _ref: string;
+            url: string | null;
+            metadata?: {
+                lqip?: string;
+                dimensions?: {
+                    width: number;
+                    height: number;
+                    aspectRatio: number;
+                };
+            };
+        } | null;
+        alt?: string | null;
+        hotspot?: ImageHotspot;
+        crop?: ImageCrop;
+    } | null;
+    icon: { title?: string } | null;
 }
 
 // You can add other Sanity types here later
@@ -63,12 +168,14 @@ export interface PageHeaderData {
 export interface ServicesPageData {
     Heading: string | null;
     slug: { current: string } | null;
+    seo?: Seo | null;
     Header: PageHeaderData | null;
 }
 
 export interface TreatmentsPageData {
     Heading: string | null;
     slug: { current: string } | null;
+    seo?: Seo | null;
     Header: PageHeaderData | null;
 }
 
@@ -78,13 +185,19 @@ interface FormContactData {
     label: string | null;
     heading: string | null;
     formType: string | null;
-    contactFields: any[] | null; // Keep as any[] or refine based on actual structure
+    contactFields: {
+        namePlaceholder: string | null;
+        emailPlaceholder: string | null;
+        messagePlaceholder: string | null;
+        phonePlaceholder: string | null;
+    } | null;
     submitButtonText: string | null;
 }
 
 export interface BookingPageData {
     Heading: string | null;
     slug: { current: string } | null;
+    seo?: Seo | null;
     Header: PageHeaderData | null;
     FormContact: FormContactData | null;
 }
@@ -108,17 +221,17 @@ export interface TestimonialData {
 export interface FAQData {
     _id: string;
     question: string | null;
-    answer: any | null; // Assuming answer might be block content - use 'any' or a more specific block content type
+    answer: PortableTextBlock[] | null;
 }
 
 // Interface for detailed Service data (used on Services page)
 export interface ServiceDetailed {
     id: string | null;
     title: string | null;
-    description: any | null; // Block content?
-    icon: any | null;
-    image: string | null; // Direct URL
-    imageSource: any | null; // Asset reference for processing
+    description: PortableTextBlock[] | null;
+    icon: { title?: string } | null;
+    // Canonical raw Sanity image source; derive URLs at usage sites
+    image: SanityImageSource | null;
     isPrimary: boolean | null;
     problemCategories?:
         | {
@@ -129,17 +242,64 @@ export interface ServiceDetailed {
           }[]
         | null;
     details: {
-        outcome: any | null; // Block content?
-        protocol: any | null; // Block content?
-        evidence: any | null; // Block content?
+        outcome: PortableTextBlock[] | null;
+        protocol: PortableTextBlock[] | null;
+        evidence: PortableTextBlock[] | null;
         treatments:
             | {
                   id: string | null;
                   name: string | null;
                   description: string | null;
-                  icon: any | null;
+                  icon: { title?: string } | null;
                   href: string | null;
               }[]
             | null;
     } | null;
+}
+
+// --- SEO Types ---
+export interface SeoImageAssetMeta {
+    lqip?: string;
+}
+
+export interface Seo {
+    title?: string | null;
+    description?: string | null;
+    canonicalUrl?: string | null;
+    noindex?: boolean | null;
+    nofollow?: boolean | null;
+    twitterCard?: "summary" | "summary_large_image" | null;
+    ogImage?: {
+        asset?: {
+            url?: string | null;
+            metadata?: SeoImageAssetMeta | null;
+        } | null;
+    } | null;
+}
+
+// --- Site Settings Types ---
+export interface LocationData {
+    _key?: string;
+    name: string | null;
+    address: string | null;
+    mapUrl: string | null;
+    isPrimary: boolean | null;
+}
+
+export interface ContactInfo {
+    phone: string | null;
+    email: string | null;
+    locations: LocationData[] | null;
+}
+
+export interface SocialMedia {
+    facebook: string | null;
+    instagram: string | null;
+}
+
+export interface SiteSettings {
+    siteUrl: string | null;
+    defaultSeo?: Seo | null;
+    contactInfo: ContactInfo | null;
+    socialMedia: SocialMedia | null;
 }

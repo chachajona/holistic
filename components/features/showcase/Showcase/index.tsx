@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
+import { StaticImageData } from "next/image";
 import Emily from "@/assets/avatars/Emily.jpg";
 import Jane from "@/assets/avatars/Jane.jpg";
 import John from "@/assets/avatars/John.jpg";
 import Michael from "@/assets/avatars/Michael.jpg";
 import { FaLinkedin } from "react-icons/fa";
-import { StaticImageData } from "next/image";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
 import { OptimizedImage } from "@/components/ui/optimized-image";

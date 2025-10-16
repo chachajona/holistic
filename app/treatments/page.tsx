@@ -4,6 +4,7 @@ import { ChevronRight } from "lucide-react";
 
 import type { TreatmentSummary } from "@/types/sanity";
 import { getAllTreatments } from "@/lib/api";
+import { getSanityImageUrl } from "@/lib/sanity-image";
 import { Button } from "@/components/ui/button";
 import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 import SwiperCarousel from "@/components/common/SwiperCarousel";
@@ -13,7 +14,7 @@ interface TreatmentCarouselItem {
     title: string;
     description: string;
     image: string;
-    icon?: any;
+    icon?: string;
     slug?: string;
     category?: string;
 }
@@ -31,12 +32,15 @@ export default async function TreatmentsPage() {
             title: treatment.title ?? "Untitled Treatment",
             description:
                 treatment.shortDescription || "No description available",
-            image: treatment.imageUrl || "/placeholder-image.jpg",
-            icon: treatment.icon ?? null,
+            image: treatment.image
+                ? getSanityImageUrl(treatment.image, {
+                      width: 600,
+                      quality: 85,
+                  }) || "/placeholder-image.jpg"
+                : "/placeholder-image.jpg",
+            icon: treatment.icon?.title,
             slug: treatment.slug!.current,
-            category: treatment.icon
-                ? (treatment.icon as any)?.title || "General"
-                : "General",
+            category: treatment.icon?.title ?? "General",
         }));
 
     return (

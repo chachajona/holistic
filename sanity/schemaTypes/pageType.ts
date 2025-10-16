@@ -21,10 +21,32 @@ export const pageType = defineType({
                     type: "header",
                 }),
                 defineArrayMember({
+                    name: "hero",
+                    type: "hero",
+                }),
+                defineArrayMember({
                     name: "form",
                     type: "form",
                 }),
+                defineArrayMember({
+                    name: "cta",
+                    type: "cta",
+                }),
             ],
+        }),
+        defineField({
+            name: "quickLinks",
+            type: "array",
+            title: "Quick Links Section",
+            description:
+                "Configure the quick navigation cards (typically shown on homepage)",
+            of: [{ type: "quickLink" }],
+            validation: Rule => Rule.max(6),
+        }),
+        defineField({
+            name: "seo",
+            type: "seo",
+            title: "SEO",
         }),
     ],
 });

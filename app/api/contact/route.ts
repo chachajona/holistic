@@ -1,11 +1,14 @@
 import { NextResponse } from "next/server";
 
+import { contactDb } from "@/lib/db";
+import { sendContactEmail } from "@/lib/email";
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { name, email, message, agreed } = body;
+        const { name, email, message, phone, agreed } = body;
 
-        // Basic server-side validation (expand as needed)
+        // Basic server-side validation
         if (!name || !email || !message || !agreed) {
             return NextResponse.json(
                 { error: "Missing required fields" },
@@ -13,27 +16,64 @@ export async function POST(request: Request) {
             );
         }
 
-        // ** TODO: Implement actual processing **
-        // - Send email notification (e.g., using Resend, Nodemailer)
-        // - Save to database
-        // - Integrate with a CRM
-        console.log("Received contact form submission:");
-        console.log({ name, email, message });
+        // Email validation
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return NextResponse.json(
+                { error: "Invalid email address" },
+                { status: 400 },
+            );
+        }
 
-        // Simulate processing delay
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Save submission to database
+        const savedSubmission = contactDb.saveSubmission({
+            name: name.trim(),
+            email: email.trim(),
+            phone: phone?.trim() || undefined,
+            message: message.trim(),
+            agreed: agreed,
+        });
+
+        console.log("Contact form submission saved to database:", {
+            id: savedSubmission.id,
+            name: name.trim(),
+            email: email.trim(),
+        });
+
+        // Send emails
+        const emailResult = await sendContactEmail({
+            name: name.trim(),
+            email: email.trim(),
+            message: message.trim(),
+            phone: phone?.trim() || undefined,
+        });
+
+        console.log("Contact form submission successful:", {
+            name: name.trim(),
+            email: email.trim(),
+            emailResult,
+            dbId: savedSubmission.id,
+        });
 
         // Return success response
         return NextResponse.json(
-            { message: "Form submitted successfully!" },
+            {
+                message:
+                    "Form submitted successfully! We'll get back to you soon.",
+                emailId: emailResult.adminId,
+            },
             { status: 200 },
         );
     } catch (error) {
         console.error("Contact form API error:", error);
-        return NextResponse.json(
-            { error: "Failed to submit form" },
-            { status: 500 },
-        );
+
+        // Provide more specific error messages if possible
+        const errorMessage =
+            error instanceof Error
+                ? error.message
+                : "Failed to submit form. Please try again later.";
+
+        return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }
 

@@ -203,7 +203,13 @@ export const TreatmentRecommendations = memo(
                                             {treatment.name || "Không có tên"}
                                         </h3>
                                         {treatment.icon ? (
-                                            getIcon(treatment.icon)
+                                            getIcon(
+                                                typeof treatment.icon ===
+                                                    "string"
+                                                    ? treatment.icon
+                                                    : (treatment.icon?.title ??
+                                                          null),
+                                            )
                                         ) : (
                                             <AlertCircle
                                                 className="text-primary-text/70 size-5 sm:size-6"

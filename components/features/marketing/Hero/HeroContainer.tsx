@@ -3,13 +3,14 @@
 import { Suspense } from "react";
 
 import { FormData } from "@/types/form";
+import { HeroData } from "@/types/sanity";
 
 import HeroClient from "./HeroClient";
 
 interface HeroContainerProps {
     formData: FormData;
-    heroBlurDataURL?: string;
     onImageLoaded?: () => void;
+    heroData?: HeroData | null;
 }
 
 function HeroSkeleton() {
@@ -23,15 +24,15 @@ function HeroSkeleton() {
 
 export default function HeroContainer({
     formData,
-    heroBlurDataURL,
     onImageLoaded,
+    heroData,
 }: HeroContainerProps) {
     return (
         <Suspense fallback={<HeroSkeleton />}>
             <HeroClient
                 formData={formData}
-                heroBlurDataURL={heroBlurDataURL}
                 onImageLoaded={onImageLoaded}
+                heroData={heroData}
             />
         </Suspense>
     );

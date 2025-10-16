@@ -189,42 +189,39 @@ const DesktopNavigation: React.FC = () => (
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-                <Link href="/about" legacyBehavior passHref>
-                    <NavigationMenuLink
-                        className={cn(
-                            navigationMenuTriggerStyle(),
-                            "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
-                        )}
-                    >
-                        Giới thiệu
-                    </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink
+                    asChild
+                    className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
+                    )}
+                >
+                    <Link href="/about">Giới thiệu</Link>
+                </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-                <Link href="/events" legacyBehavior passHref>
-                    <NavigationMenuLink
-                        className={cn(
-                            navigationMenuTriggerStyle(),
-                            "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
-                        )}
-                    >
-                        Sự kiện
-                    </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink
+                    asChild
+                    className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
+                    )}
+                >
+                    <Link href="/events">Sự kiện</Link>
+                </NavigationMenuLink>
             </NavigationMenuItem>
 
             <NavigationMenuItem>
-                <Link href="/blog" legacyBehavior passHref>
-                    <NavigationMenuLink
-                        className={cn(
-                            navigationMenuTriggerStyle(),
-                            "bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text",
-                        )}
-                    >
-                        Blog
-                    </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink
+                    asChild
+                    className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text",
+                    )}
+                >
+                    <Link href="/blog">Blog</Link>
+                </NavigationMenuLink>
             </NavigationMenuItem>
         </NavigationMenuList>
     </NavigationMenu>

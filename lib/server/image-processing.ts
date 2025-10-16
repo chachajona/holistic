@@ -1,5 +1,7 @@
-// import 'server-only';
+import "server-only";
 
+import { promises as fs } from "fs";
+import path from "path";
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
@@ -7,12 +9,55 @@ import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 // Check if we're on the server
 const isServer = typeof window === "undefined";
 
-// Only import sharp on the server
-let sharp: any;
-if (isServer) {
-    import("sharp").then(module => {
-        sharp = module.default;
-    });
+const REMOTE_FETCH_TIMEOUT_MS = 5000;
+
+type SharpModule = typeof import("sharp");
+type SharpFunction = SharpModule extends { default: infer D } ? D : SharpModule;
+
+let sharpModulePromise: Promise<SharpModule> | null = null;
+let sharpModule: SharpFunction | null = null;
+
+async function getSharp(): Promise<SharpFunction | null> {
+    if (!isServer) {
+        return null;
+    }
+
+    if (sharpModule) {
+        return sharpModule;
+    }
+
+    if (!sharpModulePromise) {
+        sharpModulePromise = import("sharp") as unknown as Promise<SharpModule>;
+    }
+    try {
+        const importedModule = await sharpModulePromise;
+        const moduleWithDefault = importedModule as SharpModule & {
+            default?: SharpFunction;
+        };
+        const fallbackModule = moduleWithDefault as unknown as SharpFunction;
+        const resolvedModule = moduleWithDefault.default ?? fallbackModule;
+
+        if (typeof resolvedModule !== "function") {
+            console.warn("Loaded sharp module is not callable");
+            return null;
+        }
+
+        sharpModule = resolvedModule;
+        return sharpModule;
+    } catch (error) {
+        console.warn("Failed to load sharp module:", error);
+        return null;
+    }
+}
+
+function isStaticImageData(
+    image: unknown,
+): image is { src: string; blurDataURL?: string } {
+    return (
+        typeof image === "object" &&
+        image !== null &&
+        "src" in (image as Record<string, unknown>)
+    );
 }
 
 // Safe Base64 encoding that works in both environments
@@ -49,6 +94,74 @@ function isSanityImageObject(
     );
 }
 
+async function fetchWithTimeout(
+    url: string,
+    timeoutMs: number,
+): Promise<Response> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+    try {
+        return await fetch(url, { signal: controller.signal });
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+
+async function generateBlurFromBuffer(buffer: Buffer): Promise<string> {
+    const sharpInstance = await getSharp();
+    if (!sharpInstance) {
+        return createSVGPlaceholder();
+    }
+
+    try {
+        const { data, info } = await sharpInstance(buffer)
+            .resize(10)
+            .blur(5)
+            .ensureAlpha()
+            .toBuffer({ resolveWithObject: true });
+
+        return `data:image/${info.format};base64,${data.toString("base64")}`;
+    } catch (error) {
+        console.warn("Error processing image buffer for blur:", error);
+        return createSVGPlaceholder();
+    }
+}
+
+async function generateBlurFromRemote(url: string): Promise<string> {
+    try {
+        const response = await fetchWithTimeout(url, REMOTE_FETCH_TIMEOUT_MS);
+        if (!response.ok) {
+            return createSVGPlaceholder();
+        }
+
+        const arrayBuffer = await response.arrayBuffer();
+        return await generateBlurFromBuffer(Buffer.from(arrayBuffer));
+    } catch (error) {
+        console.warn("Error generating blur from remote image:", error);
+        return createSVGPlaceholder();
+    }
+}
+
+async function generateBlurFromLocal(imagePath: string): Promise<string> {
+    if (!isServer) {
+        return createSVGPlaceholder();
+    }
+
+    try {
+        const sanitizedPath = imagePath.split("?")[0].replace(/^\/+/, "");
+        const normalizedPath = path
+            .normalize(sanitizedPath)
+            .replace(/^(\.\.(\/|\\|$))+/, "");
+        const absolutePath = path.join(process.cwd(), "public", normalizedPath);
+        const fileBuffer = await fs.readFile(absolutePath);
+        return await generateBlurFromBuffer(fileBuffer);
+    } catch (error) {
+        console.warn("Error generating blur from local image:", error);
+        return createSVGPlaceholder();
+    }
+}
+
 /**
  * Universal blur data URL generator for any image source
  * Works with both local and remote images, with fallback mechanisms
@@ -64,15 +177,21 @@ export async function getBlurDataUrl(
 
     try {
         // Handle static imports with built-in blur
-        if (typeof image === "object" && "src" in image && image.blurDataURL) {
+        if (isStaticImageData(image) && image.blurDataURL) {
             return image.blurDataURL;
         }
 
-        // Generate URL based on image type
-        let imgSrc: string;
+        if (!isSanityImage && typeof image !== "string") {
+            console.warn(
+                "Invalid non-Sanity image source provided to getBlurDataUrl",
+            );
+            return createSVGPlaceholder();
+        }
+
         if (isSanityImage) {
+            let sanityUrl: string | null = null;
             try {
-                imgSrc = urlFor(image as SanityImageSource)
+                sanityUrl = urlFor(image as SanityImageSource)
                     .width(60)
                     .quality(20)
                     .url();
@@ -80,36 +199,33 @@ export async function getBlurDataUrl(
                 console.warn("Invalid Sanity image reference:", error);
                 return createSVGPlaceholder();
             }
-        } else {
-            imgSrc =
-                typeof image === "string" && image.startsWith("/")
-                    ? `${process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"}${image}`
-                    : String(image);
+
+            if (!sanityUrl) {
+                return createSVGPlaceholder();
+            }
+
+            return await generateBlurFromRemote(sanityUrl);
         }
 
-        // Early return for invalid URLs
-        if (!imgSrc) {
+        const imagePath = image as string;
+
+        if (!imagePath) {
             return createSVGPlaceholder();
         }
 
-        const response = await fetch(imgSrc);
-        if (!response.ok) {
-            return createSVGPlaceholder();
+        if (imagePath.startsWith("data:")) {
+            return imagePath;
         }
 
-        const buffer = Buffer.from(await response.arrayBuffer());
-
-        if (!sharp) {
-            return createSVGPlaceholder();
+        if (imagePath.startsWith("/")) {
+            return await generateBlurFromLocal(imagePath);
         }
 
-        const { data, info } = await sharp(buffer)
-            .resize(10)
-            .blur(5)
-            .ensureAlpha()
-            .toBuffer({ resolveWithObject: true });
+        if (/^https?:\/\//.test(imagePath)) {
+            return await generateBlurFromRemote(imagePath);
+        }
 
-        return `data:image/${info.format};base64,${data.toString("base64")}`;
+        return createSVGPlaceholder();
     } catch (error) {
         console.warn("Error generating blur:", error);
         return createSVGPlaceholder();
@@ -132,12 +248,15 @@ export async function getSanityImageData(image: SanityImageSource) {
     try {
         // 1. Get image URL safely - handle malformed references
         let imageUrl;
+        let sanityUrl: string | null = null;
         try {
             imageUrl = urlFor(image).url();
+            sanityUrl = imageUrl;
         } catch (error) {
             // Extract URL directly from string reference if possible
             if (typeof image === "string" && image.includes("cdn.sanity.io")) {
                 imageUrl = image;
+                sanityUrl = imageUrl;
             } else {
                 console.warn("Invalid Sanity image reference:", error);
                 return {
@@ -160,11 +279,38 @@ export async function getSanityImageData(image: SanityImageSource) {
                             : image,
                     },
                 ),
-                new Promise((_, reject) => setTimeout(() => reject(), 3000)),
+                new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error("Timeout")), 3000),
+                ),
             ]).catch(() => null),
-
-            // Always use SVG placeholder for stability - no more Sharp timeouts
-            Promise.resolve(createSVGPlaceholder()),
+            Promise.race([
+                // Try to get LQIP from Sanity metadata first
+                client
+                    .fetch<{ asset?: { metadata?: { lqip?: string } } } | null>(
+                        `*[_id == $id][0]{asset->{metadata{lqip}}}`,
+                        {
+                            id: isSanityImageObject(image)
+                                ? image.asset._ref
+                                : image,
+                        },
+                    )
+                    .then(result => {
+                        if (result?.asset?.metadata?.lqip) {
+                            return result.asset.metadata.lqip;
+                        }
+                        return sanityUrl
+                            ? generateBlurFromRemote(sanityUrl)
+                            : createSVGPlaceholder();
+                    })
+                    .catch(() =>
+                        sanityUrl
+                            ? generateBlurFromRemote(sanityUrl)
+                            : createSVGPlaceholder(),
+                    ),
+                new Promise<string>((_, reject) =>
+                    setTimeout(() => reject(new Error("Timeout")), 8000),
+                ),
+            ]).catch(() => createSVGPlaceholder()),
         ]);
 
         return {
@@ -199,8 +345,4 @@ export async function getCachedSanityImageData(image: SanityImageSource) {
     imageCache.set(cacheKey, data);
 
     return data;
-}
-
-export function assertServerEnvironment(): boolean {
-    return isServer;
 }

@@ -7,9 +7,12 @@ import {
     Roboto_Serif,
     Roboto_Slab,
 } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+import { getSiteSettings } from "@/lib/api";
+import { buildMetadata } from "@/lib/seo";
 import { Toaster } from "@/components/ui/toaster";
 
 const roboto = Roboto({
@@ -38,25 +41,37 @@ const robotoSlab = Roboto_Slab({
     display: "swap",
 });
 
-export const metadata: Metadata = {
-    title: "Holistic",
-    description:
-        "Giúp mọi người cải thiện sức khỏe vận động một cách toàn diện và bền vững",
-    authors: [
-        {
-            name: "Holistic",
-            url: "https://holistic.com",
+export async function generateMetadata(): Promise<Metadata> {
+    const settings = await getSiteSettings();
+    const siteUrl = settings?.siteUrl || "";
+    const defaultTitle = settings?.defaultSeo?.title ?? "Holistic";
+    const defaultDescription =
+        settings?.defaultSeo?.description ??
+        "Giúp mọi người cải thiện sức khỏe vận động một cách toàn diện và bền vững";
+
+    return buildMetadata({
+        defaults: {
+            title: defaultTitle,
+            description: defaultDescription,
+            ogImage: undefined,
+            siteUrl,
         },
-    ],
-};
+        path: "/",
+        docSeo: settings?.defaultSeo ?? null,
+    });
+}
 
 export default function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const gtmId = process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID;
+    const isProduction = process.env.NODE_ENV === "production";
+
     return (
         <html lang="en" suppressHydrationWarning>
+            {gtmId && isProduction && <GoogleTagManager gtmId={gtmId} />}
             <body
                 className={`${roboto.variable} ${robotoSerif.variable} ${robotoSlab.variable} ${robotoMono.variable} bg-primary-background overflow-x-hidden overflow-y-scroll`}
             >

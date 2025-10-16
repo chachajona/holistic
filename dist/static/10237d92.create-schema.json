@@ -1,0 +1,1672 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Meta Title"
+      },
+      {
+        "rows": 3,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "description",
+        "type": "text",
+        "title": "Meta Description"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "ogImage",
+        "type": "image",
+        "title": "Open Graph Image"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "canonicalUrl",
+        "type": "url",
+        "title": "Canonical URL"
+      },
+      {
+        "initialValue": false,
+        "description": "Prevent search engines from indexing this page",
+        "name": "noindex",
+        "type": "boolean"
+      },
+      {
+        "initialValue": false,
+        "description": "Prevent search engines from following links on this page",
+        "name": "nofollow",
+        "type": "boolean"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Summary",
+              "value": "summary"
+            },
+            {
+              "title": "Summary Large Image",
+              "value": "summary_large_image"
+            }
+          ]
+        },
+        "initialValue": "summary_large_image",
+        "name": "twitterCard",
+        "type": "string"
+      }
+    ],
+    "name": "seo",
+    "type": "object",
+    "title": "SEO"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Base URL used for canonical links and OG URLs",
+        "name": "siteUrl",
+        "type": "url",
+        "title": "Site URL"
+      },
+      {
+        "description": "Fallback SEO used when a document doesn't specify its own.",
+        "name": "defaultSeo",
+        "type": "seo",
+        "title": "Default SEO"
+      }
+    ],
+    "name": "siteSettings",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "name": "slug",
+        "type": "string"
+      },
+      {
+        "of": [
+          {
+            "type": "header"
+          },
+          {
+            "type": "hero",
+            "title": "Hero Section"
+          },
+          {
+            "type": "form"
+          },
+          {
+            "type": "cta",
+            "title": "Call to Action Section"
+          }
+        ],
+        "name": "pageBuilder",
+        "type": "array",
+        "title": "Page builder"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 6
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Configure the quick navigation cards (typically shown on homepage)",
+        "of": [
+          {
+            "type": "quickLink"
+          }
+        ],
+        "name": "quickLinks",
+        "type": "array",
+        "title": "Quick Links Section"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      }
+    ],
+    "name": "page",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "icon",
+        "type": "image"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 1
+              },
+              {
+                "flag": "max",
+                "constraint": 5
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "rating",
+        "type": "number"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "quote",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "author",
+        "type": "string"
+      }
+    ],
+    "name": "testimonial",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "heading"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "subheading",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative text"
+          }
+        ],
+        "name": "image",
+        "type": "image"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "to": [
+          {
+            "type": "page"
+          }
+        ],
+        "name": "page",
+        "type": "reference"
+      }
+    ],
+    "name": "header",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "heading"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "subheading",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative text"
+          }
+        ],
+        "name": "image",
+        "type": "image",
+        "title": "Hero Image"
+      }
+    ],
+    "name": "hero",
+    "type": "object",
+    "title": "Hero Section"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Main heading text for the CTA section",
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "heading"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Supporting text for the CTA",
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Text displayed on the main CTA button",
+        "name": "primaryButtonText",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "URL the button links to (e.g., /booking, /services)",
+        "name": "primaryButtonUrl",
+        "type": "string",
+        "title": "Primary Button URL"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Blue",
+              "value": "blue"
+            },
+            {
+              "title": "Brown",
+              "value": "brown"
+            },
+            {
+              "title": "Green",
+              "value": "green"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "blue",
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "blue",
+                  "brown",
+                  "green"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Color theme for the CTA section",
+        "name": "theme",
+        "type": "string",
+        "title": "Theme Color"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Background image for the CTA section",
+        "fields": [
+          {
+            "name": "alt",
+            "type": "string",
+            "title": "Alternative text"
+          }
+        ],
+        "name": "backgroundImage",
+        "type": "image"
+      }
+    ],
+    "name": "cta",
+    "type": "object",
+    "title": "Call to Action Section"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "The URL this card links to (e.g., /services, /treatments)",
+        "name": "link",
+        "type": "string",
+        "title": "Link URL"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "bgImage",
+        "type": "image",
+        "title": "Background Image"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Service Icon",
+              "value": "service"
+            },
+            {
+              "title": "Treatment Icon",
+              "value": "treatment"
+            },
+            {
+              "title": "Team Icon",
+              "value": "team"
+            }
+          ],
+          "layout": "radio"
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "service",
+                  "treatment",
+                  "team"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "iconType",
+        "type": "string"
+      },
+      {
+        "initialValue": false,
+        "description": "If enabled, clicking this link will not scroll to the top of the page",
+        "name": "disableScroll",
+        "type": "boolean"
+      }
+    ],
+    "name": "quickLink",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "question",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "answer",
+        "type": "text"
+      }
+    ],
+    "name": "faq",
+    "type": "document",
+    "title": "FAQ"
+  },
+  {
+    "fields": [
+      {
+        "description": "A label for the form (e.g., 'Newsletter Signup')",
+        "name": "label",
+        "type": "string"
+      },
+      {
+        "description": "The main heading for the form",
+        "name": "heading",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            "newsletter",
+            "register",
+            "contact"
+          ]
+        },
+        "description": "Select form type",
+        "name": "formType",
+        "type": "string"
+      },
+      {
+        "fields": [
+          {
+            "description": "Placeholder text for the email input",
+            "name": "emailPlaceholder",
+            "type": "string"
+          }
+        ],
+        "hidden": "conditional",
+        "name": "newsletterFields",
+        "type": "object"
+      },
+      {
+        "fields": [
+          {
+            "description": "Placeholder text for the name input",
+            "name": "namePlaceholder",
+            "type": "string"
+          },
+          {
+            "description": "Placeholder text for the email input",
+            "name": "emailPlaceholder",
+            "type": "string"
+          },
+          {
+            "description": "Placeholder text for the password input",
+            "name": "passwordPlaceholder",
+            "type": "string"
+          }
+        ],
+        "hidden": "conditional",
+        "name": "registerFields",
+        "type": "object"
+      },
+      {
+        "fields": [
+          {
+            "description": "Placeholder text for the name input",
+            "name": "namePlaceholder",
+            "type": "string"
+          },
+          {
+            "description": "Placeholder text for the email input",
+            "name": "emailPlaceholder",
+            "type": "string"
+          },
+          {
+            "description": "Placeholder text for the message textarea",
+            "name": "messagePlaceholder",
+            "type": "string"
+          },
+          {
+            "description": "Placeholder text for the phone input",
+            "name": "phonePlaceholder",
+            "type": "string"
+          }
+        ],
+        "hidden": "conditional",
+        "name": "contactFields",
+        "type": "object"
+      },
+      {
+        "description": "Text for the submit button",
+        "name": "submitButtonText",
+        "type": "string"
+      }
+    ],
+    "name": "form",
+    "type": "object"
+  },
+  {
+    "fields": [
+      {
+        "name": "phoneNumber",
+        "type": "string"
+      },
+      {
+        "name": "submittedAt",
+        "type": "datetime"
+      }
+    ],
+    "name": "contactSubmission",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 200
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "id",
+        "type": "slug",
+        "title": "ID"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "IcePlunge",
+              "value": "IcePlunge"
+            },
+            {
+              "title": "DryNeedle",
+              "value": "DryNeedle"
+            },
+            {
+              "title": "Exercise",
+              "value": "Exercise"
+            },
+            {
+              "title": "Cupping",
+              "value": "Cupping"
+            },
+            {
+              "title": "HeatLight",
+              "value": "HeatLight"
+            },
+            {
+              "title": "BackPain",
+              "value": "BackPain"
+            },
+            {
+              "title": "JointPain",
+              "value": "JointPain"
+            },
+            {
+              "title": "SportInjuries",
+              "value": "SportInjuries"
+            },
+            {
+              "title": "PostSurgery",
+              "value": "PostSurgery"
+            },
+            {
+              "title": "Crutch",
+              "value": "Crutch"
+            }
+          ]
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "valid",
+                "constraint": [
+                  "IcePlunge",
+                  "DryNeedle",
+                  "Exercise",
+                  "Cupping",
+                  "HeatLight",
+                  "BackPain",
+                  "JointPain",
+                  "SportInjuries",
+                  "PostSurgery",
+                  "Crutch"
+                ]
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Name of the icon to use (Lucide icon name or custom icon name)",
+        "name": "icon",
+        "type": "string",
+        "title": "Icon Name"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "image",
+        "type": "image",
+        "title": "Service Image"
+      },
+      {
+        "description": "Mark this service as the primary/most popular option",
+        "name": "isPrimary",
+        "type": "boolean",
+        "title": "Is Primary Service"
+      },
+      {
+        "description": "Which problem categories does this service address?",
+        "of": [
+          {
+            "to": [
+              {
+                "type": "problemCategory"
+              }
+            ],
+            "type": "reference",
+            "title": "Reference to problem categories"
+          }
+        ],
+        "name": "problemCategories",
+        "type": "array"
+      },
+      {
+        "fields": [
+          {
+            "name": "outcome",
+            "type": "text",
+            "title": "Expected Outcome"
+          },
+          {
+            "name": "protocol",
+            "type": "text",
+            "title": "Treatment Protocol"
+          },
+          {
+            "name": "evidence",
+            "type": "text",
+            "title": "Scientific Evidence"
+          },
+          {
+            "of": [
+              {
+                "to": [
+                  {
+                    "type": "treatment"
+                  }
+                ],
+                "type": "reference",
+                "title": "Reference to treatments"
+              }
+            ],
+            "name": "treatments",
+            "type": "array",
+            "title": "Available Treatments"
+          }
+        ],
+        "name": "details",
+        "type": "object",
+        "title": "Service Details"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      }
+    ],
+    "name": "service",
+    "type": "document",
+    "title": "Services"
+  },
+  {
+    "fields": [
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 200
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "id",
+        "type": "slug",
+        "title": "ID"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "title",
+        "type": "string",
+        "title": "Treatment Name"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "max",
+                "constraint": 200
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Brief description for cards and previews (max 200 characters)",
+        "name": "shortDescription",
+        "type": "text"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Detailed description for the treatment page",
+        "name": "fullDescription",
+        "type": "text"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "IcePlunge",
+              "value": "IcePlunge"
+            },
+            {
+              "title": "DryNeedle",
+              "value": "DryNeedle"
+            },
+            {
+              "title": "Exercise",
+              "value": "Exercise"
+            },
+            {
+              "title": "Cupping",
+              "value": "Cupping"
+            },
+            {
+              "title": "HeatLight",
+              "value": "HeatLight"
+            },
+            {
+              "title": "BackPain",
+              "value": "BackPain"
+            },
+            {
+              "title": "JointPain",
+              "value": "JointPain"
+            },
+            {
+              "title": "SportInjuries",
+              "value": "SportInjuries"
+            },
+            {
+              "title": "PostSurgery",
+              "value": "PostSurgery"
+            },
+            {
+              "title": "Crutch",
+              "value": "Crutch"
+            },
+            {
+              "title": "Activity",
+              "value": "Activity"
+            },
+            {
+              "title": "Dumbbell",
+              "value": "Dumbbell"
+            }
+          ]
+        },
+        "description": "Name of the icon to use (Lucide icon name or custom icon name)",
+        "name": "icon",
+        "type": "string",
+        "title": "Icon Name"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "image",
+        "type": "image",
+        "title": "Treatment Image"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug",
+        "title": "URL Slug"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "options": {
+                  "source": "title"
+                },
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "custom"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "id",
+                "type": "slug",
+                "title": "Benefit ID"
+              },
+              {
+                "name": "title",
+                "type": "string",
+                "title": "Benefit Title"
+              },
+              {
+                "name": "description",
+                "type": "text",
+                "title": "Benefit Description"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "benefits",
+        "type": "array",
+        "title": "Treatment Benefits"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "of": [
+          {
+            "fields": [
+              {
+                "options": {
+                  "source": "title"
+                },
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "custom"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "id",
+                "type": "slug",
+                "title": "Protocol ID"
+              },
+              {
+                "name": "step",
+                "type": "number",
+                "title": "Step Number"
+              },
+              {
+                "name": "title",
+                "type": "string",
+                "title": "Protocol Title"
+              },
+              {
+                "name": "description",
+                "type": "text",
+                "title": "Protocol Description"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "protocols",
+        "type": "array",
+        "title": "Treatment Protocols"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "e.g., '45 phút', '60 phút'",
+        "name": "duration",
+        "type": "string",
+        "title": "Treatment Duration"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "price",
+        "type": "number",
+        "title": "Treatment Price"
+      },
+      {
+        "initialValue": false,
+        "description": "Mark this treatment as popular",
+        "name": "isPopular",
+        "type": "boolean",
+        "title": "Popular Treatment"
+      },
+      {
+        "description": "Rich text content for the treatment page (optional)",
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "content",
+        "type": "array",
+        "title": "Detailed Content"
+      },
+      {
+        "description": "Different booking options for this treatment (optional)",
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "title",
+                "type": "string",
+                "title": "Booking Title"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "price",
+                "type": "number"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "duration",
+                "type": "string"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "description",
+                "type": "text"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "booking",
+        "type": "array",
+        "title": "Booking Options"
+      },
+      {
+        "name": "seo",
+        "type": "seo",
+        "title": "SEO"
+      }
+    ],
+    "name": "treatment",
+    "type": "document",
+    "title": "Treatments"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Name of the problem category (e.g., 'Back Pain')",
+        "name": "title",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "title",
+          "maxLength": 200
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Unique identifier for this problem category",
+        "name": "id",
+        "type": "slug",
+        "title": "ID"
+      },
+      {
+        "rows": 3,
+        "description": "Brief description of this problem category",
+        "name": "description",
+        "type": "text"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "IcePlunge",
+              "value": "IcePlunge"
+            },
+            {
+              "title": "DryNeedle",
+              "value": "DryNeedle"
+            },
+            {
+              "title": "Exercise",
+              "value": "Exercise"
+            },
+            {
+              "title": "Cupping",
+              "value": "Cupping"
+            },
+            {
+              "title": "HeatLight",
+              "value": "HeatLight"
+            },
+            {
+              "title": "BackPain",
+              "value": "BackPain"
+            },
+            {
+              "title": "JointPain",
+              "value": "JointPain"
+            },
+            {
+              "title": "SportInjuries",
+              "value": "SportInjuries"
+            },
+            {
+              "title": "PostSurgery",
+              "value": "PostSurgery"
+            },
+            {
+              "title": "Crutch",
+              "value": "Crutch"
+            }
+          ]
+        },
+        "description": "Icon to represent this problem category",
+        "name": "icon",
+        "type": "string"
+      },
+      {
+        "description": "Keywords that might indicate this problem in service descriptions",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "keywords",
+        "type": "array"
+      },
+      {
+        "description": "Order in which to display this category (lower numbers first)",
+        "name": "order",
+        "type": "number",
+        "title": "Display Order"
+      }
+    ],
+    "name": "problemCategory",
+    "type": "document",
+    "title": "Problem Categories"
+  }
+]

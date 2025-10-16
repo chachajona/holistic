@@ -13,10 +13,21 @@ interface MessengerChatProps {
     loggedOutGreeting?: string;
 }
 
+interface FacebookCustomerChat {
+    show: (shouldShow: boolean) => void;
+    showDialog: () => void;
+    hide: () => void;
+}
+
+interface FacebookSDK {
+    init: (params: { xfbml: boolean; version: string }) => void;
+    CustomerChat: FacebookCustomerChat;
+}
+
 declare global {
     interface Window {
         fbAsyncInit?: () => void;
-        FB: any;
+        FB?: FacebookSDK;
     }
 }
 

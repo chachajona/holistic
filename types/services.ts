@@ -1,18 +1,21 @@
 import { CustomIconName } from "@/assets/icons/custom";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
+import { PortableTextBlock } from "@sanity/types";
+
+import { ServicesPageData } from "@/types/sanity";
 
 export interface Treatment {
     id: string;
     name: string;
     description: string;
-    icon: string;
+    icon: string | { title?: string };
     href: string;
 }
 
 export interface ServiceDetails {
-    outcome: string;
-    protocol: string;
-    evidence: string;
+    outcome: string | PortableTextBlock[];
+    protocol: string | PortableTextBlock[];
+    evidence: string | PortableTextBlock[];
     treatments: Treatment[];
 }
 
@@ -29,17 +32,18 @@ export interface Service {
     description: string;
     icon: string | CustomIconName;
     image: string;
-    imageSource: SanityImageSource;
+    imageSource: SanityImageSource | null;
     isPrimary: boolean;
     problemCategories?: ProblemCategory[];
     details: ServiceDetails;
     processedImage: {
         imageUrl: string;
-        blurDataURL: string;
+        blurDataURL?: string;
         aspectRatio: number;
     };
 }
 
 export interface ServicesClientProps {
+    pageData: ServicesPageData | null;
     services: Service[];
 }

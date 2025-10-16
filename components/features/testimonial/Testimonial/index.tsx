@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { ImageCrop, ImageHotspot } from "@sanity/types";
 import { Star } from "lucide-react";
+
+import { getSanityImageUrl } from "@/lib/sanity-image";
+import { OptimizedImage } from "@/components/ui/optimized-image";
 
 // Define props interface for Testimonial component
 interface TestimonialComponentProps {
@@ -13,8 +16,20 @@ interface TestimonialData {
     _id: string;
     icon: {
         asset: {
+            _id: string;
+            _ref: string;
             url: string;
+            metadata?: {
+                lqip?: string;
+                dimensions?: {
+                    width: number;
+                    height: number;
+                    aspectRatio: number;
+                };
+            };
         };
+        hotspot?: ImageHotspot;
+        crop?: ImageCrop;
     };
     rating: number;
     quote: string;
@@ -26,22 +41,42 @@ const TestimonialCard: React.FC<TestimonialData> = ({
     rating,
     quote,
     author,
-}) => (
-    <div className="bg-primary-background flex flex-col items-start space-y-4 rounded-lg p-6 shadow-sm">
-        <Image src={icon.asset.url} alt="icon" width={56} height={56} />
-        <div className="mb-4 flex">
-            {[...Array(rating)].map((_, i) => (
-                <Star key={i} className="text-brown-500 size-5 fill-current" />
-            ))}
+}) => {
+    const optimizedIconUrl = icon
+        ? getSanityImageUrl(icon, {
+              width: 56,
+              height: 56,
+              quality: 85,
+              format: "webp",
+          }) || icon.asset?.url
+        : "/default-avatar.png";
+
+    return (
+        <div className="bg-primary-background flex flex-col items-start space-y-4 rounded-lg p-6 shadow-sm">
+            <OptimizedImage
+                image={optimizedIconUrl}
+                alt={author || "Testimonial icon"}
+                width={56}
+                height={56}
+                className="rounded-lg object-cover"
+            />
+            <div className="mb-4 flex">
+                {[...Array(rating)].map((_, i) => (
+                    <Star
+                        key={i}
+                        className="text-brown-500 size-5 fill-current"
+                    />
+                ))}
+            </div>
+            <blockquote className="font-robotoSerif min-h-0 text-lg font-bold leading-snug lg:min-h-[230px]">
+                &quot;{quote}&quot;
+            </blockquote>
+            <div className="grid gap-1 text-sm">
+                <div className="font-robotoSlab">{author}</div>
+            </div>
         </div>
-        <blockquote className="font-robotoSerif min-h-0 text-lg font-bold leading-snug lg:min-h-[230px]">
-            &quot;{quote}&quot;
-        </blockquote>
-        <div className="grid gap-1 text-sm">
-            <div className="font-robotoSlab">{author}</div>
-        </div>
-    </div>
-);
+    );
+};
 
 export default function Testimonial({
     onDataLoaded,

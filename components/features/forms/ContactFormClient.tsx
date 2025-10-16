@@ -47,12 +47,12 @@ export function ContactFormClient() {
             setEmail("");
             setMessage("");
             setAgreed(false);
-        } catch (error: any) {
+        } catch (error) {
             console.error("Submission error:", error);
             setStatus("error");
-            setFeedbackMessage(
-                `Lỗi: ${error.message || "Không thể gửi form."}`,
-            );
+            const errorMessage =
+                error instanceof Error ? error.message : "Không thể gửi form.";
+            setFeedbackMessage(`Lỗi: ${errorMessage}`);
         }
     };
 

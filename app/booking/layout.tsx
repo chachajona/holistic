@@ -1,7 +1,7 @@
 import React from "react";
 
 import type { BookingPageData } from "@/types/sanity";
-import { getBookingPage } from "@/lib/api";
+import { getBookingPage, getSiteSettings } from "@/lib/api";
 import Banner from "@/components/common/Banner";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
@@ -13,16 +13,23 @@ export default async function BookingLayout({
     children: React.ReactNode;
 }) {
     const pageData: BookingPageData | null = await getBookingPage();
+    const siteSettings = await getSiteSettings();
 
     return (
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
-            <Banner />
+            <Banner
+                contactInfo={siteSettings?.contactInfo}
+                socialMedia={siteSettings?.socialMedia}
+            />
             <MainNavBar />
             <Header slug="booking" header={pageData?.Header} />
             <main>
                 <div className="content-normal">{children}</div>
             </main>
-            <Footer />
+            <Footer
+                contactInfo={siteSettings?.contactInfo}
+                socialMedia={siteSettings?.socialMedia}
+            />
         </div>
     );
 }

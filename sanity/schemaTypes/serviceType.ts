@@ -1,5 +1,5 @@
 import { customIcons } from "@/assets/icons/custom";
-import { defineType } from "sanity";
+import { defineField, defineType } from "sanity";
 
 const customIconOptions = Object.keys(customIcons).map(name => ({
     title: name,
@@ -103,5 +103,10 @@ export const serviceType = defineType({
                 },
             ],
         },
+        defineField({
+            name: "seo",
+            type: "seo",
+            title: "SEO",
+        }),
     ],
 });

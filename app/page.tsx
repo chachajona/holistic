@@ -1,9 +1,8 @@
 import type { HomePageData, TreatmentSummary } from "@/types/sanity";
-import { getAllTreatments, getHomePage } from "@/lib/api";
-import { getBlurDataUrl } from "@/lib/server/image-processing";
+import { getAllTreatments, getHomePage, getSiteSettings } from "@/lib/api";
+import { getSanityImageUrl } from "@/lib/sanity-image";
 import HomeClient from "@/components/features/home/HomeClient";
 
-// Define expected form types based on the error message
 type ExpectedFormType = "contact" | "newsletter" | "register";
 
 const defaultContactFields = {
@@ -16,23 +15,20 @@ const defaultContactFields = {
 export const revalidate = 3600;
 
 export default async function Home() {
-    const [heroBlurDataURL, ctaBlurDataURL] = await Promise.all([
-        getBlurDataUrl("/Hero.png"),
-        getBlurDataUrl("/CTA.png", false),
-    ]);
-
     const treatmentData: TreatmentSummary[] | null = await getAllTreatments();
+    const siteSettings = await getSiteSettings();
 
     const mappedTreatments = (treatmentData || []).map((treatment, index) => ({
         id: String(index + 1),
         title: treatment.title ?? "Untitled Treatment",
         description: treatment.shortDescription || "No description available",
-        image: treatment.imageUrl || "/placeholder-image.jpg",
-        icon: treatment.icon ?? null,
+        image: treatment.image
+            ? getSanityImageUrl(treatment.image, { width: 600, quality: 85 }) ||
+              "/placeholder-image.jpg"
+            : "/placeholder-image.jpg",
+        icon: treatment.icon?.title,
         slug: treatment.slug?.current ?? "",
-        category: treatment.icon
-            ? (treatment.icon as any)?.title || "General"
-            : "General",
+        category: treatment.icon?.title ?? "General",
     }));
 
     const validTreatments = mappedTreatments;
@@ -41,6 +37,9 @@ export default async function Home() {
         const pageData: HomePageData | null = await getHomePage();
 
         const formContactData = pageData?.FormContact;
+        const heroData = pageData?.Hero;
+        const quickLinksData = pageData?.QuickLinks || null;
+        const ctaData = pageData?.CTA || null;
 
         const fetchedFormType = formContactData?.formType;
         const formType: ExpectedFormType =
@@ -50,9 +49,21 @@ export default async function Home() {
                 ? fetchedFormType
                 : "contact";
 
-        // TODO: Verify Sanity data structure for contactFields and adjust interface/mapping if needed.
         const contactFields = formContactData?.contactFields
-            ? (formContactData.contactFields as any)
+            ? {
+                  namePlaceholder:
+                      formContactData.contactFields.namePlaceholder ||
+                      defaultContactFields.namePlaceholder,
+                  emailPlaceholder:
+                      formContactData.contactFields.emailPlaceholder ||
+                      defaultContactFields.emailPlaceholder,
+                  messagePlaceholder:
+                      formContactData.contactFields.messagePlaceholder ||
+                      defaultContactFields.messagePlaceholder,
+                  phonePlaceholder:
+                      formContactData.contactFields.phonePlaceholder ||
+                      defaultContactFields.phonePlaceholder,
+              }
             : defaultContactFields;
 
         const formData = {
@@ -65,18 +76,19 @@ export default async function Home() {
 
         return (
             <HomeClient
-                heroBlurDataURL={heroBlurDataURL}
-                ctaBlurDataURL={ctaBlurDataURL}
                 treatments={validTreatments}
                 formData={formData}
+                heroData={heroData}
+                quickLinksData={quickLinksData}
+                ctaData={ctaData}
+                contactInfo={siteSettings?.contactInfo}
+                socialMedia={siteSettings?.socialMedia}
             />
         );
     } catch (error) {
         console.error("Error in Home page:", error);
         return (
             <HomeClient
-                heroBlurDataURL={heroBlurDataURL}
-                ctaBlurDataURL={ctaBlurDataURL}
                 treatments={validTreatments}
                 formData={{
                     label: "",
@@ -85,6 +97,11 @@ export default async function Home() {
                     contactFields: defaultContactFields,
                     submitButtonText: "Submit",
                 }}
+                heroData={null}
+                quickLinksData={null}
+                ctaData={null}
+                contactInfo={siteSettings?.contactInfo}
+                socialMedia={siteSettings?.socialMedia}
             />
         );
     }
