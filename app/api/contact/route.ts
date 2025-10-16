@@ -1,8 +1,5 @@
 import { NextResponse } from "next/server";
 
-import { contactDb } from "@/lib/db";
-import { sendContactEmail } from "@/lib/email";
-
 export async function POST(request: Request) {
     try {
         const body = await request.json();
@@ -25,34 +22,13 @@ export async function POST(request: Request) {
             );
         }
 
-        // Save submission to database
-        const savedSubmission = contactDb.saveSubmission({
+        // Log the submission for now (will implement email/database later)
+        console.log("Contact form submission:", {
             name: name.trim(),
             email: email.trim(),
-            phone: phone?.trim() || undefined,
+            phone: phone?.trim() || "Not provided",
             message: message.trim(),
-            agreed: agreed,
-        });
-
-        console.log("Contact form submission saved to database:", {
-            id: savedSubmission.id,
-            name: name.trim(),
-            email: email.trim(),
-        });
-
-        // Send emails
-        const emailResult = await sendContactEmail({
-            name: name.trim(),
-            email: email.trim(),
-            message: message.trim(),
-            phone: phone?.trim() || undefined,
-        });
-
-        console.log("Contact form submission successful:", {
-            name: name.trim(),
-            email: email.trim(),
-            emailResult,
-            dbId: savedSubmission.id,
+            timestamp: new Date().toISOString(),
         });
 
         // Return success response
@@ -60,14 +36,12 @@ export async function POST(request: Request) {
             {
                 message:
                     "Form submitted successfully! We'll get back to you soon.",
-                emailId: emailResult.adminId,
             },
             { status: 200 },
         );
     } catch (error) {
         console.error("Contact form API error:", error);
 
-        // Provide more specific error messages if possible
         const errorMessage =
             error instanceof Error
                 ? error.message
@@ -76,6 +50,3 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: errorMessage }, { status: 500 });
     }
 }
-
-// Optional: Add a GET handler or other methods if needed
-// export async function GET(request: Request) { ... }
