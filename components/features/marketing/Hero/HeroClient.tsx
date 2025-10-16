@@ -49,7 +49,7 @@ const HeroClient: React.FC<HeroProps> = ({
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
-            const response = await fetch("/api/contact", {
+            const response = await fetch("/api/newsletter", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

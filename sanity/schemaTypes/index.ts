@@ -1,6 +1,5 @@
 import { type SchemaTypeDefinition } from "sanity";
 
-import { contactType } from "./contactType";
 import { ctaType } from "./ctaType";
 import { faqType } from "./faqType";
 import { formType } from "./formType";
@@ -27,7 +26,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
         quickLinkType,
         faqType,
         formType,
-        contactType,
         serviceType,
         treatmentType,
         problemCategoryType,

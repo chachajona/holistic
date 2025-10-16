@@ -1,12 +1,17 @@
 import React from "react";
 import { Mail, MapPin, Phone } from "lucide-react";
 
+import { getSiteSettings } from "@/lib/api";
 import { ContactFormClient } from "@/components/features/forms/ContactFormClient";
+import { Hotline } from "@/components/features/marketing/Hotline";
 import FAQ from "@/components/features/marketing/FAQ";
 
 export const revalidate = 3600;
 
-const BookingPage = () => {
+const BookingPage = async () => {
+    const siteSettings = await getSiteSettings();
+    const contactInfo = siteSettings?.contactInfo;
+
     return (
         <div>
             <div className="container mx-auto w-full py-6 md:px-16 md:py-8">
@@ -23,26 +28,45 @@ const BookingPage = () => {
                             chi tiết của bạn.
                         </p>
                         <div className="font-robotoSlab mt-4 space-y-4">
-                            <div className="text-primary-text flex items-center space-x-3">
-                                <Mail size={20} />
-                                <span>info@holistic.io</span>
-                            </div>
-                            <div className="text-primary-text flex items-center space-x-3">
-                                <Phone size={20} />
-                                <span>(+84) 82 895-9598</span>
-                            </div>
-                            <div className="text-primary-text flex items-center space-x-3">
-                                <MapPin size={20} />
-                                <span>
-                                    70 Bà Huyện Thanh Quan, Phường Võ Thị Sáu,
-                                    Quận 3
-                                </span>
-                            </div>
+                            {contactInfo?.email && (
+                                <div className="text-primary-text flex items-center space-x-3">
+                                    <Mail size={20} />
+                                    <span>{contactInfo.email}</span>
+                                </div>
+                            )}
+                            {contactInfo?.phone && (
+                                <div className="text-primary-text flex items-center space-x-3">
+                                    <Phone size={20} />
+                                    <span>{contactInfo.phone}</span>
+                                </div>
+                            )}
+                            {contactInfo?.locations &&
+                                contactInfo.locations.length > 0 && (
+                                    <>
+                                        {contactInfo.locations.map(
+                                            (location, index) => (
+                                                <div
+                                                    key={location._key || index}
+                                                    className="text-primary-text flex items-center space-x-3"
+                                                >
+                                                    <MapPin size={20} />
+                                                    <span>
+                                                        {location.name
+                                                            ? `${location.name}: `
+                                                            : ""}
+                                                        {location.address}
+                                                    </span>
+                                                </div>
+                                            ),
+                                        )}
+                                    </>
+                                )}
                         </div>
                     </div>
                     <ContactFormClient />
                 </div>
             </div>
+            {contactInfo?.phone && <Hotline phone={contactInfo.phone} />}
             <FAQ />
         </div>
     );

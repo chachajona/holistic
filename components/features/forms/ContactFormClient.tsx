@@ -4,7 +4,6 @@ import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -13,9 +12,8 @@ type SubmissionStatus = "idle" | "loading" | "success" | "error";
 
 export function ContactFormClient() {
     const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
-    const [agreed, setAgreed] = useState(false);
     const [status, setStatus] = useState<SubmissionStatus>("idle");
     const [feedbackMessage, setFeedbackMessage] = useState("");
 
@@ -30,7 +28,7 @@ export function ContactFormClient() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ name, email, message, agreed }),
+                body: JSON.stringify({ name, phone, message }),
             });
 
             const result = await response.json();
@@ -44,9 +42,8 @@ export function ContactFormClient() {
             setStatus("success");
             setFeedbackMessage(result.message || "Gửi thành công!");
             setName("");
-            setEmail("");
+            setPhone("");
             setMessage("");
-            setAgreed(false);
         } catch (error) {
             console.error("Submission error:", error);
             setStatus("error");
@@ -83,17 +80,18 @@ export function ContactFormClient() {
                     </div>
                     <div>
                         <Label
-                            htmlFor="email"
+                            htmlFor="phone"
                             className="text-brown-700 block text-sm font-medium"
                         >
-                            Email
+                            Số điện thoại
                         </Label>
                         <Input
-                            id="email"
-                            type="email"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
+                            id="phone"
+                            type="tel"
+                            value={phone}
+                            onChange={e => setPhone(e.target.value)}
                             className="mt-1"
+                            placeholder="Nhập số điện thoại của bạn"
                             required
                             disabled={status === "loading"}
                         />
@@ -114,22 +112,6 @@ export function ContactFormClient() {
                             required
                             disabled={status === "loading"}
                         />
-                    </div>
-                    <div className="flex items-center space-x-2">
-                        <Checkbox
-                            id="terms"
-                            checked={agreed}
-                            onCheckedChange={checked =>
-                                setAgreed(Boolean(checked))
-                            }
-                            disabled={status === "loading"}
-                        />
-                        <Label
-                            htmlFor="terms"
-                            className="text-brown-600 cursor-pointer text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                        >
-                            Tôi đồng ý chia sẻ thông tin
-                        </Label>
                     </div>
                     {feedbackMessage && (
                         <p

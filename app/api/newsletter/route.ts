@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 
+import { createClient } from "@/lib/supabase/server";
+
 export async function POST(request: Request) {
     try {
         const body = await request.json();
@@ -34,12 +36,36 @@ export async function POST(request: Request) {
         }
 
         const sanitizedPhoneNumber = phoneNumber.trim();
-        const sanitizedEmail = email?.trim();
+        const sanitizedEmail = email?.trim() || null;
 
-        // Log the subscription for now (will implement database later)
-        console.log("Newsletter subscription:", {
+        // Initialize Supabase client
+        const supabase = await createClient();
+
+        // Insert newsletter subscription into Supabase
+        const { error } = await supabase.from("newsletter_subscribers").insert({
+            phone_number: sanitizedPhoneNumber,
+            email: sanitizedEmail,
+        });
+
+        if (error) {
+            // Handle unique constraint violation (duplicate phone number)
+            if (error.code === "23505") {
+                return NextResponse.json(
+                    { error: "This phone number is already subscribed" },
+                    { status: 409 },
+                );
+            }
+
+            console.error("Supabase insert error:", error);
+            return NextResponse.json(
+                { error: "Failed to save subscription" },
+                { status: 500 },
+            );
+        }
+
+        // Log success
+        console.log("Newsletter subscription saved:", {
             phone: sanitizedPhoneNumber,
-            email: sanitizedEmail || "Not provided",
             timestamp: new Date().toISOString(),
         });
 
