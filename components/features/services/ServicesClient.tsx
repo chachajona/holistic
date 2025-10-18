@@ -6,13 +6,20 @@ import { ChevronRight } from "lucide-react";
 
 import { Service, ServicesClientProps } from "@/types/services";
 import { Button } from "@/components/ui/button";
+import Banner from "@/components/common/Banner";
 import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 import { QuickBookingDialog } from "@/components/features/booking/QuickBookingDialog";
+import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
 
 import { ServiceFilterSelection } from "./ServiceFilterSelection";
 import { TreatmentRecommendations } from "./TreatmentRecommendations";
 
-export function ServicesClient({ services }: ServicesClientProps) {
+export function ServicesClient({
+    services,
+    contactInfo,
+    socialMedia,
+}: ServicesClientProps) {
     const [quickBookService, setQuickBookService] = useState<Service | null>(
         null,
     );
@@ -61,7 +68,13 @@ export function ServicesClient({ services }: ServicesClientProps) {
 
     return (
         <PageLoaderWrapper isContentLoaded={isContentLoaded}>
-            <div className="bg-primary-background relative w-full px-4 py-16 sm:px-8 md:px-16">
+            <main className="bg-primary-background flex min-h-screen flex-col">
+                <Banner
+                    contactInfo={contactInfo}
+                    socialMedia={socialMedia}
+                />
+                <Navbar />
+                <div className="bg-primary-background relative w-full px-4 py-16 sm:px-8 md:px-16">
                 <div
                     className="absolute inset-0 bg-cover bg-center opacity-5"
                     style={{ backgroundImage: "url('/Paper.png')" }}
@@ -190,7 +203,12 @@ export function ServicesClient({ services }: ServicesClientProps) {
                         </Link>
                     </div>
                 </div>
-            </div>
+                </div>
+                <Footer
+                    contactInfo={contactInfo}
+                    socialMedia={socialMedia}
+                />
+            </main>
         </PageLoaderWrapper>
     );
 }

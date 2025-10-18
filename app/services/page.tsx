@@ -2,7 +2,11 @@ import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 import type { ServiceDetailed, ServicesPageData } from "@/types/sanity";
 import type { Service } from "@/types/services";
-import { getAllServicesDetailed, getServicesPage } from "@/lib/api";
+import {
+    getAllServicesDetailed,
+    getServicesPage,
+    getSiteSettings,
+} from "@/lib/api";
 import {
     getBlurDataUrl,
     getSanityImageData,
@@ -13,10 +17,15 @@ export const revalidate = 3600;
 
 export default async function ServicesPage(): Promise<JSX.Element> {
     try {
-        const [pageData, servicesData]: [
+        const [pageData, servicesData, siteSettings]: [
             ServicesPageData | null,
             ServiceDetailed[],
-        ] = await Promise.all([getServicesPage(), getAllServicesDetailed()]);
+            any,
+        ] = await Promise.all([
+            getServicesPage(),
+            getAllServicesDetailed(),
+            getSiteSettings(),
+        ]);
 
         // Get blur data URLs for service images and map to proper Service type
         const servicesWithBlur = await Promise.all(
@@ -89,7 +98,12 @@ export default async function ServicesPage(): Promise<JSX.Element> {
         );
 
         return (
-            <ServicesClient pageData={pageData} services={servicesWithBlur} />
+            <ServicesClient
+                pageData={pageData}
+                services={servicesWithBlur}
+                contactInfo={siteSettings?.contactInfo}
+                socialMedia={siteSettings?.socialMedia}
+            />
         );
     } catch (error) {
         console.error("Error in Services page:", error);
