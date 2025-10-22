@@ -3,8 +3,8 @@ import { Mail, MapPin, Phone } from "lucide-react";
 
 import { getSiteSettings } from "@/lib/api";
 import { ContactFormClient } from "@/components/features/forms/ContactFormClient";
-import { Hotline } from "@/components/features/marketing/Hotline";
 import FAQ from "@/components/features/marketing/FAQ";
+import { Hotline } from "@/components/features/marketing/Hotline";
 
 export const revalidate = 3600;
 
@@ -67,7 +67,7 @@ const BookingPage = async () => {
                 </div>
             </div>
             {contactInfo?.phone && <Hotline phone={contactInfo.phone} />}
-            <FAQ />
+            <FAQ phone={contactInfo?.phone || ""} />
         </div>
     );
 };

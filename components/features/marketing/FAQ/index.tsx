@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import { Phone } from "lucide-react";
 
 import { FAQ as FAQType } from "@/types/faq";
 import { FAQData } from "@/types/sanity";
@@ -13,7 +15,11 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 
-const FAQ = () => {
+interface FAQProps {
+    phone?: string;
+}
+
+const FAQ: React.FC<FAQProps> = ({ phone }) => {
     const [faqs, setFaqs] = useState<FAQType[]>([]);
 
     useEffect(() => {
@@ -60,20 +66,31 @@ const FAQ = () => {
                     </AccordionItem>
                 ))}
             </Accordion>
-            <div className="mt-8 text-left">
-                <h3 className="font-robotoSerif text-primary-text mb-4 text-3xl font-semibold">
-                    Vẫn còn thắc mắc?
-                </h3>
-                <p className="font-robotoSlab text-primary-text/60 mb-4 text-sm">
-                    Liên hệ với chúng tôi để biết thêm thông tin.
-                </p>
-                <Button
-                    variant={"outline"}
-                    className="border-primary-text font-robotoSerif text-primary-text/70 hover:bg-primary-text bg-transparent hover:text-white"
-                >
-                    Liên hệ
-                </Button>
-            </div>
+            {phone && (
+                <div className="bg-brown-900 text-brown-50 mt-8 rounded-lg px-6 py-8 text-center">
+                    <h3 className="font-robotoSerif mb-4 text-3xl font-semibold">
+                        Vẫn còn thắc mắc?
+                    </h3>
+                    <p className="font-robotoSlab text-brown-50/80 mb-4 text-sm">
+                        Liên hệ với chúng tôi để biết thêm thông tin.
+                    </p>
+                    <Link
+                        href={`tel:${phone.replace(/\s/g, "").replace(/[()+-]/g, "")}`}
+                        className="inline-block"
+                    >
+                        <Button
+                            variant={"outline"}
+                            className="bg-brown-50 text-brown-900 hover:bg-brown-100 border-brown-50 font-robotoSerif hover:border-brown-100 group"
+                        >
+                            <Phone
+                                size={18}
+                                className="mr-2 inline-block transition-transform group-hover:scale-110"
+                            />
+                            Liên hệ
+                        </Button>
+                    </Link>
+                </div>
+            )}
         </section>
     );
 };
