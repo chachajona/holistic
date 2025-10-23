@@ -24,7 +24,7 @@ export function formatDate(dateString: string): string {
  * Export contacts data to CSV and trigger download
  */
 export function exportContactsToCSV(contacts: Contact[], filename?: string) {
-    const csvData = contacts.map((contact) => ({
+    const csvData = contacts.map(contact => ({
         Name: contact.name,
         Phone: contact.phone,
         Message: contact.message,
@@ -42,7 +42,7 @@ export function exportNewsletterToCSV(
     subscribers: NewsletterSubscriber[],
     filename?: string,
 ) {
-    const csvData = subscribers.map((subscriber) => ({
+    const csvData = subscribers.map(subscriber => ({
         "Phone Number": subscriber.phone_number,
         Email: subscriber.email || "N/A",
         "Subscribed At": formatDate(subscriber.created_at),
@@ -56,6 +56,10 @@ export function exportNewsletterToCSV(
  * Trigger browser download of CSV file
  */
 function downloadCSV(csvContent: string, filename: string) {
+    if (typeof window === "undefined") {
+        console.warn("downloadCSV can only be called in browser environment");
+        return;
+    }
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
     const link = document.createElement("a");
 

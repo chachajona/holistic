@@ -1,25 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { LogOut, Activity } from "lucide-react";
+import { Activity, LogOut } from "lucide-react";
+import { signOut } from "next-auth/react";
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
 import { ContactsTable } from "./ContactsTable";
 import { NewsletterTable } from "./NewsletterTable";
 
 export function DashboardClient() {
     const [activeTab, setActiveTab] = useState("contacts");
     const [isLoggingOut, setIsLoggingOut] = useState(false);
-    const router = useRouter();
 
     async function handleLogout() {
         setIsLoggingOut(true);
         try {
-            await fetch("/api/dashboard/auth", { method: "DELETE" });
-            router.push("/dashboard/login");
-            router.refresh();
+            await signOut({ callbackUrl: "/dashboard/login" });
         } catch (error) {
             console.error("Logout error:", error);
         } finally {

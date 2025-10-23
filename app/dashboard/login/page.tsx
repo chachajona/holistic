@@ -2,10 +2,9 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
     Card,
     CardContent,
@@ -13,8 +12,11 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function DashboardLoginPage() {
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
@@ -26,22 +28,23 @@ export default function DashboardLoginPage() {
         setIsLoading(true);
 
         try {
-            const response = await fetch("/api/dashboard/auth", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ password }),
+            const res = await signIn("credentials", {
+                email,
+                password,
+                redirect: false,
             });
 
-            if (response.ok) {
+            if (res?.ok) {
                 router.push("/dashboard");
                 router.refresh();
             } else {
-                const data = await response.json();
-                setError(data.error || "Invalid password");
+                setError("Invalid credentials");
             }
         } catch (err) {
             setError("Authentication failed. Please try again.");
-            console.error("Login error:", err);
+            if (process.env.NODE_ENV === "development") {
+                console.error("Login error:", err);
+            }
         } finally {
             setIsLoading(false);
         }
@@ -55,11 +58,26 @@ export default function DashboardLoginPage() {
                         Dashboard Login
                     </CardTitle>
                     <CardDescription className="text-primary-text/60">
-                        Enter the password to access the dashboard
+                        Sign in with your email and password
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
+                        <div className="space-y-2">
+                            <Label htmlFor="email" className="text-primary-text">
+                                Email
+                            </Label>
+                            <Input
+                                id="email"
+                                type="email"
+                                placeholder="you@example.com"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                disabled={isLoading}
+                                required
+                                className="border-brown-300 bg-brown-50 text-primary-text placeholder:text-primary-text/40"
+                            />
+                        </div>
                         <div className="space-y-2">
                             <Label
                                 htmlFor="password"
@@ -70,9 +88,9 @@ export default function DashboardLoginPage() {
                             <Input
                                 id="password"
                                 type="password"
-                                placeholder="Enter dashboard password"
+                                placeholder="Enter your password"
                                 value={password}
-                                onChange={(e) => setPassword(e.target.value)}
+                                onChange={e => setPassword(e.target.value)}
                                 disabled={isLoading}
                                 required
                                 className="border-brown-300 bg-brown-50 text-primary-text placeholder:text-primary-text/40"

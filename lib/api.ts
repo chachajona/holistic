@@ -14,6 +14,9 @@ import type {
     TreatmentSummary,
 } from "@/types/sanity";
 
+import { localizedArray, localizedBlock, localizedField } from "./groq-helpers";
+import { baseLanguage, type Locale } from "./i18n/languages";
+
 export async function getHomePage(): Promise<HomePageData | null> {
     try {
         const getPageQuery = groq`*[_type == "page"][slug == 'home'][0]{
@@ -356,14 +359,17 @@ export async function getFAQs(): Promise<FAQData[] | null> {
     }
 }
 
-export async function getTreatmentBySlug(slug: string) {
+export async function getTreatmentBySlug(
+    slug: string,
+    locale: Locale = baseLanguage.id,
+) {
     try {
         const query = groq`*[_type == "treatment" && slug.current == $slug][0]{
             "id": id.current,
-            title,
+            "title": ${localizedField("title")},
             "slug": slug.current,
-            shortDescription,
-            fullDescription,
+            "shortDescription": ${localizedField("shortDescription")},
+            "fullDescription": ${localizedField("fullDescription")},
             icon,
             seo{
                 title,
@@ -387,24 +393,15 @@ export async function getTreatmentBySlug(slug: string) {
                 hotspot,
                 crop
             },
-            benefits[] {
-                "id": id.current,
-                title,
-                description
-            },
-            protocols[] {
-                "id": id.current,
-                step,
-                title,
-                description
-            },
+            ${localizedArray("benefits", ["id", "title", "description"])},
+            ${localizedArray("protocols", ["id", "step", "title", "description"])},
             duration,
             price,
             isPopular,
-            content
+            "content": ${localizedBlock("content")}
         }`;
 
-        return await client.fetch(query, { slug });
+        return await client.fetch(query, { slug, locale });
     } catch (error) {
         console.error("Error fetching treatment:", error);
         return null;
@@ -424,13 +421,15 @@ export async function getAllTreatmentSlugs() {
     }
 }
 
-export async function getAllTreatments(): Promise<TreatmentSummary[] | null> {
+export async function getAllTreatments(
+    locale: Locale = baseLanguage.id,
+): Promise<TreatmentSummary[] | null> {
     try {
-        const query = groq`*[_type == "treatment"] | order(title asc) {
+        const query = groq`*[_type == "treatment"] | order(title[_key == $locale][0].value asc) {
             _id,
-            title,
+            "title": ${localizedField("title")},
             slug,
-            shortDescription,
+            "shortDescription": ${localizedField("shortDescription")},
             image {
                 asset->{
                     _id,
@@ -447,7 +446,9 @@ export async function getAllTreatments(): Promise<TreatmentSummary[] | null> {
             icon
         }`;
 
-        const result = await client.fetch<TreatmentSummary[]>(query);
+        const result = await client.fetch<TreatmentSummary[]>(query, {
+            locale,
+        });
 
         if (!result) {
             console.error("Error fetching treatments: No result");

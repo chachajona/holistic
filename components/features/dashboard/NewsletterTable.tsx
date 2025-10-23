@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { Download, Search, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Download, Loader2, Search } from "lucide-react";
 
+import { exportNewsletterToCSV, formatDate } from "@/lib/dashboard-utils";
 import { createClient } from "@/lib/supabase/client";
 import type { Database } from "@/lib/supabase/types";
-import { formatDate, exportNewsletterToCSV } from "@/lib/dashboard-utils";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,7 +17,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import { useToast } from "@/hooks/use-toast";
 
 type NewsletterSubscriber =
     Database["public"]["Tables"]["newsletter_subscribers"]["Row"];
@@ -75,25 +75,24 @@ export function NewsletterTable() {
                     schema: "public",
                     table: "newsletter_subscribers",
                 },
-                (payload) => {
+                payload => {
                     if (payload.eventType === "INSERT") {
                         const newSubscriber =
                             payload.new as NewsletterSubscriber;
-                        setSubscribers((prev) => [newSubscriber, ...prev]);
+                        setSubscribers(prev => [newSubscriber, ...prev]);
                         toast({
                             title: "New Newsletter Subscriber",
                             description: `Phone: ${newSubscriber.phone_number}`,
                         });
                     } else if (payload.eventType === "DELETE") {
-                        setSubscribers((prev) =>
+                        setSubscribers(prev =>
                             prev.filter(
-                                (subscriber) =>
-                                    subscriber.id !== payload.old.id,
+                                subscriber => subscriber.id !== payload.old.id,
                             ),
                         );
                     } else if (payload.eventType === "UPDATE") {
-                        setSubscribers((prev) =>
-                            prev.map((subscriber) =>
+                        setSubscribers(prev =>
+                            prev.map(subscriber =>
                                 subscriber.id === payload.new.id
                                     ? (payload.new as NewsletterSubscriber)
                                     : subscriber,
@@ -117,13 +116,11 @@ export function NewsletterTable() {
             const searchLower = search.toLowerCase();
             setFilteredSubscribers(
                 subscribers.filter(
-                    (subscriber) =>
+                    subscriber =>
                         subscriber.phone_number
                             .toLowerCase()
                             .includes(searchLower) ||
-                        subscriber.email
-                            ?.toLowerCase()
-                            .includes(searchLower),
+                        subscriber.email?.toLowerCase().includes(searchLower),
                 ),
             );
         }
@@ -148,7 +145,7 @@ export function NewsletterTable() {
                     <Input
                         placeholder="Search subscribers..."
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={e => setSearch(e.target.value)}
                         className="border-brown-300 bg-brown-50 text-primary-text placeholder:text-primary-text/40 pl-10"
                     />
                 </div>
@@ -188,8 +185,11 @@ export function NewsletterTable() {
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                filteredSubscribers.map((subscriber) => (
-                                    <TableRow key={subscriber.id} className="hover:bg-brown-100/50">
+                                filteredSubscribers.map(subscriber => (
+                                    <TableRow
+                                        key={subscriber.id}
+                                        className="hover:bg-brown-100/50"
+                                    >
                                         <TableCell className="text-primary-text font-medium">
                                             {subscriber.phone_number}
                                         </TableCell>

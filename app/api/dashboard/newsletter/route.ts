@@ -1,26 +1,26 @@
 import { NextResponse } from "next/server";
 
+import { sanitizeSearchTerm } from "@/lib/security/sanitization";
 import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
     try {
-        // Parse search parameters
         const { searchParams } = new URL(request.url);
-        const search = searchParams.get("search") || "";
+        const rawSearch = searchParams.get("search") || "";
+        const sanitizedSearch = sanitizeSearchTerm(rawSearch);
 
-        // Initialize Supabase client
         const supabase = await createClient();
 
-        // Build query with search filter
         let query = supabase
             .from("newsletter_subscribers")
             .select("*")
-            .order("created_at", { ascending: false });
+            .order("created_at", { ascending: false })
+            .limit(100);
 
-        // Apply search filter if provided
-        if (search) {
+        if (sanitizedSearch) {
+            const searchPattern = `%${sanitizedSearch}%`;
             query = query.or(
-                `phone_number.ilike.%${search}%,email.ilike.%${search}%`,
+                `phone_number.ilike.${searchPattern},email.ilike.${searchPattern}`,
             );
         }
 

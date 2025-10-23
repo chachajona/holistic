@@ -1,16 +1,24 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
-import { Download, Search, Loader2 } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
+import { Download, Loader2, Search } from "lucide-react";
 
-import { createClient } from "@/lib/supabase/client";
-import type { Database } from "@/lib/supabase/types";
 import {
+    exportContactsToCSV,
     formatDate,
     truncateText,
-    exportContactsToCSV,
 } from "@/lib/dashboard-utils";
+import { createClient } from "@/lib/supabase/client";
+import type { Database } from "@/lib/supabase/types";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
     Table,
@@ -20,14 +28,6 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog";
-import { useToast } from "@/hooks/use-toast";
 
 type Contact = Database["public"]["Tables"]["contacts"]["Row"];
 
@@ -86,23 +86,23 @@ export function ContactsTable() {
                     schema: "public",
                     table: "contacts",
                 },
-                (payload) => {
+                payload => {
                     if (payload.eventType === "INSERT") {
                         const newContact = payload.new as Contact;
-                        setContacts((prev) => [newContact, ...prev]);
+                        setContacts(prev => [newContact, ...prev]);
                         toast({
                             title: "New Contact Received",
                             description: `From ${newContact.name}`,
                         });
                     } else if (payload.eventType === "DELETE") {
-                        setContacts((prev) =>
+                        setContacts(prev =>
                             prev.filter(
-                                (contact) => contact.id !== payload.old.id,
+                                contact => contact.id !== payload.old.id,
                             ),
                         );
                     } else if (payload.eventType === "UPDATE") {
-                        setContacts((prev) =>
-                            prev.map((contact) =>
+                        setContacts(prev =>
+                            prev.map(contact =>
                                 contact.id === payload.new.id
                                     ? (payload.new as Contact)
                                     : contact,
@@ -126,7 +126,7 @@ export function ContactsTable() {
             const searchLower = search.toLowerCase();
             setFilteredContacts(
                 contacts.filter(
-                    (contact) =>
+                    contact =>
                         contact.name.toLowerCase().includes(searchLower) ||
                         contact.phone.toLowerCase().includes(searchLower) ||
                         contact.message.toLowerCase().includes(searchLower),
@@ -154,7 +154,7 @@ export function ContactsTable() {
                     <Input
                         placeholder="Search contacts..."
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={e => setSearch(e.target.value)}
                         className="border-brown-300 bg-brown-50 text-primary-text placeholder:text-primary-text/40 pl-10"
                     />
                 </div>
@@ -195,7 +195,7 @@ export function ContactsTable() {
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                filteredContacts.map((contact) => (
+                                filteredContacts.map(contact => (
                                     <TableRow
                                         key={contact.id}
                                         className="hover:bg-brown-100/50 cursor-pointer"
@@ -206,7 +206,9 @@ export function ContactsTable() {
                                         <TableCell className="text-primary-text font-medium">
                                             {contact.name}
                                         </TableCell>
-                                        <TableCell className="text-primary-text">{contact.phone}</TableCell>
+                                        <TableCell className="text-primary-text">
+                                            {contact.phone}
+                                        </TableCell>
                                         <TableCell className="text-primary-text">
                                             {truncateText(contact.message, 50)}
                                         </TableCell>
