@@ -4,8 +4,10 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/images/Logo_Opacity_Light.png";
+import { useLocale } from "@/providers/LocaleProvider";
 import { MapPin, Phone } from "lucide-react";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
+
 import type { ContactInfo, SocialMedia } from "@/types/sanity";
 
 interface BannerProps {
@@ -14,6 +16,8 @@ interface BannerProps {
 }
 
 const Banner: React.FC<BannerProps> = ({ contactInfo, socialMedia }) => {
+    const { t } = useLocale();
+    
     // Find the primary location for the banner
     const primaryLocation = contactInfo?.locations?.find(loc => loc.isPrimary);
 
@@ -37,8 +41,11 @@ const Banner: React.FC<BannerProps> = ({ contactInfo, socialMedia }) => {
                             rel="noopener noreferrer"
                             className="font-robotoSlab text-primary-text hover:text-primary-hover hidden items-center text-xs font-semibold md:flex"
                         >
-                            <MapPin size={14} className="mr-2 hidden md:block" />
-                            <span>Địa chỉ: {primaryLocation.address}</span>
+                            <MapPin
+                                size={14}
+                                className="mr-2 hidden md:block"
+                            />
+                            <span>{t("banner.address")}: {primaryLocation.address}</span>
                         </Link>
                     )}
                     {contactInfo?.phone && (
@@ -48,7 +55,7 @@ const Banner: React.FC<BannerProps> = ({ contactInfo, socialMedia }) => {
                         >
                             <Phone size={14} className="mr-2" />
                             <span>
-                                Hotline:{" "}
+                                {t("banner.hotline")}:{" "}
                                 {contactInfo.phone
                                     .replace(/[()]/g, "")
                                     .replace(/\s/g, "")}

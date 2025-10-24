@@ -8,7 +8,7 @@ export const quickLinkType = defineType({
     fields: [
         defineField({
             name: "title",
-            type: "string",
+            type: "localeString",
             title: "Title",
             validation: Rule => Rule.required(),
         }),
@@ -18,11 +18,14 @@ export const quickLinkType = defineType({
             title: "Link URL",
             description:
                 "Internal path this card links to (e.g., /services, /treatments)",
-            validation: Rule => Rule.required().custom(value => {
-                if (!value) return true;
-                const isValidPath = /^\/[a-z0-9\-\/]*$/i.test(value);
-                return isValidPath ? true : "Must be a valid internal path starting with /";
-            }),
+            validation: Rule =>
+                Rule.required().custom(value => {
+                    if (!value) return true;
+                    const isValidPath = /^\/[a-z0-9\-\/]*$/i.test(value);
+                    return isValidPath
+                        ? true
+                        : "Must be a valid internal path starting with /";
+                }),
         }),
         defineField({
             name: "bgImage",
@@ -56,14 +59,16 @@ export const quickLinkType = defineType({
     ],
     preview: {
         select: {
-            title: "title",
-            subtitle: "link",
+            titleObj: "title",
+            link: "link",
             media: "bgImage",
         },
-        prepare({ title, subtitle, media }) {
+        prepare({ titleObj, link, media }) {
+            // Extract Vietnamese text from localeString for preview
+            const title = titleObj?.vi || titleObj || "Untitled Link";
             return {
-                title: title || "Untitled Link",
-                subtitle: subtitle || "No link set",
+                title,
+                subtitle: link || "No link set",
                 media: media || LinkIcon,
             };
         },

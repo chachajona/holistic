@@ -17,7 +17,9 @@ import type {
 import { localizedArray, localizedBlock, localizedField } from "./groq-helpers";
 import { baseLanguage, type Locale } from "./i18n/languages";
 
-export async function getHomePage(): Promise<HomePageData | null> {
+export async function getHomePage(
+    locale: Locale = baseLanguage.id,
+): Promise<HomePageData | null> {
     try {
         const getPageQuery = groq`*[_type == "page"][slug == 'home'][0]{
             'Heading': title,
@@ -70,9 +72,9 @@ export async function getHomePage(): Promise<HomePageData | null> {
             'CTA': pageBuilder[][_type == "cta"][0]{
                 _key,
                 slug,
-                heading,
-                description,
-                primaryButtonText,
+                "heading": ${localizedField("heading")},
+                "description": ${localizedField("description")},
+                "primaryButtonText": ${localizedField("primaryButtonText")},
                 primaryButtonUrl,
                 theme,
                 therapyImage {
@@ -93,16 +95,11 @@ export async function getHomePage(): Promise<HomePageData | null> {
                     hotspot,
                     crop
                 }
-            },
-            'FormContact': pageBuilder[][_type == "form" && formType == "contact"][0]{
-                label,
-                heading,
-                formType,
-                contactFields,
-                submitButtonText
             }
         }`;
-        const result = await client.fetch<HomePageData>(getPageQuery);
+        const result = await client.fetch<HomePageData>(getPageQuery, {
+            locale,
+        });
 
         if (!result) {
             console.error("Home page data is missing or invalid");
@@ -255,7 +252,9 @@ export async function getTreatmentsPage(): Promise<TreatmentsPageData | null> {
     }
 }
 
-export async function getBookingPage(): Promise<BookingPageData | null> {
+export async function getBookingPage(
+    locale: Locale = baseLanguage.id,
+): Promise<BookingPageData | null> {
     try {
         const getPageQuery = groq`*[_type == "page"][slug == 'booking'][0]{
             'Heading': title,
@@ -289,14 +288,21 @@ export async function getBookingPage(): Promise<BookingPageData | null> {
                 }
             },
             'FormContact': pageBuilder[][_type == "form" && formType == "contact"][0]{
-                label,
-                heading,
+                "label": ${localizedField("label")},
+                "heading": ${localizedField("heading")},
                 formType,
-                contactFields,
-                submitButtonText
+                contactFields{
+                    namePlaceholder,
+                    emailPlaceholder,
+                    messagePlaceholder,
+                    phonePlaceholder
+                },
+                "submitButtonText": ${localizedField("submitButtonText")}
             }
         }`;
-        const result = await client.fetch<BookingPageData>(getPageQuery);
+        const result = await client.fetch<BookingPageData>(getPageQuery, {
+            locale,
+        });
         if (!result) {
             console.error("Booking page data is missing or invalid");
             return null;
@@ -308,7 +314,9 @@ export async function getBookingPage(): Promise<BookingPageData | null> {
     }
 }
 
-export async function getTestimonials(): Promise<TestimonialData[] | null> {
+export async function getTestimonials(
+    locale: Locale = baseLanguage.id,
+): Promise<TestimonialData[] | null> {
     try {
         const query = groq`*[_type == "testimonial"]{
             _id,
@@ -325,10 +333,12 @@ export async function getTestimonials(): Promise<TestimonialData[] | null> {
                 crop
             },
             rating,
-            quote,
-            author
+            "quote": ${localizedField("quote")},
+            "author": ${localizedField("author")}
         }`;
-        const result = await client.fetch<TestimonialData[]>(query);
+        const result = await client.fetch<TestimonialData[]>(query, {
+            locale,
+        });
         if (!result) {
             console.error("Error fetching testimonials: No result");
             return []; // Return empty array if none found
@@ -519,8 +529,8 @@ export async function getAllServicesDetailed(): Promise<ServiceDetailed[]> {
         evidence,
         "treatments": treatments[]-> {
           "id": _id,
-          "name": title,
-          "description": shortDescription,
+          "name": title.vi,
+          "description": shortDescription.vi,
           "icon": icon,
           "href": slug.current
         }

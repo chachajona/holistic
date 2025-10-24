@@ -5,13 +5,10 @@ import { Activity, LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { ContactsTable } from "./ContactsTable";
-import { NewsletterTable } from "./NewsletterTable";
+import { ContactsTableEnhanced } from "./ContactsTableEnhanced";
 
 export function DashboardClient() {
-    const [activeTab, setActiveTab] = useState("contacts");
     const [isLoggingOut, setIsLoggingOut] = useState(false);
 
     async function handleLogout() {
@@ -35,7 +32,7 @@ export function DashboardClient() {
                             Dashboard
                         </h1>
                         <p className="text-primary-text/60 mt-1 text-sm">
-                            Manage contacts and newsletter subscribers
+                            Manage all contacts in one unified view
                         </p>
                     </div>
                     <div className="flex items-center gap-3">
@@ -55,39 +52,10 @@ export function DashboardClient() {
                     </div>
                 </div>
 
-                {/* Tabs */}
-                <Tabs
-                    value={activeTab}
-                    onValueChange={setActiveTab}
-                    className="w-full"
-                >
-                    <TabsList className="bg-primary-background grid w-full max-w-md grid-cols-2">
-                        <TabsTrigger
-                            value="contacts"
-                            className="text-primary-text data-[state=active]:bg-navbar-accent-background data-[state=active]:text-navbar-text"
-                        >
-                            Contacts
-                        </TabsTrigger>
-                        <TabsTrigger
-                            value="newsletter"
-                            className="text-primary-text data-[state=active]:bg-navbar-accent-background data-[state=active]:text-navbar-text"
-                        >
-                            Newsletter Subscribers
-                        </TabsTrigger>
-                    </TabsList>
-
-                    <TabsContent value="contacts" className="mt-6">
-                        <div className="bg-primary-background rounded-lg p-6 shadow-md">
-                            <ContactsTable />
-                        </div>
-                    </TabsContent>
-
-                    <TabsContent value="newsletter" className="mt-6">
-                        <div className="bg-primary-background rounded-lg p-6 shadow-md">
-                            <NewsletterTable />
-                        </div>
-                    </TabsContent>
-                </Tabs>
+                {/* Unified Contacts Table */}
+                <div className="bg-primary-background rounded-lg p-6 shadow-md">
+                    <ContactsTableEnhanced />
+                </div>
             </div>
         </div>
     );

@@ -9,7 +9,7 @@ export default function ServicesLoading() {
                 <div className="relative z-10 flex h-full items-center justify-center">
                     <div className="text-center">
                         <Skeleton className="mx-auto mb-4 h-12 w-64" />
-                        <Skeleton className="mx-auto h-6 w-96" />
+                        <Skeleton className="mx-auto h-6 w-11/12 max-w-96" />
                     </div>
                 </div>
             </div>

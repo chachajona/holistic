@@ -1,0 +1,129 @@
+{
+    "nav": {
+        "home": "Trang chủ",
+        "services": "Dịch vụ",
+        "treatments": "Phương pháp",
+        "about": "Giới thiệu",
+        "events": "Sự kiện",
+        "blog": "Blog"
+    },
+    "common": {
+        "readMore": "Xem thêm",
+        "bookNow": "Đặt lịch ngay",
+        "contactUs": "Liên hệ",
+        "learnMore": "Tìm hiểu thêm",
+        "viewAll": "Xem tất cả",
+        "loading": "Đang tải...",
+        "search": "Tìm kiếm",
+        "exportCSV": "Xuất CSV"
+    },
+    "footer": {
+        "contactInfo": "Thông tin liên hệ",
+        "quickLinks": "Liên kết nhanh",
+        "followUs": "Theo dõi chúng tôi",
+        "copyright": "Bản quyền",
+        "allRightsReserved": "Đã đăng ký bản quyền",
+        "privacyPolicy": "Chính sách bảo mật",
+        "termsConditions": "Điều khoản và điều kiện",
+        "cookiePolicy": "Chính sách cookie"
+    },
+    "banner": {
+        "address": "Địa chỉ",
+        "hotline": "Hotline"
+    },
+    "home": {
+        "treatmentsSection": {
+            "badge": "Khám phá",
+            "title": "Phương pháp trị liệu",
+            "description": "Các phương pháp điều trị vật lý trị liệu của chúng tôi bao gồm một loạt các giải pháp để đáp ứng nhu cầu riêng của bạn."
+        }
+    },
+    "hero": {
+        "mainHeading": "Giúp mọi người cải thiện sức khoẻ vận động một cách",
+        "rotatingWords": ["toàn diện", "bền vững"],
+        "form": {
+            "heading": "Tư vấn ngay trong 30 giây",
+            "easyBooking": "Đặt lịch dễ dàng",
+            "instantConfirmation": "Xác nhận ngay",
+            "phonePlaceholder": "Nhập số điện thoại...",
+            "submitButton": "Tư vấn ngay",
+            "successTitle": "Đã gửi thành công",
+            "successMessage": "Chúng tôi sẽ liên hệ lại bạn trong thời gian sớm nhất.",
+            "errorTitle": "Lỗi",
+            "errorMessage": "Có lỗi xảy ra khi gửi form. Vui lòng thử lại sau.",
+            "phoneValidation": "Số điện thoại phải có ít nhất 10 số."
+        }
+    },
+    "services": {
+        "therapy": {
+            "title": "Trị liệu",
+            "description": "Trị liệu đa phương pháp giúp cải thiện mọi tình trạng chấn thương đau mỏi, bệnh lí cơ, xương, khớp"
+        },
+        "consultation": {
+            "title": "Tư vấn chuyên sâu",
+            "description": "Chuyên gia lượng giá chức năng sức khoẻ vận động và cá nhân hoá liệu trình phù hợp với từng trường hợp khách hàng"
+        },
+        "muscleRelaxation": {
+            "title": "Thư giãn cơ",
+            "description": "Giảm căng cơ, cải thiện sức khoẻ vận động"
+        },
+        "basicTraining": {
+            "title": "Tập luyện cơ bản",
+            "description": "Coaching 1-1 với các bài tập rehab để cải thiện tư thế vận động, phục hồi sau chấn thương"
+        }
+    },
+    "treatments": {
+        "cupping": {
+            "title": "Giác hơi",
+            "description": "Phương pháp sử dụng lực hút chân không để giảm đau và thư giãn cơ bắp."
+        },
+        "tapping": {
+            "title": "Tapping",
+            "description": "Phương pháp gõ nhẹ nhằm kích thích các cơ và dây thần kinh, giúp giảm căng thẳng và cải thiện tuần hoàn."
+        },
+        "heatLight": {
+            "title": "Đèn hồng ngoại",
+            "description": "Liệu pháp sử dụng ánh sáng hồng ngoại để làm ấm cơ, cải thiện tuần hoàn máu và giảm đau."
+        },
+        "iastm": {
+            "title": "Cao mạc (Dùng công cụ chuyển động mô mềm)",
+            "description": "Kỹ thuật sử dụng công cụ chuyên dụng để kích thích và cải thiện mô mềm, giảm đau và tăng cường phục hồi."
+        },
+        "coldPlunge": {
+            "title": "Ngâm lạnh",
+            "description": "Liệu pháp sử dụng nước lạnh để giảm đau và cải thiện tuần hoàn."
+        },
+        "dryNeedling": {
+            "title": "Châm khô",
+            "description": "Kỹ thuật sử dụng kim nhỏ để kích thích điểm co thắt cơ và giảm đau mãn tính."
+        },
+        "dds": {
+            "title": "Điện sinh học (DDS)",
+            "description": "Liệu pháp sử dụng dòng điện nhẹ để kích thích cơ và dây thần kinh, giảm đau và thúc đẩy phục hồi."
+        }
+    },
+    "quickLinks": {
+        "services": "Dịch vụ",
+        "treatments": "Phương pháp",
+        "team": "Đội ngũ"
+    },
+    "testimonials": {
+        "title": "Đánh giá từ khách hàng",
+        "subtitle": "Ví dụ về khách hàng của Holistic"
+    },
+    "dashboard": {
+        "title": "Bảng điều khiển",
+        "description": "Quản lý liên hệ và đăng ký nhận tin",
+        "contacts": "Liên hệ",
+        "newsletter": "Đăng ký nhận tin",
+        "liveUpdates": "Cập nhật trực tiếp được kích hoạt",
+        "logout": "Đăng xuất",
+        "loggingOut": "Đang đăng xuất...",
+        "totalContacts": "Tổng số liên hệ",
+        "totalSubscribers": "Tổng số người đăng ký",
+        "searchContacts": "Tìm kiếm liên hệ...",
+        "searchSubscribers": "Tìm kiếm người đăng ký...",
+        "noContactsFound": "Không tìm thấy liên hệ",
+        "noSubscribersFound": "Không tìm thấy người đăng ký"
+    }
+}

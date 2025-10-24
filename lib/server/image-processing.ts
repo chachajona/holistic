@@ -94,20 +94,6 @@ function isSanityImageObject(
     );
 }
 
-async function fetchWithTimeout(
-    url: string,
-    timeoutMs: number,
-): Promise<Response> {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-    try {
-        return await fetch(url, { signal: controller.signal });
-    } finally {
-        clearTimeout(timeoutId);
-    }
-}
-
 async function generateBlurFromBuffer(buffer: Buffer): Promise<string> {
     const sharpInstance = await getSharp();
     if (!sharpInstance) {
@@ -129,8 +115,20 @@ async function generateBlurFromBuffer(buffer: Buffer): Promise<string> {
 }
 
 async function generateBlurFromRemote(url: string): Promise<string> {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(
+        () => controller.abort(),
+        REMOTE_FETCH_TIMEOUT_MS,
+    );
+
     try {
-        const response = await fetchWithTimeout(url, REMOTE_FETCH_TIMEOUT_MS);
+        const response = await fetch(url, {
+            signal: controller.signal,
+            cache: "force-cache",
+        });
+
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
             return createSVGPlaceholder();
         }
@@ -138,7 +136,14 @@ async function generateBlurFromRemote(url: string): Promise<string> {
         const arrayBuffer = await response.arrayBuffer();
         return await generateBlurFromBuffer(Buffer.from(arrayBuffer));
     } catch (error) {
-        console.warn("Error generating blur from remote image:", error);
+        clearTimeout(timeoutId);
+        if ((error as Error).name === "AbortError") {
+            console.warn(
+                "Timeout fetching remote image for blur, using placeholder",
+            );
+        } else {
+            console.warn("Error generating blur from remote image:", error);
+        }
         return createSVGPlaceholder();
     }
 }
@@ -250,7 +255,7 @@ export async function getSanityImageData(image: SanityImageSource) {
         let imageUrl;
         let sanityUrl: string | null = null;
         try {
-            imageUrl = urlFor(image).url();
+            imageUrl = urlFor(image).width(2000).quality(85).url();
             sanityUrl = imageUrl;
         } catch (error) {
             // Extract URL directly from string reference if possible

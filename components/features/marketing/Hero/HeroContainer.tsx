@@ -2,13 +2,11 @@
 
 import { Suspense } from "react";
 
-import { FormData } from "@/types/form";
 import { HeroData } from "@/types/sanity";
 
 import HeroClient from "./HeroClient";
 
 interface HeroContainerProps {
-    formData: FormData;
     onImageLoaded?: () => void;
     heroData?: HeroData | null;
 }
@@ -23,17 +21,12 @@ function HeroSkeleton() {
 }
 
 export default function HeroContainer({
-    formData,
     onImageLoaded,
     heroData,
 }: HeroContainerProps) {
     return (
         <Suspense fallback={<HeroSkeleton />}>
-            <HeroClient
-                formData={formData}
-                onImageLoaded={onImageLoaded}
-                heroData={heroData}
-            />
+            <HeroClient onImageLoaded={onImageLoaded} heroData={heroData} />
         </Suspense>
     );
 }

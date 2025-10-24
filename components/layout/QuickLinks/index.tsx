@@ -6,10 +6,12 @@ import { Service, Team, Treatment } from "@/assets/icons";
 import link1 from "@/assets/images/Link1.jpg";
 import link2 from "@/assets/images/Link2.jpg";
 import link3 from "@/assets/images/Link3.jpg";
+import { useLocale } from "@/providers/LocaleProvider";
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import { ArrowUpRight } from "lucide-react";
 
 import { QuickLinkData } from "@/types/sanity";
+import { getLocalizedString } from "@/lib/i18n/utils";
 import { getSanityBlurUrl, getSanityImageUrl } from "@/lib/sanity-image";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 
@@ -80,31 +82,6 @@ function getIconComponent(iconType: string | null): React.ReactNode {
     }
 }
 
-// Fallback hardcoded data
-const defaultQuickLinks = [
-    {
-        title: "Dịch vụ",
-        icon: <Service className="size-14" />,
-        bgImage: link1,
-        link: "/services",
-        disableScroll: false,
-    },
-    {
-        title: "Phương pháp",
-        icon: <Treatment className="w-36" />,
-        bgImage: link2,
-        link: "/treatments",
-        disableScroll: false,
-    },
-    {
-        title: "Đội ngũ",
-        icon: <Team className="w-36" />,
-        bgImage: link3,
-        link: "/about",
-        disableScroll: true,
-    },
-];
-
 interface QuickLinkSectionProps {
     quickLinksData?: QuickLinkData[] | null;
 }
@@ -112,7 +89,39 @@ interface QuickLinkSectionProps {
 export default function QuickLinkSection({
     quickLinksData,
 }: QuickLinkSectionProps) {
-    // Use CMS data if available, otherwise fallback to hardcoded data
+    const { t, locale } = useLocale();
+
+    // Helper to ensure we get a string from t()
+    const getString = (key: string): string => {
+        const value = t(key);
+        return typeof value === 'string' ? value : value[0] || key;
+    };
+
+    // Fallback hardcoded data with translations
+    const defaultQuickLinks = [
+        {
+            title: getString("quickLinks.services"),
+            icon: <Service className="size-14" />,
+            bgImage: link1,
+            link: "/services",
+            disableScroll: false,
+        },
+        {
+            title: getString("quickLinks.treatments"),
+            icon: <Treatment className="w-36" />,
+            bgImage: link2,
+            link: "/treatments",
+            disableScroll: false,
+        },
+        {
+            title: getString("quickLinks.team"),
+            icon: <Team className="w-36" />,
+            bgImage: link3,
+            link: "/about",
+            disableScroll: true,
+        },
+    ];
+
     const quickLinks =
         quickLinksData && quickLinksData.length > 0
             ? quickLinksData.map(link => {
@@ -125,11 +134,11 @@ export default function QuickLinkSection({
                       : link1;
 
                   return {
-                      title: link.title || "",
+                      title: getLocalizedString(link.title, locale) || "",
                       icon: getIconComponent(link.iconType),
                       bgImage: optimizedBgImage,
-                      originalBgImage: link.bgImage, // Store original for blur data
-                      link: link.link || "#",
+                      originalBgImage: link.bgImage,
+                      link: link.link || "/",
                       disableScroll: link.disableScroll || false,
                   };
               })
@@ -139,7 +148,7 @@ export default function QuickLinkSection({
         <section className="bg-primary-background container mx-auto px-4 py-8 md:px-16">
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                 {quickLinks.map((link, index) => (
-                    <QuickLinkCard key={link.title || index} {...link} />
+                    <QuickLinkCard key={index} {...link} />
                 ))}
             </div>
         </section>

@@ -3,9 +3,20 @@
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import type { ImageCrop, ImageHotspot, PortableTextBlock } from "@sanity/types";
 
+// Localized content type for Sanity
+export type LocalizedString =
+    | {
+          vi?: string;
+          en?: string;
+      }
+    | string
+    | null;
+
 export interface HeroData {
     _id: string;
     slug: { current: string } | null;
+    heading?: LocalizedString;
+    subheading?: LocalizedString;
     image: {
         asset: {
             _id: string;
@@ -28,7 +39,7 @@ export interface HeroData {
 
 export interface QuickLinkData {
     _key: string;
-    title: string | null;
+    title: LocalizedString;
     link: string | null;
     iconType: "service" | "treatment" | "team" | null;
     disableScroll: boolean | null;
@@ -54,10 +65,10 @@ export interface QuickLinkData {
 export interface CTAData {
     _key: string;
     slug: { current: string } | null;
-    heading: string | null;
-    description: string | null;
-    primaryButtonText: string | null;
-    primaryButtonUrl: string | null;
+    heading: LocalizedString;
+    description: LocalizedString;
+    primaryButtonText: LocalizedString;
+    primaryButtonUrl: string | null; // Internal path like /booking, /services
     theme: "blue" | "light" | "dark" | null;
     therapyImage: {
         asset: {
@@ -86,18 +97,6 @@ export interface HomePageData {
     QuickLinks: QuickLinkData[] | null;
     CTA: CTAData | null;
     seo?: Seo | null;
-    FormContact: {
-        label: string | null;
-        heading: string | null;
-        formType: string | null;
-        contactFields: {
-            namePlaceholder: string | null;
-            emailPlaceholder: string | null;
-            messagePlaceholder: string | null;
-            phonePlaceholder: string | null;
-        } | null;
-        submitButtonText: string | null;
-    } | null;
 }
 
 // Interface based on the GROQ query in getAboutPage

@@ -3,8 +3,6 @@ import { unparse } from "papaparse";
 import type { Database } from "./supabase/types";
 
 type Contact = Database["public"]["Tables"]["contacts"]["Row"];
-type NewsletterSubscriber =
-    Database["public"]["Tables"]["newsletter_subscribers"]["Row"];
 
 /**
  * Format a date string to a readable format
@@ -39,7 +37,12 @@ export function exportContactsToCSV(contacts: Contact[], filename?: string) {
  * Export newsletter subscribers to CSV and trigger download
  */
 export function exportNewsletterToCSV(
-    subscribers: NewsletterSubscriber[],
+    subscribers: {
+        id: string;
+        phone_number: string;
+        email: string | null;
+        created_at: string;
+    }[],
     filename?: string,
 ) {
     const csvData = subscribers.map(subscriber => ({

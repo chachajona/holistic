@@ -20,13 +20,13 @@ export const testimonialType = defineType({
         defineField({
             name: "quote",
             title: "Quote",
-            type: "text",
+            type: "localeText",
             validation: rule => rule.required(),
         }),
         defineField({
             name: "author",
             title: "Author",
-            type: "string",
+            type: "localeString",
             validation: rule => rule.required(),
         }),
     ],

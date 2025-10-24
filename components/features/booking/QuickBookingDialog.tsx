@@ -1,154 +1,247 @@
 "use client";
 
 import { useState } from "react";
-import { format } from "date-fns";
-import { vi } from "date-fns/locale";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
     Drawer,
     DrawerContent,
+    DrawerDescription,
     DrawerHeader,
     DrawerTitle,
 } from "@/components/ui/drawer";
 import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import {
     Sheet,
     SheetContent,
+    SheetDescription,
     SheetHeader,
     SheetTitle,
 } from "@/components/ui/sheet";
+import { Textarea } from "@/components/ui/textarea";
+
+const bookingFormSchema = z.object({
+    name: z
+        .string()
+        .min(2, "Tên phải có ít nhất 2 ký tự")
+        .max(100, "Tên không được quá 100 ký tự")
+        .regex(
+            /^[a-zA-ZÀ-ỹ\s]+$/,
+            "Tên chỉ được chứa chữ cái và khoảng trắng",
+        ),
+    phone: z
+        .string()
+        .regex(/^0[0-9]{9,10}$/, "Số điện thoại không hợp lệ")
+        .length(10, "Số điện thoại phải có 10 số"),
+    note: z.string().max(500, "Ghi chú không được quá 500 ký tự").optional(),
+});
+
+type BookingFormData = z.infer<typeof bookingFormSchema>;
 
 interface QuickBookingDialogProps {
     isOpen: boolean;
     onClose: () => void;
-    service: {
-        title: string;
-        treatments: Array<{
-            id: string;
-            name: string;
-        }>;
+    treatment: {
+        id: string;
+        name: string;
     } | null;
 }
 
 export function QuickBookingDialog({
     isOpen,
     onClose,
-    service,
+    treatment,
 }: QuickBookingDialogProps) {
-    const [selectedDate, setSelectedDate] = useState<Date>();
-    const [selectedTreatment, setSelectedTreatment] = useState<string>();
-    const [selectedTime, setSelectedTime] = useState<string>();
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const isMobile = useMediaQuery("(max-width: 768px)");
+    const { toast } = useToast();
 
-    const timeSlots = ["09:00", "10:00", "11:00", "14:00", "15:00", "16:00"];
+    const form = useForm<BookingFormData>({
+        resolver: zodResolver(bookingFormSchema),
+        defaultValues: {
+            name: "",
+            phone: "",
+            note: "",
+        },
+    });
 
     const handleClose = () => {
-        setSelectedDate(undefined);
-        setSelectedTreatment(undefined);
-        setSelectedTime(undefined);
+        form.reset();
         onClose();
     };
 
-    const handleBooking = async () => {
-        if (!selectedDate || !selectedTreatment || !selectedTime) {
-            alert("Vui lòng chọn đầy đủ thông tin.");
-            return;
-        }
+    const onSubmit = async (data: BookingFormData) => {
+        if (!treatment) return;
+
+        setIsSubmitting(true);
+
         try {
-            const response = await fetch("/api/book", {
+            const response = await fetch("/api/booking-request", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    treatment: selectedTreatment,
-                    date: format(selectedDate, "yyyy-MM-dd"),
-                    time: selectedTime,
+                    treatmentId: treatment.id,
+                    treatmentName: treatment.name,
+                    name: data.name,
+                    phone: data.phone,
+                    note: data.note || "",
+                    source: "services-page",
                 }),
             });
-            if (response.ok) window.location.href = "/booking?success=true";
-            else throw new Error("Đặt lịch thất bại");
+
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.error || "Có lỗi xảy ra");
+            }
+
+            toast({
+                title: "✓ Đã gửi yêu cầu thành công",
+                description:
+                    "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất. Cảm ơn!",
+            });
+
+            // Close dialog after a short delay
+            setTimeout(() => {
+                handleClose();
+            }, 500);
         } catch (error) {
-            console.error(error);
-            alert("Có lỗi xảy ra, vui lòng thử lại.");
+            console.error("Booking submission error:", error);
+            toast({
+                title: "✗ Có lỗi xảy ra",
+                description:
+                    error instanceof Error
+                        ? error.message
+                        : "Vui lòng kiểm tra lại thông tin hoặc thử lại sau.",
+                variant: "destructive",
+            });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
-    // Reusable content for both drawer and sheet
+    // Reusable form content for both drawer and sheet
     const bookingContent = (
-        <>
-            <div className="grid gap-4 py-4">
-                <div className="grid gap-2">
+        <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                {/* Treatment Display (Read-only) */}
+                <div className="space-y-2">
                     <label className="font-robotoSlab text-sm font-medium">
-                        Chọn phương pháp điều trị
+                        Phương pháp điều trị
                     </label>
-                    <select
-                        value={selectedTreatment}
-                        onChange={e => setSelectedTreatment(e.target.value)}
-                        className="rounded-md border p-2"
-                    >
-                        <option value="">Chọn phương pháp</option>
-                        {service?.treatments.map(treatment => (
-                            <option key={treatment.id} value={treatment.id}>
-                                {treatment.name}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <div className="flex flex-col items-center gap-2">
-                    <label className="font-robotoSlab self-start text-sm font-medium">
-                        Chọn ngày
-                    </label>
-                    <Calendar
-                        mode="single"
-                        selected={selectedDate}
-                        onSelect={setSelectedDate}
-                        locale={vi}
-                        className="rounded-md border"
-                    />
-                </div>
-
-                {selectedDate && (
-                    <div className="grid gap-2">
-                        <label className="font-robotoSlab text-sm font-medium">
-                            Chọn giờ
-                        </label>
-                        <div className="grid grid-cols-3 gap-2">
-                            {timeSlots.map(time => (
-                                <Button
-                                    key={time}
-                                    variant={
-                                        selectedTime === time
-                                            ? "default"
-                                            : "outline"
-                                    }
-                                    onClick={() => setSelectedTime(time)}
-                                    className="text-sm"
-                                >
-                                    {time}
-                                </Button>
-                            ))}
-                        </div>
+                    <div className="bg-primary-text/10 text-primary-text flex items-center gap-2 rounded-lg p-3">
+                        <span className="text-lg">🧘</span>
+                        <span className="font-robotoSerif font-medium">
+                            {treatment?.name || "Chưa chọn"}
+                        </span>
                     </div>
-                )}
+                </div>
 
-                <div className="flex justify-end gap-3">
-                    <Button variant="outline" onClick={handleClose}>
+                {/* Name Field */}
+                <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="font-robotoSlab">
+                                Họ và tên <span className="text-red-500">*</span>
+                            </FormLabel>
+                            <FormControl>
+                                <Input
+                                    placeholder="Nguyễn Văn A"
+                                    {...field}
+                                    disabled={isSubmitting}
+                                    className="font-robotoSlab"
+                                />
+                            </FormControl>
+                            <FormMessage className="font-robotoSlab text-xs" />
+                        </FormItem>
+                    )}
+                />
+
+                {/* Phone Field */}
+                <FormField
+                    control={form.control}
+                    name="phone"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="font-robotoSlab">
+                                Số điện thoại{" "}
+                                <span className="text-red-500">*</span>
+                            </FormLabel>
+                            <FormControl>
+                                <Input
+                                    type="tel"
+                                    placeholder="0901234567"
+                                    {...field}
+                                    disabled={isSubmitting}
+                                    className="font-robotoSlab"
+                                />
+                            </FormControl>
+                            <FormMessage className="font-robotoSlab text-xs" />
+                        </FormItem>
+                    )}
+                />
+
+                {/* Note Field */}
+                <FormField
+                    control={form.control}
+                    name="note"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel className="font-robotoSlab">
+                                Ghi chú{" "}
+                                <span className="text-sm text-gray-500">
+                                    (tùy chọn)
+                                </span>
+                            </FormLabel>
+                            <FormControl>
+                                <Textarea
+                                    placeholder="Ví dụ: Tôi muốn đặt lịch vào buổi sáng hoặc có vấn đề cụ thể cần tư vấn..."
+                                    {...field}
+                                    disabled={isSubmitting}
+                                    className="font-robotoSlab min-h-[100px] resize-none"
+                                />
+                            </FormControl>
+                            <FormMessage className="font-robotoSlab text-xs" />
+                        </FormItem>
+                    )}
+                />
+
+                {/* Action Buttons */}
+                <div className="flex justify-end gap-3 pt-2">
+                    <Button
+                        type="button"
+                        variant="outline"
+                        onClick={handleClose}
+                        disabled={isSubmitting}
+                    >
                         Hủy
                     </Button>
                     <Button
-                        onClick={handleBooking}
-                        disabled={
-                            !selectedDate || !selectedTreatment || !selectedTime
-                        }
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="bg-primary-text hover:bg-primary-text/90"
                     >
-                        Xác nhận đặt lịch
+                        {isSubmitting ? "Đang gửi..." : "Gửi yêu cầu đặt lịch"}
                     </Button>
                 </div>
-            </div>
-        </>
+            </form>
+        </Form>
     );
 
     // Use Drawer for mobile view
@@ -164,8 +257,11 @@ export function QuickBookingDialog({
                 >
                     <DrawerHeader className="px-0 text-left">
                         <DrawerTitle className="font-robotoSerif text-primary-text text-xl">
-                            Đặt lịch nhanh
+                            Đặt lịch tư vấn
                         </DrawerTitle>
+                        <DrawerDescription className="font-robotoSlab text-sm">
+                            Điền thông tin và chúng tôi sẽ liên hệ lại với bạn
+                        </DrawerDescription>
                     </DrawerHeader>
 
                     {/* Scrollable content area */}
@@ -183,10 +279,13 @@ export function QuickBookingDialog({
             <SheetContent side="right" className="w-full max-w-md">
                 <SheetHeader>
                     <SheetTitle className="font-robotoSerif text-2xl">
-                        Đặt lịch nhanh
+                        Đặt lịch tư vấn
                     </SheetTitle>
+                    <SheetDescription className="font-robotoSlab">
+                        Điền thông tin và chúng tôi sẽ liên hệ lại với bạn
+                    </SheetDescription>
                 </SheetHeader>
-                {bookingContent}
+                <div className="py-4">{bookingContent}</div>
             </SheetContent>
         </Sheet>
     );

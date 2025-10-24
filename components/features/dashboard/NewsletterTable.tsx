@@ -18,8 +18,8 @@ import {
     TableRow,
 } from "@/components/ui/table";
 
-type NewsletterSubscriber =
-    Database["public"]["Tables"]["newsletter_subscribers"]["Row"];
+type Contact = Database["public"]["Tables"]["contacts"]["Row"];
+type NewsletterSubscriber = Contact;
 
 export function NewsletterTable() {
     const [subscribers, setSubscribers] = useState<NewsletterSubscriber[]>([]);
@@ -73,7 +73,8 @@ export function NewsletterTable() {
                 {
                     event: "*",
                     schema: "public",
-                    table: "newsletter_subscribers",
+                    table: "contacts",
+                    filter: "contact_type=eq.newsletter",
                 },
                 payload => {
                     if (payload.eventType === "INSERT") {
@@ -82,7 +83,7 @@ export function NewsletterTable() {
                         setSubscribers(prev => [newSubscriber, ...prev]);
                         toast({
                             title: "New Newsletter Subscriber",
-                            description: `Phone: ${newSubscriber.phone_number}`,
+                            description: `Phone: ${newSubscriber.phone}`,
                         });
                     } else if (payload.eventType === "DELETE") {
                         setSubscribers(prev =>
@@ -117,9 +118,7 @@ export function NewsletterTable() {
             setFilteredSubscribers(
                 subscribers.filter(
                     subscriber =>
-                        subscriber.phone_number
-                            .toLowerCase()
-                            .includes(searchLower) ||
+                        subscriber.phone.toLowerCase().includes(searchLower) ||
                         subscriber.email?.toLowerCase().includes(searchLower),
                 ),
             );
@@ -127,8 +126,14 @@ export function NewsletterTable() {
     }, [search, subscribers]);
 
     function handleExport() {
+        const subscribersForExport = filteredSubscribers.map(sub => ({
+            id: sub.id,
+            phone_number: sub.phone,
+            email: sub.email,
+            created_at: sub.created_at,
+        }));
         exportNewsletterToCSV(
-            filteredSubscribers,
+            subscribersForExport,
             `newsletter-subscribers-${new Date().toISOString().split("T")[0]}.csv`,
         );
         toast({
@@ -191,7 +196,7 @@ export function NewsletterTable() {
                                         className="hover:bg-brown-100/50"
                                     >
                                         <TableCell className="text-primary-text font-medium">
-                                            {subscriber.phone_number}
+                                            {subscriber.phone}
                                         </TableCell>
                                         <TableCell className="text-primary-text">
                                             {subscriber.email || "N/A"}

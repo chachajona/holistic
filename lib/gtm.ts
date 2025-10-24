@@ -82,10 +82,7 @@ export function trackServiceView(serviceName: string, serviceId: string) {
 /**
  * Track booking attempts
  */
-export function trackBookingStart(
-    serviceType: string,
-    serviceName?: string,
-) {
+export function trackBookingStart(serviceType: string, serviceName?: string) {
     sendGTMEvent({
         event: "booking_start",
         service_type: serviceType,

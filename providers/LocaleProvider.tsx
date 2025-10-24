@@ -15,7 +15,7 @@ import { getTranslations } from "@/lib/i18n/utils";
 interface LocaleContextType {
     locale: Locale;
     setLocale: (locale: Locale) => void;
-    t: (key: string, fallback?: string) => string;
+    t: (key: string, fallback?: string) => string | string[];
 }
 
 const LocaleContext = createContext<LocaleContextType>({
@@ -56,7 +56,7 @@ export function LocaleProvider({
         window.location.reload();
     };
 
-    const t = (key: string, fallback?: string): string => {
+    const t = (key: string, fallback?: string): string | string[] => {
         const keys = key.split(".");
         let value: unknown = translations;
 
@@ -68,7 +68,14 @@ export function LocaleProvider({
             }
         }
 
-        return typeof value === "string" ? value : fallback || key;
+        // Return string or array of strings
+        if (typeof value === "string") {
+            return value;
+        }
+        if (Array.isArray(value) && value.every(item => typeof item === "string")) {
+            return value as string[];
+        }
+        return fallback || key;
     };
 
     return (

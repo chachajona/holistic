@@ -48,6 +48,7 @@ export default async function ServicesPage(): Promise<JSX.Element> {
 
                 const resolvedImageUrl =
                     processedImageData.imageUrl &&
+                    typeof processedImageData.imageUrl === "string" &&
                     processedImageData.imageUrl.trim().length > 0
                         ? processedImageData.imageUrl
                         : fallbackImageUrl;

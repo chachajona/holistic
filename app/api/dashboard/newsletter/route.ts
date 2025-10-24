@@ -12,15 +12,16 @@ export async function GET(request: Request) {
         const supabase = await createClient();
 
         let query = supabase
-            .from("newsletter_subscribers")
+            .from("contacts")
             .select("*")
+            .eq("contact_type", "newsletter")
             .order("created_at", { ascending: false })
             .limit(100);
 
         if (sanitizedSearch) {
             const searchPattern = `%${sanitizedSearch}%`;
             query = query.or(
-                `phone_number.ilike.${searchPattern},email.ilike.${searchPattern}`,
+                `phone.ilike.${searchPattern},email.ilike.${searchPattern}`,
             );
         }
 

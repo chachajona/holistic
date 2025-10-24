@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "@/providers/LocaleProvider";
 import { ImageCrop, ImageHotspot } from "@sanity/types";
 import { Star } from "lucide-react";
 
@@ -81,6 +82,7 @@ const TestimonialCard: React.FC<TestimonialData> = ({
 export default function Testimonial({
     onDataLoaded,
 }: TestimonialComponentProps): JSX.Element {
+    const { t, locale } = useLocale();
     const [testimonials, setTestimonials] = useState<TestimonialData[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [mounted, setMounted] = useState(false);
@@ -93,7 +95,11 @@ export default function Testimonial({
         const fetchTestimonials = async () => {
             try {
                 setIsLoading(true);
-                const response = await fetch("/api/testimonials");
+                const response = await fetch("/api/testimonials", {
+                    headers: {
+                        "x-locale": locale,
+                    },
+                });
 
                 if (!response.ok) {
                     throw new Error("Failed to fetch testimonials");
@@ -112,7 +118,7 @@ export default function Testimonial({
         if (mounted) {
             fetchTestimonials();
         }
-    }, [mounted, onDataLoaded]);
+    }, [mounted, onDataLoaded, locale]);
 
     if (!mounted) {
         return (
@@ -139,10 +145,10 @@ export default function Testimonial({
             <div className="mb-10 flex flex-col items-center justify-center space-y-4 text-center">
                 <div className="space-y-2">
                     <h2 className="font-robotoSerif text-3xl font-bold capitalize tracking-tighter sm:text-5xl">
-                        Đánh giá từ khách hàng
+                        {t("testimonials.title")}
                     </h2>
                     <p className="font-robotoSlab text-primary-text max-w-[900px] text-left md:text-center md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                        Ví dụ về khách hàng của Holistic
+                        {t("testimonials.subtitle")}
                     </p>
                 </div>
             </div>

@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useLocale } from "@/providers/LocaleProvider";
 import { ChevronRight } from "lucide-react";
 
-import { FormData } from "@/types/form";
 import {
     ContactInfo,
     CTAData,
@@ -36,7 +36,6 @@ interface TreatmentItem {
 }
 
 interface HomeClientProps {
-    formData: FormData;
     treatments?: TreatmentItem[];
     heroData?: HeroData | null;
     quickLinksData?: QuickLinkData[] | null;
@@ -46,7 +45,6 @@ interface HomeClientProps {
 }
 
 export default function HomeClient({
-    formData,
     treatments = [],
     heroData = null,
     quickLinksData = null,
@@ -54,6 +52,7 @@ export default function HomeClient({
     contactInfo = null,
     socialMedia = null,
 }: HomeClientProps) {
+    const { t } = useLocale();
     const [heroLoaded, setHeroLoaded] = useState(false);
     const [ctaLoaded, setCtaLoaded] = useState(false);
     const [testimonialLoaded, setTestimonialLoaded] = useState(false);
@@ -87,13 +86,9 @@ export default function HomeClient({
     return (
         <PageLoaderWrapper isContentLoaded={isContentLoaded}>
             <main className="bg-primary-background flex min-h-screen flex-col">
-                <Banner
-                    contactInfo={contactInfo}
-                    socialMedia={socialMedia}
-                />
+                <Banner contactInfo={contactInfo} socialMedia={socialMedia} />
                 <Navbar />
                 <HeroContainer
-                    formData={formData}
                     onImageLoaded={handleHeroLoaded}
                     heroData={heroData}
                 />
@@ -107,16 +102,15 @@ export default function HomeClient({
                             <div className="relative flex h-full lg:w-1/3">
                                 <div className="flex size-full flex-col justify-between">
                                     <span className="bg-primary-text/10 font-robotoMono mb-4 inline-block max-w-fit rounded-lg px-3 py-1 text-base font-light">
-                                        Khám phá
+                                        {t("home.treatmentsSection.badge")}
                                     </span>
                                     <h2 className="text-primary-text font-robotoSerif mb-4 text-4xl font-bold">
-                                        Phương pháp trị liệu
+                                        {t("home.treatmentsSection.title")}
                                     </h2>
                                     <p className="font-robotoSlab mb-6 text-gray-600">
-                                        Các phương pháp điều trị vật lý trị trị
-                                        liệu của chúng tôi bao gồm một lọa các
-                                        giải pháp để đáp ứng nhu cầu riêng của
-                                        bạn.
+                                        {t(
+                                            "home.treatmentsSection.description",
+                                        )}
                                     </p>
                                     <div className="flex space-x-4">
                                         <button
@@ -167,7 +161,7 @@ export default function HomeClient({
                                         className="text-primary-text group flex w-full flex-row items-center px-0 py-3 text-base sm:w-auto"
                                     >
                                         <Link href="/treatments">
-                                            Xem tất cả
+                                            {t("common.viewAll")}
                                         </Link>
                                         <ChevronRight className="animate-transform ml-2 size-4 transition-transform duration-300 ease-in-out group-hover:translate-x-1" />
                                     </Button>
@@ -186,10 +180,7 @@ export default function HomeClient({
                 )}
 
                 <StaticCTA onImageLoaded={handleCtaLoaded} ctaData={ctaData} />
-                <Footer
-                    contactInfo={contactInfo}
-                    socialMedia={socialMedia}
-                />
+                <Footer contactInfo={contactInfo} socialMedia={socialMedia} />
                 <MessengerChat />
             </main>
         </PageLoaderWrapper>

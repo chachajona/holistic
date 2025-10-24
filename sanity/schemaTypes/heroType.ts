@@ -8,19 +8,20 @@ export const heroType = defineType({
     fields: [
         defineField({
             name: "heading",
-            type: "string",
+            type: "localeString",
             title: "Heading",
+            validation: Rule => Rule.required(),
         }),
         defineField({
             name: "slug",
             type: "slug",
             title: "Slug",
-            options: { source: "heading" },
+            options: { source: "heading.vi" },
             validation: Rule => Rule.required(),
         }),
         defineField({
             name: "subheading",
-            type: "string",
+            type: "localeString",
             title: "Subheading",
         }),
         defineField({
@@ -41,12 +42,14 @@ export const heroType = defineType({
     icon: ImagesIcon,
     preview: {
         select: {
-            title: "heading",
+            heading: "heading",
             image: "image",
         },
-        prepare({ title, image }) {
+        prepare({ heading, image }) {
+            // Extract Vietnamese text from localeString for preview
+            const title = heading?.vi || heading || "Untitled Hero";
             return {
-                title: title || "Untitled Hero",
+                title,
                 subtitle: "Hero Section",
                 media: image || ImagesIcon,
             };

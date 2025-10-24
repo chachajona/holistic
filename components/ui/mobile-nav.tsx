@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/navigation";
+import { useLocale } from "@/providers/LocaleProvider";
 import {
     Collapsible,
     CollapsibleContent,
@@ -20,6 +21,7 @@ import {
     SheetTitle,
     SheetTrigger,
 } from "@/components/ui/sheet";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
 const MenuIcon: React.FC = () => (
     <svg
@@ -126,7 +128,14 @@ const SubLink: React.FC<SubLinkProps> = ({ href, title, description }) => (
 );
 
 export const MobileNav: React.FC = () => {
+    const { t } = useLocale();
     const [open, setOpen] = useState<boolean>(false);
+    
+    // Helper to ensure we get a string from t()
+    const getString = (key: string): string => {
+        const value = t(key);
+        return typeof value === 'string' ? value : value[0] || key;
+    };
 
     return (
         <Sheet open={open} onOpenChange={setOpen}>
@@ -157,73 +166,80 @@ export const MobileNav: React.FC = () => {
                         {siteConfig.name}
                     </span>
                 </MobileLink>
-                <ScrollArea className="h-[calc(100vh-10rem)]">
-                    <div className="grid gap-2 py-4">
-                        <NavLink href="/">Trang chủ</NavLink>
-                        <CollapsibleNavItem title="Dịch vụ">
-                            <SubLink
-                                href="/services"
-                                title="Trị liệu"
-                                description="Trị liệu đa phương pháp giúp cải thiện mọi tình trạng chấn thương đau mỏi, bệnh lí cơ, xương, khớp"
-                            />
-                            <SubLink
-                                href="/services"
-                                title="Tư vấn chuyên sâu"
-                                description="Chuyên gia lượng giá chức năng sức khoẻ vận động và cá nhân hoá liệu trình phù hợp với từng trường hợp khách hàng"
-                            />
-                            <SubLink
-                                href="/services"
-                                title="Thư giãn cơ"
-                                description="Giảm căng cơ, cải thiện sức khoẻ vận động"
-                            />
-                            <SubLink
-                                href="/services"
-                                title="Tập luyện cơ bản"
-                                description="Coaching 1-1 với các bài tập rehab để cải thiện tư thế vận động, phục hồi sau chấn thương"
-                            />
-                        </CollapsibleNavItem>
-                        <CollapsibleNavItem title="Phương pháp">
-                            <SubLink
-                                href="/treatments/cupping"
-                                title="Giác hơi"
-                                description="Phương pháp sử dụng lực hút chân không để giảm đau và thư giãn cơ bắp."
-                            />
-                            <SubLink
-                                href="/treatments/tapping"
-                                title="Tapping"
-                                description="Phương pháp gõ nhẹ nhằm kích thích các cơ và dây thần kinh, giúp giảm căng thẳng và cải thiện tuần hoàn."
-                            />
-                            <SubLink
-                                href="/treatments/heat-light"
-                                title="Đèn hồng ngoại"
-                                description="Liệu pháp sử dụng ánh sáng hồng ngoại để làm ấm cơ, cải thiện tuần hoàn máu và giảm đau."
-                            />
-                            <SubLink
-                                href="/treatments/iastm"
-                                title="Cao mạc (Dùng công cụ chuyển động mô mềm)"
-                                description="Kỹ thuật sử dụng công cụ chuyên dụng để kích thích và cải thiện mô mềm, giảm đau và tăng cường phục hồi."
-                            />
-                            <SubLink
-                                href="/treatments/cold-plunge"
-                                title="Ngâm lạnh"
-                                description="Liệu pháp sử dụng nước lạnh để giảm đau và cải thiện tuần hoàn."
-                            />
-                            <SubLink
-                                href="/treatments/dry-needling"
-                                title="Châm khô"
-                                description="Kỹ thuật sử dụng kim nhỏ để kích thích điểm co thắt cơ và giảm đau mãn tính."
-                            />
-                            <SubLink
-                                href="/treatments/dds"
-                                title="Điện sinh học (DDS)"
-                                description="Liệu pháp sử dụng dòng điện nhẹ để kích thích cơ và dây thần kinh, giảm đau và thúc đẩy phục hồi."
-                            />
-                        </CollapsibleNavItem>
-                        <NavLink href="/about">Giới thiệu</NavLink>
-                        <NavLink href="/events">Sự kiện</NavLink>
-                        <NavLink href="/blog">Blog</NavLink>
+                <div className="flex h-[calc(100vh-8rem)] flex-col">
+                    <ScrollArea className="flex-1">
+                        <div className="grid gap-2 py-4">
+                            <NavLink href="/">{getString("nav.home")}</NavLink>
+                            <CollapsibleNavItem title={getString("nav.services")}>
+                                <SubLink
+                                    href="/services"
+                                    title={getString("services.therapy.title")}
+                                    description={getString("services.therapy.description")}
+                                />
+                                <SubLink
+                                    href="/services"
+                                    title={getString("services.consultation.title")}
+                                    description={getString("services.consultation.description")}
+                                />
+                                <SubLink
+                                    href="/services"
+                                    title={getString("services.muscleRelaxation.title")}
+                                    description={getString("services.muscleRelaxation.description")}
+                                />
+                                <SubLink
+                                    href="/services"
+                                    title={getString("services.basicTraining.title")}
+                                    description={getString("services.basicTraining.description")}
+                                />
+                            </CollapsibleNavItem>
+                            <CollapsibleNavItem title={getString("nav.treatments")}>
+                                <SubLink
+                                    href="/treatments/cupping"
+                                    title={getString("treatments.cupping.title")}
+                                    description={getString("treatments.cupping.description")}
+                                />
+                                <SubLink
+                                    href="/treatments/tapping"
+                                    title={getString("treatments.tapping.title")}
+                                    description={getString("treatments.tapping.description")}
+                                />
+                                <SubLink
+                                    href="/treatments/heat-light"
+                                    title={getString("treatments.heatLight.title")}
+                                    description={getString("treatments.heatLight.description")}
+                                />
+                                <SubLink
+                                    href="/treatments/iastm"
+                                    title={getString("treatments.iastm.title")}
+                                    description={getString("treatments.iastm.description")}
+                                />
+                                <SubLink
+                                    href="/treatments/cold-plunge"
+                                    title={getString("treatments.coldPlunge.title")}
+                                    description={getString("treatments.coldPlunge.description")}
+                                />
+                                <SubLink
+                                    href="/treatments/dry-needling"
+                                    title={getString("treatments.dryNeedling.title")}
+                                    description={getString("treatments.dryNeedling.description")}
+                                />
+                                <SubLink
+                                    href="/treatments/dds"
+                                    title={getString("treatments.dds.title")}
+                                    description={getString("treatments.dds.description")}
+                                />
+                            </CollapsibleNavItem>
+                            <NavLink href="/about">{getString("nav.about")}</NavLink>
+                            <NavLink href="/events">{getString("nav.events")}</NavLink>
+                            <NavLink href="/blog">{getString("nav.blog")}</NavLink>
+                        </div>
+                    </ScrollArea>
+
+                    {/* Language Switcher - Fixed at the bottom */}
+                    <div className="border-primary-text/10 mt-auto flex justify-center border-t py-4">
+                        <LanguageSwitcher />
                     </div>
-                </ScrollArea>
+                </div>
             </SheetContent>
         </Sheet>
     );

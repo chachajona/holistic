@@ -41,21 +41,33 @@ export async function POST(request: Request) {
         // Initialize Supabase client
         const supabase = await createClient();
 
-        // Insert newsletter subscription into Supabase
-        const { error } = await supabase.from("newsletter_subscribers").insert({
-            phone_number: sanitizedPhoneNumber,
+        // Check if phone number already exists in contacts with newsletter type
+        const { data: existingContact } = await supabase
+            .from("contacts")
+            .select("id")
+            .eq("phone", sanitizedPhoneNumber)
+            .eq("contact_type", "newsletter")
+            .single();
+
+        if (existingContact) {
+            return NextResponse.json(
+                { error: "This phone number is already subscribed" },
+                { status: 409 },
+            );
+        }
+
+        // Insert newsletter subscription into contacts table
+        const { error } = await supabase.from("contacts").insert({
+            name: "Newsletter Subscriber",
+            phone: sanitizedPhoneNumber,
             email: sanitizedEmail,
+            message: "Subscribed to newsletter",
+            contact_type: "newsletter",
+            source: "newsletter-form",
+            status: "pending",
         });
 
         if (error) {
-            // Handle unique constraint violation (duplicate phone number)
-            if (error.code === "23505") {
-                return NextResponse.json(
-                    { error: "This phone number is already subscribed" },
-                    { status: 409 },
-                );
-            }
-
             console.error("Supabase insert error:", error);
             return NextResponse.json(
                 { error: "Failed to save subscription" },

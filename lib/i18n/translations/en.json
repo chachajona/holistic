@@ -1,0 +1,129 @@
+{
+    "nav": {
+        "home": "Home",
+        "services": "Services",
+        "treatments": "Treatments",
+        "about": "About",
+        "events": "Events",
+        "blog": "Blog"
+    },
+    "common": {
+        "readMore": "Read more",
+        "bookNow": "Book now",
+        "contactUs": "Contact us",
+        "learnMore": "Learn more",
+        "viewAll": "View all",
+        "loading": "Loading...",
+        "search": "Search",
+        "exportCSV": "Export CSV"
+    },
+    "footer": {
+        "contactInfo": "Contact Information",
+        "quickLinks": "Quick Links",
+        "followUs": "Follow Us",
+        "copyright": "Copyright",
+        "allRightsReserved": "All rights reserved",
+        "privacyPolicy": "Privacy Policy",
+        "termsConditions": "Terms and Conditions",
+        "cookiePolicy": "Cookie Policy"
+    },
+    "banner": {
+        "address": "Address",
+        "hotline": "Hotline"
+    },
+    "home": {
+        "treatmentsSection": {
+            "badge": "Discover",
+            "title": "Treatment Methods",
+            "description": "Our physical therapy treatment methods include a range of solutions to meet your individual needs."
+        }
+    },
+    "hero": {
+        "mainHeading": "Help people improve their movement health in a",
+        "rotatingWords": ["comprehensiveness", "sustainability"],
+        "form": {
+            "heading": "Get consultation in 30s",
+            "easyBooking": "Easy booking",
+            "instantConfirmation": "Instant confirmation",
+            "phonePlaceholder": "Enter phone number...",
+            "submitButton": "Get Consultation",
+            "successTitle": "Submitted successfully",
+            "successMessage": "We will contact you as soon as possible.",
+            "errorTitle": "Error",
+            "errorMessage": "An error occurred while submitting. Please try again later.",
+            "phoneValidation": "Phone number must be at least 10 digits."
+        }
+    },
+    "services": {
+        "therapy": {
+            "title": "Therapy",
+            "description": "Multi-method therapy to improve all musculoskeletal pain, injury, and bone conditions"
+        },
+        "consultation": {
+            "title": "Deep Consultation",
+            "description": "Expert functional health assessment and personalized treatment plans for each customer"
+        },
+        "muscleRelaxation": {
+            "title": "Muscle Relaxation",
+            "description": "Reduce muscle tension, improve movement health"
+        },
+        "basicTraining": {
+            "title": "Basic Training",
+            "description": "1-on-1 coaching with rehab exercises to improve posture and post-injury recovery"
+        }
+    },
+    "treatments": {
+        "cupping": {
+            "title": "Cupping",
+            "description": "Method using vacuum suction to relieve pain and relax muscles."
+        },
+        "tapping": {
+            "title": "Tapping",
+            "description": "Light tapping method to stimulate muscles and nerves, reduce stress and improve circulation."
+        },
+        "heatLight": {
+            "title": "Infrared Light",
+            "description": "Therapy using infrared light to warm muscles, improve blood circulation and relieve pain."
+        },
+        "iastm": {
+            "title": "IASTM (Soft Tissue Mobilization Tool)",
+            "description": "Technique using specialized tools to stimulate and improve soft tissue, reduce pain and enhance recovery."
+        },
+        "coldPlunge": {
+            "title": "Cold Plunge",
+            "description": "Cold water therapy to reduce pain and improve circulation."
+        },
+        "dryNeedling": {
+            "title": "Dry Needling",
+            "description": "Technique using small needles to stimulate muscle trigger points and relieve chronic pain."
+        },
+        "dds": {
+            "title": "Bioelectric Therapy (DDS)",
+            "description": "Therapy using light electrical current to stimulate muscles and nerves, relieve pain and promote recovery."
+        }
+    },
+    "quickLinks": {
+        "services": "Services",
+        "treatments": "Treatments",
+        "team": "Team"
+    },
+    "testimonials": {
+        "title": "Customer Reviews",
+        "subtitle": "Examples from Holistic customers"
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "description": "Manage contacts and newsletter subscribers",
+        "contacts": "Contacts",
+        "newsletter": "Newsletter Subscribers",
+        "liveUpdates": "Live updates enabled",
+        "logout": "Logout",
+        "loggingOut": "Logging out...",
+        "totalContacts": "Total contacts",
+        "totalSubscribers": "Total subscribers",
+        "searchContacts": "Search contacts...",
+        "searchSubscribers": "Search subscribers...",
+        "noContactsFound": "No contacts found",
+        "noSubscribersFound": "No subscribers found"
+    }
+}

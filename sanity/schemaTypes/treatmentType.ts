@@ -26,21 +26,21 @@ export const treatmentType = defineType({
         {
             name: "title",
             title: "Treatment Name",
-            type: "string",
+            type: "localeString",
             validation: Rule => Rule.required(),
         },
         {
             name: "shortDescription",
             title: "Short Description",
-            type: "text",
-            validation: Rule => Rule.required().max(200),
+            type: "localeText",
+            validation: Rule => Rule.required(),
             description:
                 "Brief description for cards and previews (max 200 characters)",
         },
         {
             name: "fullDescription",
             title: "Full Description",
-            type: "text",
+            type: "localeText",
             validation: Rule => Rule.required(),
             description: "Detailed description for the treatment page",
         },
@@ -89,17 +89,18 @@ export const treatmentType = defineType({
                             type: "slug",
                             options: {
                                 source: "title",
+                                disableArrayWarning: true,
                             },
                         },
                         {
                             name: "title",
                             title: "Benefit Title",
-                            type: "string",
+                            type: "localeString",
                         },
                         {
                             name: "description",
                             title: "Benefit Description",
-                            type: "text",
+                            type: "localeText",
                         },
                     ],
                 },
@@ -119,6 +120,7 @@ export const treatmentType = defineType({
                             type: "slug",
                             options: {
                                 source: "title",
+                                disableArrayWarning: true,
                             },
                         },
                         {
@@ -129,12 +131,12 @@ export const treatmentType = defineType({
                         {
                             name: "title",
                             title: "Protocol Title",
-                            type: "string",
+                            type: "localeString",
                         },
                         {
                             name: "description",
                             title: "Protocol Description",
-                            type: "text",
+                            type: "localeText",
                         },
                     ],
                 },
@@ -164,8 +166,7 @@ export const treatmentType = defineType({
         {
             name: "content",
             title: "Detailed Content",
-            type: "array",
-            of: [{ type: "block" }],
+            type: "localeBlock",
             description: "Rich text content for the treatment page (optional)",
         },
         {
@@ -179,7 +180,7 @@ export const treatmentType = defineType({
                         {
                             name: "title",
                             title: "Booking Title",
-                            type: "string",
+                            type: "localeString",
                             validation: Rule => Rule.required(),
                         },
                         {
@@ -197,7 +198,7 @@ export const treatmentType = defineType({
                         {
                             name: "description",
                             title: "Description",
-                            type: "text",
+                            type: "localeText",
                             validation: Rule => Rule.required(),
                         },
                     ],
@@ -214,8 +215,8 @@ export const treatmentType = defineType({
     ],
     preview: {
         select: {
-            title: "title",
-            subtitle: "shortDescription",
+            title: "title.vi",
+            subtitle: "shortDescription.vi",
             media: "image",
         },
     },

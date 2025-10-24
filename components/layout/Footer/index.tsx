@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/images/Symbol+FullName_Variant3_Light.png";
+import { useLocale } from "@/providers/LocaleProvider";
 
 import type { ContactInfo, SocialMedia } from "@/types/sanity";
 
@@ -13,6 +14,7 @@ interface FooterProps {
 }
 
 const Footer: React.FC<FooterProps> = ({ contactInfo, socialMedia }) => {
+    const { t } = useLocale();
     return (
         <footer className="bg-primary-background text-primary-text py-8 font-light md:px-16">
             <div className="container mx-auto flex flex-col items-start justify-between md:flex-row">
@@ -32,7 +34,7 @@ const Footer: React.FC<FooterProps> = ({ contactInfo, socialMedia }) => {
 
                     <address className="not-italic">
                         <p className="font-robotoSlab mb-1 text-sm font-semibold">
-                            Địa chỉ:
+                            {t("banner.address")}:
                         </p>
                         {contactInfo?.locations?.map(location => (
                             <p
@@ -56,7 +58,7 @@ const Footer: React.FC<FooterProps> = ({ contactInfo, socialMedia }) => {
                             </p>
                         ))}
                         <p className="font-robotoSlab mb-1 mt-2 text-sm font-semibold">
-                            Hotline:
+                            {t("banner.hotline")}:
                         </p>
                         {contactInfo?.phone && (
                             <Link
@@ -82,9 +84,9 @@ const Footer: React.FC<FooterProps> = ({ contactInfo, socialMedia }) => {
 
                     <SocialLinks socialMedia={socialMedia} />
                 </div>
-                <NavLinks />
+                <NavLinks t={t} />
             </div>
-            <FooterBottom />
+            <FooterBottom t={t} />
         </footer>
     );
 };
@@ -143,44 +145,69 @@ const SocialLink = ({
     </Link>
 );
 
-const NavLinks = () => (
-    <div className="font-robotoSlab flex flex-col space-y-4 font-medium md:space-y-0 lg:flex-row lg:space-x-12">
-        {[
-            { href: "/services", text: "Dịch vụ" },
-            { href: "/treatments", text: "Phương pháp" },
-            { href: "/about", text: "Giới thiệu" },
-            { href: "/events", text: "Sự kiện" },
-            { href: "/blog", text: "Blog" },
-        ].map(({ href, text }) => (
-            <Link
-                key={href}
-                href={href}
-                className="text-left hover:text-stone-700 xl:text-right"
-            >
-                {text}
-            </Link>
-        ))}
-    </div>
-);
+const NavLinks = ({
+    t,
+}: {
+    t: (key: string, fallback?: string) => string | string[];
+}) => {
+    // Helper function to ensure we get a string for navigation
+    const getString = (key: string): string => {
+        const result = t(key);
+        return Array.isArray(result) ? result[0] || key : result;
+    };
 
-const FooterBottom = () => (
-    <div className="font-robotoMono container mt-12 flex flex-col-reverse items-start justify-between gap-10 border-t border-[#8c7e75] text-sm font-normal md:flex-row md:items-center md:pt-8">
-        <p>
-            Copyright &copy; {new Date().getFullYear()} Holistic - All rights
-            reserved.
-        </p>
-        <div className="mt-4 flex flex-col items-start gap-0 sm:mt-0 md:flex-row md:items-center md:gap-3">
+    return (
+        <div className="font-robotoSlab flex flex-col space-y-4 font-medium md:space-y-0 lg:flex-row lg:space-x-12">
             {[
-                "Chính sách bảo mật",
-                "Điều khoản và điều kiện",
-                "Chính sách cookie",
-            ].map(text => (
-                <Link key={text} href="#" className="hover:underline">
-                    {text}
+                { href: "/services", key: "nav.services" },
+                { href: "/treatments", key: "nav.treatments" },
+                { href: "/about", key: "nav.about" },
+                { href: "/events", key: "nav.events" },
+                { href: "/blog", key: "nav.blog" },
+            ].map(({ href, key }) => (
+                <Link
+                    key={href}
+                    href={href}
+                    className="text-left hover:text-stone-700 xl:text-right"
+                >
+                    {getString(key)}
                 </Link>
             ))}
         </div>
-    </div>
-);
+    );
+};
+
+const FooterBottom = ({
+    t,
+}: {
+    t: (key: string, fallback?: string) => string | string[];
+}) => {
+    // Helper function to ensure we get a string for footer text
+    const getString = (key: string): string => {
+        const result = t(key);
+        return Array.isArray(result) ? result[0] || key : result;
+    };
+
+    return (
+        <div className="font-robotoMono container mt-12 flex flex-col-reverse items-start justify-between gap-10 border-t border-[#8c7e75] text-sm font-normal md:flex-row md:items-center md:pt-8">
+            <p>
+                {getString("footer.copyright")} &copy;{" "}
+                {new Date().getFullYear()} Holistic -{" "}
+                {getString("footer.allRightsReserved")}.
+            </p>
+            <div className="mt-4 flex flex-col items-start gap-0 sm:mt-0 md:flex-row md:items-center md:gap-3">
+                {[
+                    { key: "footer.privacyPolicy", href: "#" },
+                    { key: "footer.termsConditions", href: "#" },
+                    { key: "footer.cookiePolicy", href: "#" },
+                ].map(({ key, href }) => (
+                    <Link key={key} href={href} className="hover:underline">
+                        {getString(key)}
+                    </Link>
+                ))}
+            </div>
+        </div>
+    );
+};
 
 export default Footer;

@@ -4,6 +4,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/images/Symbol+FullName_Variant3_Dark.png";
+import { useLocale } from "@/providers/LocaleProvider";
 import { FaFacebook, FaInstagram } from "react-icons/fa";
 
 import { cn } from "@/lib/utils";
@@ -17,99 +18,44 @@ import {
     NavigationMenuTrigger,
     navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
-const services = [
-    {
-        title: "Trị liệu",
-        description:
-            "Trị liệu đa phương pháp giúp cải thiện mọi tình trạng chấn thương đau mỏi, bệnh lí cơ, xương, khớp",
-    },
-    {
-        title: "Tư vấn chuyên sâu",
-        description:
-            "Chuyên gia lượng giá chức năng sức khoẻ vận động và cá nhân hoá liệu trình phù hợp với từng trường hợp khách hàng",
-    },
-    {
-        title: "Thư giãn cơ",
-        description: "Giảm căng cơ, cải thiện sức khoẻ vận động",
-    },
-    {
-        title: "Tập luyện cơ bản",
-        description:
-            "Coaching 1-1 với các bài tập rehab để cải thiện tư thế vận động, phục hồi sau chấn thương",
-    },
-];
+// Services and methods data moved inside DesktopNavigation to use translations
 
-const methods = [
-    {
-        title: "Giác hơi",
-        href: "/treatments/cupping",
-        description:
-            "Phương pháp sử dụng lực hút chân không để giảm đau và thư giãn cơ bắp.",
-    },
-    {
-        title: "Tapping",
-        href: "/treatments/tapping",
-        description:
-            "Phương pháp gõ nhẹ nhằm kích thích các cơ và dây thần kinh, giúp giảm căng thẳng và cải thiện tuần hoàn.",
-    },
-    {
-        title: "Đèn hồng ngoại",
-        href: "/treatments/heat-light",
-        description:
-            "Liệu pháp sử dụng ánh sáng hồng ngoại để làm ấm cơ, cải thiện tuần hoàn máu và giảm đau.",
-    },
-    {
-        title: "Cao mạc (Dùng công cụ chuyển động mô mềm)",
-        href: "/treatments/iastm",
-        description:
-            "Kỹ thuật sử dụng công cụ chuyên dụng để kích thích và cải thiện mô mềm, giảm đau và tăng cường phục hồi.",
-    },
-    {
-        title: "Ngâm lạnh",
-        href: "/treatments/cold-plunge",
-        description:
-            "Phương pháp ngâm mình trong nước lạnh để giảm sưng, đau nhức cơ và tăng cường hồi phục.",
-    },
-    {
-        title: "Châm khô",
-        href: "/treatments/dry-needling",
-        description:
-            "Kỹ thuật sử dụng kim nhỏ để kích thích điểm co thắt cơ và giảm đau mãn tính.",
-    },
-    {
-        title: "Điện sinh học (DDS)",
-        href: "/treatments/dds",
-        description:
-            "Liệu pháp sử dụng dòng điện nhẹ để kích thích cơ và dây thần kinh, giảm đau và thúc đẩy phục hồi.",
-    },
-];
+const MainNavBar: React.FC = () => {
+    const { t } = useLocale();
 
-const MainNavBar: React.FC = () => (
-    <nav className="font-robotoSerif text-navbar-text sticky top-0 z-50 bg-[#9a7f74] text-sm shadow-md">
-        <div className="container mx-auto px-0 md:pl-12 md:pr-16">
-            <div className="flex max-h-[72px] items-center justify-between py-6">
-                <div className="flex items-center gap-11">
-                    <Link href="/" about="Home">
-                        <Image
-                            src={logo}
-                            alt="Holisticrep"
-                            width={200}
-                            height={100}
-                        />
-                    </Link>
-                    <div className="hidden items-center space-x-4 md:flex">
-                        <DesktopNavigation />
+    return (
+        <nav className="font-robotoSerif text-navbar-text sticky top-0 z-50 bg-[#9a7f74] text-sm shadow-md">
+            <div className="container mx-auto px-0 md:pl-12 md:pr-16">
+                <div className="flex max-h-[72px] items-center justify-between py-6">
+                    <div className="flex items-center gap-11">
+                        <Link href="/" about="Home">
+                            <Image
+                                src={logo}
+                                alt="Holisticrep"
+                                width={200}
+                                height={100}
+                            />
+                        </Link>
+                        <div className="hidden items-center space-x-4 md:flex">
+                            <DesktopNavigation t={t} />
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                        <div className="hidden md:flex md:items-center md:gap-2">
+                            <LanguageSwitcher />
+                            <SocialIcons />
+                        </div>
+                        <div className="md:hidden">
+                            <MobileNav />
+                        </div>
                     </div>
                 </div>
-                <SocialIcons />
-                <div className="md:hidden">
-                    <MobileNav />
-                </div>
             </div>
-        </div>
-    </nav>
-);
+        </nav>
+    );
+};
 
 const SocialIcons: React.FC = () => (
     <div className="hidden items-center space-x-4 md:flex">
@@ -133,12 +79,76 @@ const SocialIcons: React.FC = () => (
     </div>
 );
 
-const DesktopNavigation: React.FC = () => (
+const DesktopNavigation: React.FC<{ t: (key: string) => string | string[] }> = ({ t }) => {
+    // Helper to ensure we get a string from t()
+    const getString = (key: string): string => {
+        const value = t(key);
+        return typeof value === 'string' ? value : value[0] || key;
+    };
+    
+    const services = [
+        {
+            title: getString("services.therapy.title"),
+            description: getString("services.therapy.description"),
+        },
+        {
+            title: getString("services.consultation.title"),
+            description: getString("services.consultation.description"),
+        },
+        {
+            title: getString("services.muscleRelaxation.title"),
+            description: getString("services.muscleRelaxation.description"),
+        },
+        {
+            title: getString("services.basicTraining.title"),
+            description: getString("services.basicTraining.description"),
+        },
+    ];
+
+    const methods = [
+        {
+            title: getString("treatments.cupping.title"),
+            href: "/treatments/cupping",
+            description: getString("treatments.cupping.description"),
+        },
+        {
+            title: getString("treatments.tapping.title"),
+            href: "/treatments/tapping",
+            description: getString("treatments.tapping.description"),
+        },
+        {
+            title: getString("treatments.heatLight.title"),
+            href: "/treatments/heat-light",
+            description: getString("treatments.heatLight.description"),
+        },
+        {
+            title: getString("treatments.iastm.title"),
+            href: "/treatments/iastm",
+            description: getString("treatments.iastm.description"),
+        },
+        {
+            title: getString("treatments.coldPlunge.title"),
+            href: "/treatments/cold-plunge",
+            description: getString("treatments.coldPlunge.description"),
+        },
+        {
+            title: getString("treatments.dryNeedling.title"),
+            href: "/treatments/dry-needling",
+            description: getString("treatments.dryNeedling.description"),
+        },
+        {
+            title: getString("treatments.dds.title"),
+            href: "/treatments/dds",
+            description: getString("treatments.dds.description"),
+        },
+    ];
+    
+    return (
     <NavigationMenu>
         <NavigationMenuList>
             <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text data-[active]:bg-navbar-accent-background/90 data-[state=open]:bg-navbar-accent-background/90">
-                    <Link href="/services">Dịch vụ</Link>
+                    <Link href="/services">{getString("nav.services")}</Link>
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-primary-background">
                     <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -171,7 +181,7 @@ const DesktopNavigation: React.FC = () => (
             </NavigationMenuItem>
             <NavigationMenuItem>
                 <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text data-[active]:bg-navbar-accent-background/90 data-[state=open]:bg-navbar-accent-background/90">
-                    Phương pháp
+                    {getString("nav.treatments")}
                 </NavigationMenuTrigger>
                 <NavigationMenuContent className="bg-primary-background">
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
@@ -196,7 +206,7 @@ const DesktopNavigation: React.FC = () => (
                         "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
                     )}
                 >
-                    <Link href="/about">Giới thiệu</Link>
+                    <Link href="/about">{getString("nav.about")}</Link>
                 </NavigationMenuLink>
             </NavigationMenuItem>
 
@@ -208,7 +218,7 @@ const DesktopNavigation: React.FC = () => (
                         "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
                     )}
                 >
-                    <Link href="/events">Sự kiện</Link>
+                    <Link href="/events">{getString("nav.events")}</Link>
                 </NavigationMenuLink>
             </NavigationMenuItem>
 
@@ -220,12 +230,13 @@ const DesktopNavigation: React.FC = () => (
                         "bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text",
                     )}
                 >
-                    <Link href="/blog">Blog</Link>
+                    <Link href="/blog">{getString("nav.blog")}</Link>
                 </NavigationMenuLink>
             </NavigationMenuItem>
         </NavigationMenuList>
     </NavigationMenu>
-);
+    );
+};
 
 const NavItem = React.forwardRef<
     React.ElementRef<"a">,

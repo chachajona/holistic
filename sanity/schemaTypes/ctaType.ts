@@ -8,7 +8,7 @@ export const ctaType = defineType({
     fields: [
         defineField({
             name: "heading",
-            type: "string",
+            type: "localeString",
             title: "Heading",
             description: "Main heading text for the CTA section",
             validation: Rule => Rule.required(),
@@ -17,19 +17,19 @@ export const ctaType = defineType({
             name: "slug",
             type: "slug",
             title: "Slug",
-            options: { source: "heading" },
+            options: { source: "heading.vi" },
             validation: Rule => Rule.required(),
         }),
         defineField({
             name: "description",
-            type: "text",
+            type: "localeText",
             title: "Description",
             description: "Supporting text for the CTA",
             validation: Rule => Rule.required(),
         }),
         defineField({
             name: "primaryButtonText",
-            type: "string",
+            type: "localeString",
             title: "Primary Button Text",
             description: "Text displayed on the main CTA button",
             validation: Rule => Rule.required(),
@@ -39,33 +39,22 @@ export const ctaType = defineType({
             type: "string",
             title: "Primary Button URL",
             description: "Internal path the button links to (e.g., /booking, /services)",
-            validation: Rule => Rule.required().custom(value => {
-                if (!value) return true;
-                const isValidPath = /^\/[a-z0-9\-\/]*$/i.test(value);
-                return isValidPath ? true : "Must be a valid internal path starting with /";
-            }),
-        }),
-        defineField({
-            name: "theme",
-            type: "string",
-            title: "Theme Color",
-            description: "Color theme for the CTA section",
-            options: {
-                list: [
-                    { title: "Blue", value: "blue" },
-                    { title: "Light", value: "light" },
-                    { title: "Dark", value: "dark" },
-                ],
-                layout: "radio",
-            },
-            initialValue: "blue",
-            validation: Rule => Rule.required(),
+            validation: Rule =>
+                Rule.required().custom((value) => {
+                    if (!value) return true;
+                    // Allow internal paths starting with /
+                    const isValidPath = /^\/[a-z0-9\-\/]*$/i.test(value);
+                    return isValidPath
+                        ? true
+                        : "Must be a valid internal path starting with / (e.g., /booking, /services)";
+                }),
         }),
         defineField({
             name: "therapyImage",
             type: "image",
             title: "Therapy Image",
-            description: "Image displayed in the right column of the CTA section",
+            description:
+                "Image displayed in the right column of the CTA section",
             options: { hotspot: true },
             fields: [
                 defineField({
@@ -80,14 +69,17 @@ export const ctaType = defineType({
     icon: BlockElementIcon,
     preview: {
         select: {
-            title: "heading",
-            subtitle: "description",
+            heading: "heading",
+            description: "description",
             image: "therapyImage",
         },
-        prepare({ title, subtitle, image }) {
+        prepare({ heading, description, image }) {
+            // Extract Vietnamese text from localeString for preview
+            const title = heading?.vi || heading || "Untitled CTA";
+            const subtitle = description?.vi || description || "Call to Action Section";
             return {
-                title: title || "Untitled CTA",
-                subtitle: subtitle || "Call to Action Section",
+                title,
+                subtitle,
                 media: image || BlockElementIcon,
             };
         },
