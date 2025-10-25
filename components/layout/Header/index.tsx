@@ -1,4 +1,8 @@
+import { headers } from "next/headers";
+
 import type { PageHeaderData } from "@/types/sanity";
+import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";
+import { getLocalizedString } from "@/lib/i18n/utils";
 import { SanityImageLoader } from "@/components/ui/sanity-image-loader";
 
 interface HeaderProps {
@@ -11,8 +15,21 @@ const defaultSubheading = "";
 const defaultAltText = "Header background";
 
 const Header: React.FC<HeaderProps> = async ({ header }) => {
-    const heading = header?.heading ?? defaultHeading;
-    const subheading = header?.subheading ?? defaultSubheading;
+    // Get locale from headers (set by middleware)
+    const headersList = await headers();
+    const localeHeader = headersList.get("x-locale");
+    const locale: Locale = 
+        localeHeader && isValidLocale(localeHeader) 
+            ? localeHeader 
+            : baseLanguage.id;
+
+    // Extract localized strings
+    const heading = header?.heading 
+        ? (getLocalizedString(header.heading, locale) ?? defaultHeading)
+        : defaultHeading;
+    const subheading = header?.subheading
+        ? (getLocalizedString(header.subheading, locale) ?? defaultSubheading)
+        : defaultSubheading;
     const image = header?.image;
     const altText = header?.image?.alt ?? defaultAltText;
 

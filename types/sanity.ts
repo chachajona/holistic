@@ -154,8 +154,8 @@ export interface TreatmentSummary {
 export interface PageHeaderData {
     _id: string;
     slug: { current: string } | null;
-    heading: string | null;
-    subheading: string | null;
+    heading: Record<string, string> | string | null;
+    subheading: Record<string, string> | string | null;
     image: {
         asset: {
             url: string | null;

@@ -8,17 +8,19 @@ export const headerType = defineType({
     fields: [
         defineField({
             name: "heading",
-            type: "string",
+            type: "localeString",
+            title: "Heading",
         }),
         defineField({
             name: "slug",
             type: "slug",
-            options: { source: "heading" },
+            options: { source: "heading.vi" },
             validation: Rule => Rule.required(),
         }),
         defineField({
             name: "subheading",
-            type: "string",
+            type: "localeText",
+            title: "Subheading",
         }),
         defineField({
             name: "image",
@@ -42,12 +44,19 @@ export const headerType = defineType({
     icon: ImagesIcon,
     preview: {
         select: {
-            title: "heading",
+            heading: "heading",
             image: "image",
         },
-        prepare({ title, image }) {
+        prepare({ heading, image }) {
+            // Extract the Vietnamese heading from localeString object
+            const title = typeof heading === 'object' && heading?.vi 
+                ? heading.vi 
+                : typeof heading === 'string' 
+                    ? heading 
+                    : "Untitled";
+            
             return {
-                title: title || "Untitled",
+                title,
                 subtitle: "Header",
                 media: image || ImagesIcon,
             };

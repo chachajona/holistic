@@ -16,7 +16,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { getSiteSettings } from "@/lib/api";
 import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";
 import { buildMetadata } from "@/lib/seo";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 
 const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],

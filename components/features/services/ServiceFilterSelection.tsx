@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useCallback, useMemo } from "react";
+import { motion } from "framer-motion";
 import { customIcons, isCustomIcon } from "@/assets/icons/custom";
 import * as Icons from "lucide-react";
 
@@ -128,7 +129,12 @@ export const ServiceFilterSelection = memo(
         }
 
         return (
-            <div className="mb-10">
+            <motion.div 
+                className="mb-10"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+            >
                 <h2 className="font-robotoSerif text-primary-text mb-5 text-2xl font-bold">
                     <span className="bg-primary-text mr-2 inline-flex size-8 items-center justify-center rounded-full text-lg text-white">
                         1
@@ -137,34 +143,48 @@ export const ServiceFilterSelection = memo(
                 </h2>
                 <ScrollArea className="pb-4">
                     <div className="flex flex-wrap gap-3 sm:flex-row md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
-                        {problemCategories.map(category => (
+                        {problemCategories.map((category, index) => (
                             <TooltipProvider key={category.id}>
                                 <Tooltip delayDuration={300}>
                                     <TooltipTrigger asChild>
-                                        <button
+                                        <motion.button
                                             onClick={() =>
                                                 onSelectCategory(category.id)
                                             }
                                             className={cn(
                                                 "border-primary-text flex min-h-[80px] min-w-[100px] flex-1 flex-col items-center justify-center rounded-lg border p-3 text-center transition-all duration-300 sm:min-w-[120px] sm:flex-none",
                                                 isProblemSelected(category)
-                                                    ? "bg-primary-text text-white"
+                                                    ? "bg-primary-text text-white shadow-lg"
                                                     : "bg-primary-background/50 hover:bg-primary-text/10",
                                             )}
                                             aria-pressed={isProblemSelected(
                                                 category,
                                             )}
                                             aria-label={`Vấn đề: ${category.label}`}
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            transition={{ 
+                                                delay: 0.3 + index * 0.05,
+                                                duration: 0.3 
+                                            }}
+                                            whileTap={{ scale: 0.95 }}
                                         >
-                                            {getIcon(
-                                                category.icon,
-                                                cn(
-                                                    "size-10 sm:size-12",
-                                                    isProblemSelected(category)
-                                                        ? "text-white"
-                                                        : "text-primary-text",
-                                                ),
-                                            )}
+                                            <motion.div
+                                                animate={isProblemSelected(category) ? {
+                                                    scale: [1, 1.1, 1],
+                                                } : {}}
+                                                transition={{ duration: 0.3 }}
+                                            >
+                                                {getIcon(
+                                                    category.icon,
+                                                    cn(
+                                                        "size-10 sm:size-12",
+                                                        isProblemSelected(category)
+                                                            ? "text-white"
+                                                            : "text-primary-text",
+                                                    ),
+                                                )}
+                                            </motion.div>
                                             <span
                                                 className={cn(
                                                     "font-robotoSlab mt-1 text-xs sm:text-sm",
@@ -175,7 +195,7 @@ export const ServiceFilterSelection = memo(
                                             >
                                                 {category.label}
                                             </span>
-                                        </button>
+                                        </motion.button>
                                     </TooltipTrigger>
                                     <TooltipContent
                                         side="bottom"
@@ -188,7 +208,7 @@ export const ServiceFilterSelection = memo(
                         ))}
                     </div>
                 </ScrollArea>
-            </div>
+            </motion.div>
         );
     },
 );
