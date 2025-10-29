@@ -32,7 +32,7 @@ declare global {
 }
 
 const MessengerChat: React.FC<MessengerChatProps> = ({
-    pageId = "holisticrep",
+    pageId = process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID || "",
     themeColor = "#9a7f74",
     loggedInGreeting = "Xin chào! Chúng tôi có thể giúp gì cho bạn?",
     loggedOutGreeting = "Xin chào! Chúng tôi có thể giúp gì cho bạn?",
@@ -40,6 +40,15 @@ const MessengerChat: React.FC<MessengerChatProps> = ({
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(() => {
+        const appId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
+
+        if (!appId || !pageId) {
+            console.error(
+                "Facebook Messenger: Missing APP_ID or PAGE_ID in environment variables",
+            );
+            return;
+        }
+
         // Load Facebook SDK
         const loadFacebookSDK = () => {
             // Add fb-root if not exists
@@ -55,8 +64,7 @@ const MessengerChat: React.FC<MessengerChatProps> = ({
                 if (d.getElementById(id)) return;
                 const js = d.createElement(s) as HTMLScriptElement;
                 js.id = id;
-                js.src =
-                    "https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v18.0";
+                js.src = `https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js#xfbml=1&version=v18.0&appId=${appId}`;
                 fjs.parentNode?.insertBefore(js, fjs);
             })(document, "script", "facebook-jssdk");
 
@@ -79,7 +87,7 @@ const MessengerChat: React.FC<MessengerChatProps> = ({
             );
             if (fbScript) fbScript.remove();
         };
-    }, []);
+    }, [pageId]);
 
     const toggleChat = () => {
         setIsOpen(!isOpen);
@@ -92,6 +100,10 @@ const MessengerChat: React.FC<MessengerChatProps> = ({
             }
         }
     };
+
+    if (!pageId || !process.env.NEXT_PUBLIC_FACEBOOK_APP_ID) {
+        return null;
+    }
 
     return (
         <>

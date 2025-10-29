@@ -35,8 +35,10 @@ export const problemCategoryType = defineType({
             name: "description",
             title: "Description",
             type: "localeText",
-            rows: 3,
             description: "Brief description of this problem category",
+            options: {
+                rows: 3,
+            },
         },
         {
             name: "icon",
