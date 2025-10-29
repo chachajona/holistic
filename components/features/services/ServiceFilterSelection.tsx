@@ -5,8 +5,8 @@ import { motion } from "framer-motion";
 import { customIcons, isCustomIcon } from "@/assets/icons/custom";
 import * as Icons from "lucide-react";
 
-// import type { ProblemCategory } from "@/types/services";
 import { Service } from "@/types/services";
+import { useLocale } from "@/providers/LocaleProvider";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -37,6 +37,7 @@ export const ServiceFilterSelection = memo(
         selectedCategoryIds,
         onSelectCategory,
     }: ServiceFilterProps) => {
+        const { t } = useLocale();
         // Convert Sanity problem categories to our component format
         const problemCategories = useMemo(() => {
             // Collect all unique problem categories from services
@@ -59,10 +60,10 @@ export const ServiceFilterSelection = memo(
                             categoriesMap.set(categoryId, {
                                 id: categoryId,
                                 label: category.title,
-                                icon: category.icon || "Activity", // Default icon if none specified
+                                icon: category.icon || "Activity",
                                 description:
                                     category.description ||
-                                    `${category.title}: Điều trị chuyên biệt`,
+                                    `${category.title}: ${t("servicesPage.problemSelection.descriptionFallback", "Specialized Treatment")}`,
                                 serviceIds: [service.id],
                             });
                         } else {
@@ -118,11 +119,10 @@ export const ServiceFilterSelection = memo(
             return (
                 <div className="mb-10 text-center">
                     <h2 className="text-primary-text font-robotoSerif mb-3 text-2xl font-bold">
-                        Chọn vấn đề của bạn
+                        {t("servicesPage.problemSelection.stepTitle", "Choose Your Problem")}
                     </h2>
                     <p className="text-primary-text/60">
-                        Không tìm thấy danh mục vấn đề nào. Vui lòng thêm danh
-                        mục trong Sanity Studio.
+                        {t("servicesPage.problemSelection.emptyState", "No problem categories found. Please add categories in Sanity Studio.")}
                     </p>
                 </div>
             );
@@ -139,7 +139,7 @@ export const ServiceFilterSelection = memo(
                     <span className="bg-primary-text mr-2 inline-flex size-8 items-center justify-center rounded-full text-lg text-white">
                         1
                     </span>
-                    Chọn vấn đề của bạn
+                    {t("servicesPage.problemSelection.stepTitle", "Choose Your Problem")}
                 </h2>
                 <ScrollArea className="pb-4">
                     <div className="flex flex-wrap gap-3 sm:flex-row md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -160,7 +160,7 @@ export const ServiceFilterSelection = memo(
                                             aria-pressed={isProblemSelected(
                                                 category,
                                             )}
-                                            aria-label={`Vấn đề: ${category.label}`}
+                                            aria-label={`${t("servicesPage.problemSelection.ariaLabel", "Problem:")} ${category.label}`}
                                             initial={{ opacity: 0, scale: 0.9 }}
                                             animate={{ opacity: 1, scale: 1 }}
                                             transition={{ 

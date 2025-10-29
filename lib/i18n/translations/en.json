@@ -72,6 +72,82 @@
             "description": "1-on-1 coaching with rehab exercises to improve posture and post-injury recovery"
         }
     },
+    "servicesPage": {
+        "badge": "Treatment Services",
+        "title": "Specialized Treatment Methods",
+        "description": "Choose the problem you're facing to find the most suitable treatment method",
+        "filters": {
+            "heading": "Service Filters",
+            "selectedLabel": "Selected filters:",
+            "unknownCategory": "Unknown Category",
+            "removeFilterAriaLabel": "Remove filter",
+            "clearAll": "Clear all",
+            "clearAllAriaLabel": "Clear all selected filters"
+        },
+        "problemSelection": {
+            "stepTitle": "Choose Your Problem",
+            "ariaLabel": "Problem:",
+            "emptyState": "No problem categories found. Please add categories in Sanity Studio.",
+            "descriptionFallback": "Specialized Treatment"
+        },
+        "recommendations": {
+            "heading": "Suitable Treatment Methods",
+            "stepTitle": "Suitable Treatment Methods",
+            "recommendedFor": "Recommended for:",
+            "noName": "No name",
+            "noDescription": "No description",
+            "viewDetails": "Details",
+            "viewDetailsAriaLabel": "View details about",
+            "emptyState": {
+                "noTreatments": "No treatment protocols found",
+                "noTreatmentsDesc": "Services do not have specific treatment protocols yet. Please contact us for consultation.",
+                "noMatches": "No matching treatment methods found",
+                "noMatchesDesc": "Please select a different problem or contact us for more consultation"
+            }
+        },
+        "booking": {
+            "title": "Book Consultation",
+            "closeFormAriaLabel": "Close form",
+            "nameLabel": "Full name",
+            "nameRequired": "Full name *",
+            "namePlaceholder": "John Doe",
+            "phoneLabel": "Phone number",
+            "phoneRequired": "Phone number *",
+            "phonePlaceholder": "0901234567",
+            "noteLabel": "Note",
+            "noteOptional": "Note (optional)",
+            "notePlaceholder": "Example: I would like to book in the morning...",
+            "cancelButton": "Cancel",
+            "submitButton": "Submit request",
+            "submitting": "Submitting...",
+            "bookButton": "Book now",
+            "bookAriaLabel": "Book appointment for",
+            "validation": {
+                "nameRequired": "Please enter your full name",
+                "nameLength": "Full name must be 2-100 characters",
+                "nameFormat": "Full name can only contain letters",
+                "phoneRequired": "Please enter phone number",
+                "phoneInvalid": "Invalid phone number",
+                "noteLength": "Note must not exceed 500 characters"
+            },
+            "toast": {
+                "successTitle": "✓ Success",
+                "successMessage": "Your booking request has been sent. We will contact you soon!",
+                "errorTitle": "✗ An error occurred",
+                "errorMessage": "Unable to save booking request"
+            }
+        },
+        "cta": {
+            "allTreatments": "All Treatments",
+            "allTreatmentsAriaLabel": "View all treatment protocols",
+            "bookAppointment": "Book Appointment",
+            "bookAppointmentAriaLabel": "Book appointment now"
+        },
+        "errors": {
+            "unableToLoad": "Unable to load services",
+            "tryAgainLater": "Please try again later."
+        }
+    },
     "treatments": {
         "cupping": {
             "title": "Cupping",

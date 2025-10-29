@@ -72,6 +72,82 @@
             "description": "Coaching 1-1 với các bài tập rehab để cải thiện tư thế vận động, phục hồi sau chấn thương"
         }
     },
+    "servicesPage": {
+        "badge": "Dịch vụ điều trị",
+        "title": "Phương pháp điều trị chuyên biệt",
+        "description": "Chọn vấn đề bạn đang gặp phải để tìm phương pháp điều trị phù hợp nhất",
+        "filters": {
+            "heading": "Bộ lọc dịch vụ",
+            "selectedLabel": "Bộ lọc đã chọn:",
+            "unknownCategory": "Danh mục không xác định",
+            "removeFilterAriaLabel": "Xóa bộ lọc",
+            "clearAll": "Xóa tất cả",
+            "clearAllAriaLabel": "Xóa tất cả bộ lọc đã chọn"
+        },
+        "problemSelection": {
+            "stepTitle": "Chọn vấn đề của bạn",
+            "ariaLabel": "Vấn đề:",
+            "emptyState": "Không tìm thấy danh mục vấn đề nào. Vui lòng thêm danh mục trong Sanity Studio.",
+            "descriptionFallback": "Điều trị chuyên biệt"
+        },
+        "recommendations": {
+            "heading": "Phương pháp điều trị phù hợp",
+            "stepTitle": "Phương pháp điều trị phù hợp",
+            "recommendedFor": "Đề xuất cho:",
+            "noName": "Không có tên",
+            "noDescription": "Không có mô tả",
+            "viewDetails": "Chi tiết",
+            "viewDetailsAriaLabel": "Xem chi tiết về",
+            "emptyState": {
+                "noTreatments": "Không có liệu trình điều trị nào được tìm thấy",
+                "noTreatmentsDesc": "Các dịch vụ chưa có liệu trình điều trị cụ thể. Vui lòng liên hệ với chúng tôi để được tư vấn.",
+                "noMatches": "Không tìm thấy phương pháp điều trị phù hợp",
+                "noMatchesDesc": "Vui lòng chọn vấn đề khác hoặc liên hệ với chúng tôi để được tư vấn thêm"
+            }
+        },
+        "booking": {
+            "title": "Đặt lịch tư vấn",
+            "closeFormAriaLabel": "Đóng form",
+            "nameLabel": "Họ và tên",
+            "nameRequired": "Họ và tên *",
+            "namePlaceholder": "Nguyễn Văn A",
+            "phoneLabel": "Số điện thoại",
+            "phoneRequired": "Số điện thoại *",
+            "phonePlaceholder": "0901234567",
+            "noteLabel": "Ghi chú",
+            "noteOptional": "Ghi chú (tùy chọn)",
+            "notePlaceholder": "Ví dụ: Tôi muốn đặt lịch vào buổi sáng...",
+            "cancelButton": "Hủy",
+            "submitButton": "Gửi yêu cầu",
+            "submitting": "Đang gửi...",
+            "bookButton": "Đặt lịch",
+            "bookAriaLabel": "Đặt lịch cho",
+            "validation": {
+                "nameRequired": "Vui lòng nhập họ và tên",
+                "nameLength": "Họ và tên phải từ 2-100 ký tự",
+                "nameFormat": "Họ và tên chỉ được chứa chữ cái",
+                "phoneRequired": "Vui lòng nhập số điện thoại",
+                "phoneInvalid": "Số điện thoại không hợp lệ",
+                "noteLength": "Ghi chú không được quá 500 ký tự"
+            },
+            "toast": {
+                "successTitle": "✓ Thành công",
+                "successMessage": "Yêu cầu đặt lịch của bạn đã được gửi. Chúng tôi sẽ liên hệ lại sớm!",
+                "errorTitle": "✗ Có lỗi xảy ra",
+                "errorMessage": "Không thể lưu yêu cầu đặt lịch"
+            }
+        },
+        "cta": {
+            "allTreatments": "Tất cả liệu trình",
+            "allTreatmentsAriaLabel": "Xem tất cả liệu trình điều trị",
+            "bookAppointment": "Đặt lịch hẹn",
+            "bookAppointmentAriaLabel": "Đặt lịch hẹn ngay"
+        },
+        "errors": {
+            "unableToLoad": "Không thể tải dịch vụ",
+            "tryAgainLater": "Vui lòng thử lại sau."
+        }
+    },
     "treatments": {
         "cupping": {
             "title": "Giác hơi",

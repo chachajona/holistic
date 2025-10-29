@@ -14,7 +14,7 @@ export const problemCategoryType = defineType({
         {
             name: "title",
             title: "Title",
-            type: "string",
+            type: "localeString",
             description: "Name of the problem category (e.g., 'Back Pain')",
             validation: Rule => Rule.required(),
         },
@@ -24,7 +24,7 @@ export const problemCategoryType = defineType({
             type: "slug",
             description: "Unique identifier for this problem category",
             options: {
-                source: "title",
+                source: "title.vi",
                 maxLength: 200,
                 slugify: input =>
                     input.toLowerCase().replace(/\s+/g, "-").slice(0, 200),
@@ -34,7 +34,7 @@ export const problemCategoryType = defineType({
         {
             name: "description",
             title: "Description",
-            type: "text",
+            type: "localeText",
             rows: 3,
             description: "Brief description of this problem category",
         },

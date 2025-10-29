@@ -1,8 +1,10 @@
+import { headers } from "next/headers";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
 
 import type { ServiceDetailed } from "@/types/sanity";
 import type { Service } from "@/types/services";
 import { getAllServicesDetailed } from "@/lib/api";
+import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";
 import {
     getBlurDataUrl,
     getSanityImageData,
@@ -12,8 +14,14 @@ import { ServicesClient } from "@/components/features/services/ServicesClient";
 export const revalidate = 3600;
 
 export default async function ServicesPage(): Promise<JSX.Element> {
+    const headersList = await headers();
+    const locale = headersList.get("x-locale");
+    const validLocale: Locale =
+        locale && isValidLocale(locale) ? locale : baseLanguage.id;
+
     try {
-        const servicesData: ServiceDetailed[] = await getAllServicesDetailed();
+        const servicesData: ServiceDetailed[] =
+            await getAllServicesDetailed(validLocale);
 
         // Get blur data URLs for service images and map to proper Service type
         const servicesWithBlur = await Promise.all(

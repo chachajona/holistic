@@ -26,13 +26,13 @@ export const serviceType = defineType({
         {
             name: "title",
             title: "Title",
-            type: "string",
+            type: "localeString",
             validation: Rule => Rule.required(),
         },
         {
             name: "description",
             title: "Description",
-            type: "text",
+            type: "localeText",
             validation: Rule => Rule.required(),
         },
         {
@@ -78,17 +78,17 @@ export const serviceType = defineType({
                 {
                     name: "outcome",
                     title: "Expected Outcome",
-                    type: "text",
+                    type: "localeText",
                 },
                 {
                     name: "protocol",
                     title: "Treatment Protocol",
-                    type: "text",
+                    type: "localeText",
                 },
                 {
                     name: "evidence",
                     title: "Scientific Evidence",
-                    type: "text",
+                    type: "localeText",
                 },
                 {
                     name: "treatments",

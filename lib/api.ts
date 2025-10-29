@@ -509,28 +509,30 @@ export async function getSiteSettings(): Promise<SiteSettings | null> {
     }
 }
 
-export async function getAllServicesDetailed(): Promise<ServiceDetailed[]> {
-    const query = `*[_type == "service"] {
+export async function getAllServicesDetailed(
+    locale: Locale = baseLanguage.id,
+): Promise<ServiceDetailed[]> {
+    const query = groq`*[_type == "service"] {
       "id": id.current,
-      title,
-      description,
+      "title": ${localizedField("title")},
+      "description": ${localizedField("description")},
       icon,
       image,
       isPrimary,
       "problemCategories": problemCategories[]-> {
         "_id": _id,
-        title,
+        "title": ${localizedField("title")},
         icon,
-        description
+        "description": ${localizedField("description")}
       },
       details {
-        outcome,
-        protocol,
-        evidence,
+        "outcome": ${localizedField("outcome")},
+        "protocol": ${localizedField("protocol")},
+        "evidence": ${localizedField("evidence")},
         "treatments": treatments[]-> {
           "id": _id,
-          "name": title.vi,
-          "description": shortDescription.vi,
+          "name": ${localizedField("title")},
+          "description": ${localizedField("shortDescription")},
           "icon": icon,
           "href": slug.current
         }
@@ -539,7 +541,7 @@ export async function getAllServicesDetailed(): Promise<ServiceDetailed[]> {
 
     try {
         console.log("Fetching services data from Sanity...");
-        const result = await client.fetch(query);
+        const result = await client.fetch(query, { locale });
         console.log(`Retrieved ${result?.length || 0} services`);
 
         // Count treatments for diagnostic purposes
