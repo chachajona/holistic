@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { FaFacebookMessenger } from "react-icons/fa";
+import { SiZalo } from "react-icons/si";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -15,68 +15,68 @@ import { cn } from "@/lib/utils";
 import { useLocale } from "@/providers/LocaleProvider";
 
 /**
- * MessengerChat component props
- * @interface MessengerChatProps
- * @property {string} [pageId] - Facebook page ID (defaults to NEXT_PUBLIC_FACEBOOK_PAGE_ID env var)
- * @property {string} [themeColor] - Theme color for the button (defaults to #9a7f74)
+ * ZaloChat component props
+ * @interface ZaloChatProps
+ * @property {string} [phoneNumber] - Zalo phone number (defaults to NEXT_PUBLIC_ZALO_PHONE_NUMBER env var)
+ * @property {string} [themeColor] - Theme color for the button (defaults to #0084ff)
  * @property {string} [className] - Additional CSS classes
- * @property {() => void} [onMessengerClick] - Callback fired when messenger button is clicked
+ * @property {() => void} [onZaloClick] - Callback fired when zalo button is clicked
  */
-interface MessengerChatProps {
-    pageId?: string;
+interface ZaloChatProps {
+    phoneNumber?: string;
     themeColor?: string;
     className?: string;
-    onMessengerClick?: () => void;
+    onZaloClick?: () => void;
 }
 
 // Constants
 const TOOLTIP_DELAY_MS = 300;
 const TOOLTIP_OFFSET_PX = 12;
-const DEFAULT_THEME_COLOR = "#9a7f74";
-const FACEBOOK_PAGE_ID_REGEX = /^\d{15,17}$/;
+const DEFAULT_THEME_COLOR = "#0084ff";
+const ZALO_PHONE_REGEX = /^(\+?84|0)[0-9]{9}$/;
 
-const MessengerChat: React.FC<MessengerChatProps> = ({
-    pageId = process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID || "",
+const ZaloChat: React.FC<ZaloChatProps> = ({
+    phoneNumber = process.env.NEXT_PUBLIC_ZALO_PHONE_NUMBER || "",
     themeColor = DEFAULT_THEME_COLOR,
     className = "",
-    onMessengerClick,
+    onZaloClick,
 }) => {
     const { t } = useLocale();
 
     // Validation
-    if (!pageId) {
-        console.warn("MessengerChat: Missing NEXT_PUBLIC_FACEBOOK_PAGE_ID");
+    if (!phoneNumber) {
+        console.warn("ZaloChat: Missing NEXT_PUBLIC_ZALO_PHONE_NUMBER");
         return null;
     }
 
-    if (!FACEBOOK_PAGE_ID_REGEX.test(pageId)) {
+    if (!ZALO_PHONE_REGEX.test(phoneNumber)) {
         console.error(
-            `MessengerChat: Invalid PAGE_ID format "${pageId}". Expected numeric ID.`,
+            `ZaloChat: Invalid phone number format "${phoneNumber}". Expected Vietnamese phone number format (e.g., 0901234567 or +84901234567).`,
         );
         return null;
     }
 
-    const messengerUrl = `https://m.me/${pageId}`;
+    const zaloUrl = `https://zalo.me/${phoneNumber.replace(/\D/g, "")}`;
     const openChatLabel = getTranslationString(
-        t("messenger.openChat"),
-        "Open Messenger Chat",
+        t("zalo.openChat"),
+        "Open Zalo Chat",
     );
     const chatWithUsLabel = getTranslationString(
-        t("messenger.chatWithUs"),
-        "Chat with us on Messenger",
+        t("zalo.chatWithUs"),
+        "Chat with us on Zalo",
     );
 
     const handleClick = () => {
         // Analytics tracking hook
-        if (onMessengerClick) {
-            onMessengerClick();
+        if (onZaloClick) {
+            onZaloClick();
         }
 
         // Optional: Add Google Analytics tracking
         if (typeof window !== "undefined" && window.gtag) {
-            window.gtag("event", "messenger_click", {
+            window.gtag("event", "zalo_click", {
                 event_category: "engagement",
-                event_label: "messenger_chat_button",
+                event_label: "zalo_chat_button",
             });
         }
     };
@@ -84,7 +84,7 @@ const MessengerChat: React.FC<MessengerChatProps> = ({
     return (
         <div
             className={cn("fixed bottom-4 end-4 z-[100]", className)}
-            data-testid="messenger-chat-widget"
+            data-testid="zalo-chat-widget"
         >
             <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
                 <Tooltip>
@@ -98,23 +98,23 @@ const MessengerChat: React.FC<MessengerChatProps> = ({
                                 backgroundColor: themeColor,
                             }}
                             aria-label={openChatLabel}
-                            data-testid="messenger-chat-button"
+                            data-testid="zalo-chat-button"
                         >
                             <a
-                                href={messengerUrl}
+                                href={zaloUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 onClick={handleClick}
-                                data-testid="messenger-chat-link"
+                                data-testid="zalo-chat-link"
                             >
-                                <FaFacebookMessenger className="size-6 text-white md:size-7 lg:size-8" />
+                                <SiZalo className="size-6 text-white md:size-7 lg:size-8" />
                             </a>
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent
                         side="left"
                         sideOffset={TOOLTIP_OFFSET_PX}
-                        data-testid="messenger-chat-tooltip"
+                        data-testid="zalo-chat-tooltip"
                     >
                         <p className="font-medium">{chatWithUsLabel}</p>
                     </TooltipContent>
@@ -124,4 +124,4 @@ const MessengerChat: React.FC<MessengerChatProps> = ({
     );
 };
 
-export default MessengerChat;
+export default ZaloChat;

@@ -15,7 +15,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { CarouselApi } from "@/components/ui/carousel";
 import Banner from "@/components/common/Banner";
-import MessengerChat from "@/components/common/MessengerChat";
 import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 import SwiperCarousel from "@/components/common/SwiperCarousel";
 import { StaticCTA } from "@/components/features/marketing/CTA";
@@ -181,7 +180,6 @@ export default function HomeClient({
 
                 <StaticCTA onImageLoaded={handleCtaLoaded} ctaData={ctaData} />
                 <Footer contactInfo={contactInfo} socialMedia={socialMedia} />
-                <MessengerChat />
             </main>
         </PageLoaderWrapper>
     );

@@ -17,6 +17,7 @@ import { getSiteSettings } from "@/lib/api";
 import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";
 import { buildMetadata } from "@/lib/seo";
 import { Toaster } from "sonner";
+import ChatWidgets from "@/components/common/ChatWidgets";
 
 const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],
@@ -88,6 +89,7 @@ export default async function RootLayout({
             >
                 <LocaleProvider initialLocale={locale}>
                     <main>{children}</main>
+                    <ChatWidgets />
                     <Toaster />
                     <SpeedInsights />
                     <Analytics />

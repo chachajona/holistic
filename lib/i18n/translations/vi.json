@@ -266,5 +266,9 @@
     "messenger": {
         "openChat": "Mở chat Messenger",
         "chatWithUs": "Trò chuyện với chúng tôi trên Messenger"
+    },
+    "zalo": {
+        "openChat": "Mở chat Zalo",
+        "chatWithUs": "Trò chuyện với chúng tôi trên Zalo"
     }
 }
