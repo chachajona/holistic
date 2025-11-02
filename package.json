@@ -10,7 +10,10 @@
         "lint:fix": "next lint --fix",
         "format": "prettier --write .",
         "type-check": "tsc --noEmit",
-        "info": "next info"
+        "info": "next info",
+        "test": "vitest",
+        "test:ui": "vitest --ui",
+        "test:coverage": "vitest --coverage"
     },
     "engines": {
         "node": "^18.20.2 || >=20.9.0"
@@ -74,11 +77,16 @@
         "@ianvs/prettier-plugin-sort-imports": "^4.3.1",
         "@next/eslint-plugin-next": "^14.2.15",
         "@tailwindcss/typography": "^0.5.16",
+        "@testing-library/jest-dom": "^6.6.3",
+        "@testing-library/react": "^16.1.0",
+        "@testing-library/user-event": "^14.5.2",
         "@types/node": "^20",
         "@types/react": "^18",
         "@types/react-dom": "^18",
         "@typescript-eslint/eslint-plugin": "^8.9.0",
         "@typescript-eslint/parser": "^8.9.0",
+        "@vitejs/plugin-react": "^4.3.4",
+        "@vitest/ui": "^3.0.5",
         "autoprefixer": "^10.4.20",
         "eslint": "^8",
         "eslint-config-airbnb": "^19.0.4",
@@ -87,13 +95,15 @@
         "eslint-plugin-tailwindcss": "^3.17.5",
         "eslint-plugin-unused-imports": "^4.1.4",
         "husky": "^9.1.6",
+        "jsdom": "^25.0.1",
         "lint-staged": "^15.2.10",
         "postcss": "^8",
         "prettier": "^3.3.3",
         "prettier-plugin-tailwindcss": "^0.6.6",
         "shadcn": "^3.4.2",
         "tailwindcss": "^3.4.1",
-        "typescript": "^5"
+        "typescript": "^5",
+        "vitest": "^3.0.5"
     },
     "browser": {
         "child_process": false,

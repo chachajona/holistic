@@ -50,3 +50,11 @@ export function getLocalizedString(
         null
     );
 }
+
+// Helper to ensure we get a string from translation values
+export function getTranslationString(
+    value: string | string[],
+    fallback: string,
+): string {
+    return typeof value === "string" ? value : fallback;
+}

@@ -201,5 +201,70 @@
         "searchSubscribers": "Search subscribers...",
         "noContactsFound": "No contacts found",
         "noSubscribersFound": "No subscribers found"
+    },
+    "privacyPolicy": {
+        "title": "Privacy Policy",
+        "badge": "Legal Information",
+        "lastUpdated": "Last updated",
+        "sections": {
+            "introduction": {
+                "title": "Introduction",
+                "content": "At Holistic Physical Therapy Clinic, we are committed to protecting your privacy and personal information. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our clinic or use our services."
+            },
+            "informationCollection": {
+                "title": "Information We Collect",
+                "content": "We collect information that you provide directly to us, including:",
+                "items": [
+                    "Personal identification information (name, date of birth, contact details)",
+                    "Health and medical information relevant to your treatment",
+                    "Insurance and payment information",
+                    "Communication preferences and appointment history"
+                ]
+            },
+            "useOfInformation": {
+                "title": "How We Use Your Information",
+                "content": "We use the information we collect to:",
+                "items": [
+                    "Provide, maintain, and improve our physical therapy services",
+                    "Process appointments and communicate with you about your treatment",
+                    "Process payments and insurance claims",
+                    "Send you appointment reminders and health-related information",
+                    "Comply with legal obligations and regulations"
+                ]
+            },
+            "informationSharing": {
+                "title": "Information Sharing and Disclosure",
+                "content": "We may share your information with:",
+                "items": [
+                    "Healthcare providers involved in your care",
+                    "Insurance companies for billing and claims processing",
+                    "Legal authorities when required by law",
+                    "Service providers who assist in our operations (subject to confidentiality agreements)"
+                ]
+            },
+            "dataSecurity": {
+                "title": "Data Security",
+                "content": "We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure."
+            },
+            "yourRights": {
+                "title": "Your Rights",
+                "content": "You have the right to:",
+                "items": [
+                    "Access and receive a copy of your personal information",
+                    "Request correction of inaccurate or incomplete information",
+                    "Request deletion of your information (subject to legal requirements)",
+                    "Withdraw consent for certain uses of your information",
+                    "File a complaint with relevant data protection authorities"
+                ]
+            },
+            "contact": {
+                "title": "Contact Us",
+                "content": "If you have any questions about this Privacy Policy or our data practices, please contact us through the information provided on our website."
+            }
+        }
+    },
+    "messenger": {
+        "openChat": "Open Messenger Chat",
+        "chatWithUs": "Chat with us on Messenger"
     }
 }

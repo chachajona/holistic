@@ -1,139 +1,126 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { X } from "lucide-react";
+import React from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { getTranslationString } from "@/lib/i18n/utils";
+import { cn } from "@/lib/utils";
+import { useLocale } from "@/providers/LocaleProvider";
 
+/**
+ * MessengerChat component props
+ * @interface MessengerChatProps
+ * @property {string} [pageId] - Facebook page ID (defaults to NEXT_PUBLIC_FACEBOOK_PAGE_ID env var)
+ * @property {string} [themeColor] - Theme color for the button (defaults to #9a7f74)
+ * @property {string} [className] - Additional CSS classes
+ * @property {() => void} [onMessengerClick] - Callback fired when messenger button is clicked
+ */
 interface MessengerChatProps {
     pageId?: string;
     themeColor?: string;
-    loggedInGreeting?: string;
-    loggedOutGreeting?: string;
+    className?: string;
+    onMessengerClick?: () => void;
 }
 
-interface FacebookCustomerChat {
-    show: (shouldShow: boolean) => void;
-    showDialog: () => void;
-    hide: () => void;
-}
-
-interface FacebookSDK {
-    init: (params: { xfbml: boolean; version: string }) => void;
-    CustomerChat: FacebookCustomerChat;
-}
-
-declare global {
-    interface Window {
-        fbAsyncInit?: () => void;
-        FB?: FacebookSDK;
-    }
-}
+// Constants
+const TOOLTIP_DELAY_MS = 300;
+const TOOLTIP_OFFSET_PX = 12;
+const DEFAULT_THEME_COLOR = "#9a7f74";
+const FACEBOOK_PAGE_ID_REGEX = /^\d{15,17}$/;
 
 const MessengerChat: React.FC<MessengerChatProps> = ({
     pageId = process.env.NEXT_PUBLIC_FACEBOOK_PAGE_ID || "",
-    themeColor = "#9a7f74",
-    loggedInGreeting = "Xin chào! Chúng tôi có thể giúp gì cho bạn?",
-    loggedOutGreeting = "Xin chào! Chúng tôi có thể giúp gì cho bạn?",
+    themeColor = DEFAULT_THEME_COLOR,
+    className = "",
+    onMessengerClick,
 }) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const { t } = useLocale();
 
-    useEffect(() => {
-        const appId = process.env.NEXT_PUBLIC_FACEBOOK_APP_ID;
-
-        if (!appId || !pageId) {
-            console.error(
-                "Facebook Messenger: Missing APP_ID or PAGE_ID in environment variables",
-            );
-            return;
-        }
-
-        // Load Facebook SDK
-        const loadFacebookSDK = () => {
-            // Add fb-root if not exists
-            if (!document.getElementById("fb-root")) {
-                const root = document.createElement("div");
-                root.id = "fb-root";
-                document.body.appendChild(root);
-            }
-
-            // Add Facebook SDK script
-            ((d, s, id) => {
-                const fjs = d.getElementsByTagName(s)[0];
-                if (d.getElementById(id)) return;
-                const js = d.createElement(s) as HTMLScriptElement;
-                js.id = id;
-                js.src = `https://connect.facebook.net/vi_VN/sdk/xfbml.customerchat.js#xfbml=1&version=v18.0&appId=${appId}`;
-                fjs.parentNode?.insertBefore(js, fjs);
-            })(document, "script", "facebook-jssdk");
-
-            window.fbAsyncInit = () => {
-                window.FB?.init({
-                    xfbml: true,
-                    version: "v18.0",
-                });
-            };
-        };
-
-        loadFacebookSDK();
-
-        return () => {
-            delete window?.fbAsyncInit;
-            const fbRoot = document.getElementById("fb-root");
-            if (fbRoot) fbRoot.remove();
-            const fbScript = document.querySelector(
-                'script[src*="connect.facebook.net"]',
-            );
-            if (fbScript) fbScript.remove();
-        };
-    }, [pageId]);
-
-    const toggleChat = () => {
-        setIsOpen(!isOpen);
-        if (window.FB) {
-            if (!isOpen) {
-                window.FB.CustomerChat.show(true);
-                window.FB.CustomerChat.showDialog();
-            } else {
-                window.FB.CustomerChat.hide();
-            }
-        }
-    };
-
-    if (!pageId || !process.env.NEXT_PUBLIC_FACEBOOK_APP_ID) {
+    // Validation
+    if (!pageId) {
+        console.warn("MessengerChat: Missing NEXT_PUBLIC_FACEBOOK_PAGE_ID");
         return null;
     }
 
-    return (
-        <>
-            {/* Facebook Customer Chat Plugin */}
-            <div id="fb-root" />
-            <div
-                className="fb-customerchat"
-                data-attribution="biz_inbox"
-                data-page-id={pageId}
-                data-theme-color={themeColor}
-                data-logged-in-greeting={loggedInGreeting}
-                data-logged-out-greeting={loggedOutGreeting}
-            />
+    if (!FACEBOOK_PAGE_ID_REGEX.test(pageId)) {
+        console.error(
+            `MessengerChat: Invalid PAGE_ID format "${pageId}". Expected numeric ID.`,
+        );
+        return null;
+    }
 
-            <div className="fixed bottom-4 end-4 z-[100]">
-                <Button
-                    onClick={toggleChat}
-                    variant="default"
-                    size="icon"
-                    className="rounded-full bg-[#9a7f74] p-3 shadow-lg hover:bg-[#9a7f74]/90"
-                    aria-label="Open chat"
-                >
-                    {isOpen ? (
-                        <X className="size-6 text-white" />
-                    ) : (
-                        <FaFacebookMessenger className="size-6 text-white" />
-                    )}
-                </Button>
-            </div>
-        </>
+    const messengerUrl = `https://m.me/${pageId}`;
+    const openChatLabel = getTranslationString(
+        t("messenger.openChat"),
+        "Open Messenger Chat",
+    );
+    const chatWithUsLabel = getTranslationString(
+        t("messenger.chatWithUs"),
+        "Chat with us on Messenger",
+    );
+
+    const handleClick = () => {
+        // Analytics tracking hook
+        if (onMessengerClick) {
+            onMessengerClick();
+        }
+
+        // Optional: Add Google Analytics tracking
+        if (typeof window !== "undefined" && window.gtag) {
+            window.gtag("event", "messenger_click", {
+                event_category: "engagement",
+                event_label: "messenger_chat_button",
+            });
+        }
+    };
+
+    return (
+        <div
+            className={cn("fixed bottom-4 end-4 z-[100]", className)}
+            data-testid="messenger-chat-widget"
+        >
+            <TooltipProvider delayDuration={TOOLTIP_DELAY_MS}>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Button
+                            asChild
+                            variant="default"
+                            size="icon"
+                            className="rounded-full p-3 shadow-lg transition-all hover:scale-110"
+                            style={{
+                                backgroundColor: themeColor,
+                            }}
+                            aria-label={openChatLabel}
+                            data-testid="messenger-chat-button"
+                        >
+                            <a
+                                href={messengerUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                onClick={handleClick}
+                                data-testid="messenger-chat-link"
+                            >
+                                <FaFacebookMessenger className="size-6 text-white" />
+                            </a>
+                        </Button>
+                    </TooltipTrigger>
+                    <TooltipContent
+                        side="left"
+                        sideOffset={TOOLTIP_OFFSET_PX}
+                        data-testid="messenger-chat-tooltip"
+                    >
+                        <p className="font-medium">{chatWithUsLabel}</p>
+                    </TooltipContent>
+                </Tooltip>
+            </TooltipProvider>
+        </div>
     );
 };
 

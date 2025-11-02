@@ -201,5 +201,70 @@
         "searchSubscribers": "Tìm kiếm người đăng ký...",
         "noContactsFound": "Không tìm thấy liên hệ",
         "noSubscribersFound": "Không tìm thấy người đăng ký"
+    },
+    "privacyPolicy": {
+        "title": "Chính sách bảo mật",
+        "badge": "Thông tin pháp lý",
+        "lastUpdated": "Cập nhật lần cuối",
+        "sections": {
+            "introduction": {
+                "title": "Giới thiệu",
+                "content": "Tại Phòng khám Vật lý trị liệu Holistic, chúng tôi cam kết bảo vệ quyền riêng tư và thông tin cá nhân của bạn. Chính sách bảo mật này giải thích cách chúng tôi thu thập, sử dụng, tiết lộ và bảo vệ thông tin của bạn khi bạn đến phòng khám hoặc sử dụng dịch vụ của chúng tôi."
+            },
+            "informationCollection": {
+                "title": "Thông tin chúng tôi thu thập",
+                "content": "Chúng tôi thu thập thông tin mà bạn cung cấp trực tiếp cho chúng tôi, bao gồm:",
+                "items": [
+                    "Thông tin nhận dạng cá nhân (họ tên, ngày sinh, thông tin liên hệ)",
+                    "Thông tin sức khỏe và y tế liên quan đến việc điều trị của bạn",
+                    "Thông tin bảo hiểm và thanh toán",
+                    "Lịch sử tùy chọn liên lạc và cuộc hẹn"
+                ]
+            },
+            "useOfInformation": {
+                "title": "Cách chúng tôi sử dụng thông tin của bạn",
+                "content": "Chúng tôi sử dụng thông tin thu thập được để:",
+                "items": [
+                    "Cung cấp, duy trì và cải thiện dịch vụ vật lý trị liệu của chúng tôi",
+                    "Xử lý các cuộc hẹn và liên lạc với bạn về việc điều trị",
+                    "Xử lý thanh toán và yêu cầu bảo hiểm",
+                    "Gửi cho bạn lời nhắc cuộc hẹn và thông tin liên quan đến sức khỏe",
+                    "Tuân thủ các nghĩa vụ và quy định pháp lý"
+                ]
+            },
+            "informationSharing": {
+                "title": "Chia sẻ và tiết lộ thông tin",
+                "content": "Chúng tôi có thể chia sẻ thông tin của bạn với:",
+                "items": [
+                    "Các nhà cung cấp dịch vụ y tế tham gia vào quá trình chăm sóc của bạn",
+                    "Các công ty bảo hiểm để thanh toán và xử lý yêu cầu bồi thường",
+                    "Cơ quan pháp luật khi được yêu cầu theo luật",
+                    "Các nhà cung cấp dịch vụ hỗ trợ hoạt động của chúng tôi (tuân theo thỏa thuận bảo mật)"
+                ]
+            },
+            "dataSecurity": {
+                "title": "Bảo mật dữ liệu",
+                "content": "Chúng tôi thực hiện các biện pháp kỹ thuật và tổ chức phù hợp để bảo vệ thông tin cá nhân của bạn khỏi truy cập trái phép, thay đổi, tiết lộ hoặc phá hủy. Tuy nhiên, không có phương thức truyền tải qua internet nào an toàn 100%."
+            },
+            "yourRights": {
+                "title": "Quyền của bạn",
+                "content": "Bạn có quyền:",
+                "items": [
+                    "Truy cập và nhận bản sao thông tin cá nhân của bạn",
+                    "Yêu cầu sửa chữa thông tin không chính xác hoặc không đầy đủ",
+                    "Yêu cầu xóa thông tin của bạn (tuân theo các yêu cầu pháp lý)",
+                    "Rút lại sự đồng ý cho một số mục đích sử dụng thông tin của bạn",
+                    "Nộp đơn khiếu nại với các cơ quan bảo vệ dữ liệu có liên quan"
+                ]
+            },
+            "contact": {
+                "title": "Liên hệ chúng tôi",
+                "content": "Nếu bạn có bất kỳ câu hỏi nào về Chính sách bảo mật này hoặc các thực hành dữ liệu của chúng tôi, vui lòng liên hệ với chúng tôi qua thông tin được cung cấp trên trang web của chúng tôi."
+            }
+        }
+    },
+    "messenger": {
+        "openChat": "Mở chat Messenger",
+        "chatWithUs": "Trò chuyện với chúng tôi trên Messenger"
     }
 }
