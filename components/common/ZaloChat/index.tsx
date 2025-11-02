@@ -18,7 +18,7 @@ import { useLocale } from "@/providers/LocaleProvider";
  * ZaloChat component props
  * @interface ZaloChatProps
  * @property {string} [zaloId] - Zalo ID (defaults to NEXT_PUBLIC_ZALO_ID env var)
- * @property {string} [themeColor] - Theme color for the button (defaults to #0084ff)
+ * @property {string} [themeColor] - Theme color for the button (defaults to #826B63)
  * @property {string} [className] - Additional CSS classes
  * @property {() => void} [onZaloClick] - Callback fired when zalo button is clicked
  */
@@ -32,7 +32,7 @@ interface ZaloChatProps {
 // Constants
 const TOOLTIP_DELAY_MS = 300;
 const TOOLTIP_OFFSET_PX = 12;
-const DEFAULT_THEME_COLOR = "#0084ff";
+const DEFAULT_THEME_COLOR = "#826B63";
 const ZALO_ID_REGEX = /^\d+$/;
 
 const ZaloChat: React.FC<ZaloChatProps> = ({
