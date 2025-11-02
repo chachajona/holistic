@@ -17,13 +17,13 @@ import { useLocale } from "@/providers/LocaleProvider";
 /**
  * ZaloChat component props
  * @interface ZaloChatProps
- * @property {string} [phoneNumber] - Zalo phone number (defaults to NEXT_PUBLIC_ZALO_PHONE_NUMBER env var)
+ * @property {string} [zaloId] - Zalo ID (defaults to NEXT_PUBLIC_ZALO_ID env var)
  * @property {string} [themeColor] - Theme color for the button (defaults to #0084ff)
  * @property {string} [className] - Additional CSS classes
  * @property {() => void} [onZaloClick] - Callback fired when zalo button is clicked
  */
 interface ZaloChatProps {
-    phoneNumber?: string;
+    zaloId?: string;
     themeColor?: string;
     className?: string;
     onZaloClick?: () => void;
@@ -33,10 +33,10 @@ interface ZaloChatProps {
 const TOOLTIP_DELAY_MS = 300;
 const TOOLTIP_OFFSET_PX = 12;
 const DEFAULT_THEME_COLOR = "#0084ff";
-const ZALO_PHONE_REGEX = /^(\+?84|0)[0-9]{9}$/;
+const ZALO_ID_REGEX = /^\d+$/;
 
 const ZaloChat: React.FC<ZaloChatProps> = ({
-    phoneNumber = process.env.NEXT_PUBLIC_ZALO_PHONE_NUMBER || "",
+    zaloId = process.env.NEXT_PUBLIC_ZALO_ID || "",
     themeColor = DEFAULT_THEME_COLOR,
     className = "",
     onZaloClick,
@@ -44,19 +44,19 @@ const ZaloChat: React.FC<ZaloChatProps> = ({
     const { t } = useLocale();
 
     // Validation
-    if (!phoneNumber) {
-        console.warn("ZaloChat: Missing NEXT_PUBLIC_ZALO_PHONE_NUMBER");
+    if (!zaloId) {
+        console.warn("ZaloChat: Missing NEXT_PUBLIC_ZALO_ID");
         return null;
     }
 
-    if (!ZALO_PHONE_REGEX.test(phoneNumber)) {
+    if (!ZALO_ID_REGEX.test(zaloId)) {
         console.error(
-            `ZaloChat: Invalid phone number format "${phoneNumber}". Expected Vietnamese phone number format (e.g., 0901234567 or +84901234567).`,
+            `ZaloChat: Invalid Zalo ID format "${zaloId}". Expected numeric Zalo ID.`,
         );
         return null;
     }
 
-    const zaloUrl = `https://zalo.me/${phoneNumber.replace(/\D/g, "")}`;
+    const zaloUrl = `https://zalo.me/${zaloId}`;
     const openChatLabel = getTranslationString(
         t("zalo.openChat"),
         "Open Zalo Chat",
