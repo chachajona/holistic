@@ -44,7 +44,7 @@ export default function PageLoaderWrapper({
                         initial={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.3 }}
-                        className="bg-primary-background fixed inset-0 z-50 flex items-center justify-center"
+                        className="bg-primary-background fixed inset-0 z-[150] flex items-center justify-center"
                     >
                         <LogoFillWaveBubblesLoader
                             showText={false}
