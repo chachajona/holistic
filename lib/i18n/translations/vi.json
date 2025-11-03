@@ -263,6 +263,105 @@
             }
         }
     },
+    "termsConditions": {
+        "title": "Điều khoản & Điều kiện",
+        "badge": "Thông tin pháp lý",
+        "lastUpdated": "Cập nhật lần cuối",
+        "sections": {
+            "introduction": {
+                "title": "Giới thiệu",
+                "content": "Chào mừng bạn đến với Phòng khám Vật lý trị liệu Holistic. Bằng việc sử dụng dịch vụ của chúng tôi, bạn đồng ý bị ràng buộc bởi các Điều khoản và Điều kiện này. Vui lòng đọc kỹ trước khi sử dụng dịch vụ của chúng tôi."
+            },
+            "serviceDescription": {
+                "title": "Mô tả dịch vụ",
+                "content": "Phòng khám Vật lý trị liệu Holistic cung cấp dịch vụ vật lý trị liệu, tư vấn sức khỏe và các dịch vụ chăm sóc sức khỏe liên quan. Dịch vụ của chúng tôi được cung cấp bởi các chuyên gia y tế có giấy phép và đủ tiêu chuẩn."
+            },
+            "appointmentsAndCancellations": {
+                "title": "Lịch hẹn và Hủy lịch",
+                "content": "Bằng việc đặt lịch hẹn, bạn đồng ý:",
+                "items": [
+                    "Đến đúng giờ cho các cuộc hẹn đã được lên lịch",
+                    "Thông báo trước ít nhất 24 giờ cho việc hủy hoặc đổi lịch",
+                    "Thanh toán phí hủy lịch cho các trường hợp hủy muộn hoặc không đến theo chính sách của chúng tôi",
+                    "Cung cấp thông tin sức khỏe chính xác cần thiết cho việc điều trị"
+                ]
+            },
+            "paymentTerms": {
+                "title": "Điều khoản thanh toán",
+                "content": "Thanh toán cho dịch vụ phải được thực hiện tại thời điểm sử dụng dịch vụ trừ khi có thỏa thuận khác. Chúng tôi chấp nhận nhiều phương thức thanh toán và làm việc với các nhà cung cấp bảo hiểm để xử lý yêu cầu bồi thường thay mặt bạn."
+            },
+            "consentToTreatment": {
+                "title": "Đồng ý điều trị",
+                "content": "Bằng việc sử dụng dịch vụ của chúng tôi, bạn đồng ý nhận điều trị vật lý trị liệu và xác nhận rằng:",
+                "items": [
+                    "Bạn đã được thông báo về bản chất của việc điều trị",
+                    "Bạn hiểu các rủi ro và lợi ích tiềm ẩn",
+                    "Bạn đã có cơ hội đặt câu hỏi",
+                    "Bạn ủy quyền cho các chuyên gia y tế tiến hành điều trị"
+                ]
+            },
+            "limitationOfLiability": {
+                "title": "Giới hạn trách nhiệm",
+                "content": "Mặc dù chúng tôi nỗ lực cung cấp dịch vụ chăm sóc chất lượng cao nhất, Phòng khám Vật lý trị liệu Holistic sẽ không chịu trách nhiệm cho bất kỳ thiệt hại gián tiếp, ngẫu nhiên hoặc hệ quả phát sinh từ việc sử dụng dịch vụ của chúng tôi, trừ khi được yêu cầu bởi pháp luật."
+            },
+            "modifications": {
+                "title": "Sửa đổi điều khoản",
+                "content": "Chúng tôi có quyền sửa đổi các Điều khoản và Điều kiện này bất kỳ lúc nào. Các thay đổi sẽ có hiệu lực ngay lập tức khi được đăng trên trang web của chúng tôi. Việc tiếp tục sử dụng dịch vụ của chúng tôi đồng nghĩa với việc chấp nhận các điều khoản đã được sửa đổi."
+            },
+            "contact": {
+                "title": "Thông tin liên hệ",
+                "content": "Nếu bạn có câu hỏi về các Điều khoản và Điều kiện này, vui lòng liên hệ với chúng tôi qua thông tin được cung cấp trên trang web của chúng tôi."
+            }
+        }
+    },
+    "cookiePolicy": {
+        "title": "Chính sách Cookie",
+        "badge": "Thông tin pháp lý",
+        "lastUpdated": "Cập nhật lần cuối",
+        "sections": {
+            "introduction": {
+                "title": "Cookie là gì",
+                "content": "Cookie là các tệp văn bản nhỏ được đặt trên thiết bị của bạn khi bạn truy cập trang web của chúng tôi. Chúng giúp chúng tôi cung cấp cho bạn trải nghiệm tốt hơn bằng cách ghi nhớ các tùy chọn của bạn và hiểu cách bạn sử dụng trang web của chúng tôi."
+            },
+            "typesOfCookies": {
+                "title": "Các loại Cookie chúng tôi sử dụng",
+                "content": "Chúng tôi sử dụng các loại cookie sau:",
+                "items": [
+                    "Cookie thiết yếu: Cần thiết để trang web hoạt động đúng cách",
+                    "Cookie phân tích: Giúp chúng tôi hiểu cách khách truy cập tương tác với trang web của chúng tôi",
+                    "Cookie chức năng: Ghi nhớ các tùy chọn và cài đặt của bạn",
+                    "Cookie tiếp thị: Theo dõi thói quen duyệt web của bạn để hiển thị quảng cáo có liên quan"
+                ]
+            },
+            "howWeUseCookies": {
+                "title": "Cách chúng tôi sử dụng Cookie",
+                "content": "Chúng tôi sử dụng cookie để:",
+                "items": [
+                    "Giữ bạn đăng nhập vào tài khoản của bạn",
+                    "Hiểu và cải thiện hiệu suất trang web của chúng tôi",
+                    "Ghi nhớ ngôn ngữ và tùy chọn khu vực của bạn",
+                    "Phân tích lưu lượng truy cập trang web và hành vi người dùng",
+                    "Cung cấp nội dung và đề xuất được cá nhân hóa"
+                ]
+            },
+            "managingCookies": {
+                "title": "Quản lý Cookie",
+                "content": "Bạn có thể kiểm soát và quản lý cookie thông qua cài đặt trình duyệt của mình. Hầu hết các trình duyệt cho phép bạn từ chối hoặc xóa cookie. Tuy nhiên, xin lưu ý rằng việc vô hiệu hóa cookie có thể ảnh hưởng đến chức năng của trang web của chúng tôi và hạn chế khả năng sử dụng một số tính năng nhất định."
+            },
+            "thirdPartyCookies": {
+                "title": "Cookie của bên thứ ba",
+                "content": "Chúng tôi có thể sử dụng các dịch vụ của bên thứ ba như Google Analytics và các nền tảng truyền thông xã hội có thể đặt cookie của riêng họ. Các bên thứ ba này có chính sách bảo mật riêng của họ và chúng tôi khuyên bạn nên xem xét chúng để hiểu cách họ sử dụng cookie."
+            },
+            "updates": {
+                "title": "Cập nhật Chính sách Cookie",
+                "content": "Chúng tôi có thể cập nhật Chính sách Cookie này theo thời gian để phản ánh các thay đổi trong thực tiễn hoặc yêu cầu pháp lý của chúng tôi. Chúng tôi khuyến khích bạn xem lại trang này định kỳ để biết thông tin mới nhất."
+            },
+            "contact": {
+                "title": "Liên hệ chúng tôi",
+                "content": "Nếu bạn có câu hỏi về việc sử dụng cookie của chúng tôi, vui lòng liên hệ với chúng tôi qua thông tin được cung cấp trên trang web của chúng tôi."
+            }
+        }
+    },
     "messenger": {
         "openChat": "Mở chat Messenger",
         "chatWithUs": "Trò chuyện với chúng tôi trên Messenger"

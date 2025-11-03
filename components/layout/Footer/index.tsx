@@ -162,7 +162,6 @@ const NavLinks = ({
                 { href: "/services", key: "nav.services" },
                 { href: "/treatments", key: "nav.treatments" },
                 { href: "/about", key: "nav.about" },
-                { href: "/events", key: "nav.events" },
                 { href: "/blog", key: "nav.blog" },
             ].map(({ href, key }) => (
                 <Link
@@ -198,8 +197,8 @@ const FooterBottom = ({
             <div className="mt-4 flex flex-col items-start gap-0 sm:mt-0 md:flex-row md:items-center md:gap-3">
                 {[
                     { key: "footer.privacyPolicy", href: "/privacy-policy" },
-                    { key: "footer.termsConditions", href: "#" },
-                    { key: "footer.cookiePolicy", href: "#" },
+                    { key: "footer.termsConditions", href: "/terms-conditions" },
+                    { key: "footer.cookiePolicy", href: "/cookie-policy" },
                 ].map(({ key, href }) => (
                     <Link key={key} href={href} className="hover:underline">
                         {getString(key)}

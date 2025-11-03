@@ -170,7 +170,7 @@ const DesktopNavigation: React.FC<{ t: (key: string) => string | string[] }> = (
                         {services.slice(1).map(service => (
                             <NavItem
                                 key={service.title}
-                                href="/docs"
+                                href="/services"
                                 title={service.title}
                             >
                                 {service.description}
@@ -207,18 +207,6 @@ const DesktopNavigation: React.FC<{ t: (key: string) => string | string[] }> = (
                     )}
                 >
                     <Link href="/about">{getString("nav.about")}</Link>
-                </NavigationMenuLink>
-            </NavigationMenuItem>
-
-            <NavigationMenuItem>
-                <NavigationMenuLink
-                    asChild
-                    className={cn(
-                        navigationMenuTriggerStyle(),
-                        "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
-                    )}
-                >
-                    <Link href="/events">{getString("nav.events")}</Link>
                 </NavigationMenuLink>
             </NavigationMenuItem>
 

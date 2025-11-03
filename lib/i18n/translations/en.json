@@ -263,6 +263,105 @@
             }
         }
     },
+    "termsConditions": {
+        "title": "Terms & Conditions",
+        "badge": "Legal Information",
+        "lastUpdated": "Last updated",
+        "sections": {
+            "introduction": {
+                "title": "Introduction",
+                "content": "Welcome to Holistic Physical Therapy Clinic. By accessing our services, you agree to be bound by these Terms and Conditions. Please read them carefully before using our services."
+            },
+            "serviceDescription": {
+                "title": "Service Description",
+                "content": "Holistic Physical Therapy Clinic provides physical therapy services, wellness consultations, and related healthcare services. Our services are provided by licensed and qualified healthcare professionals."
+            },
+            "appointmentsAndCancellations": {
+                "title": "Appointments and Cancellations",
+                "content": "By scheduling an appointment, you agree to:",
+                "items": [
+                    "Arrive on time for scheduled appointments",
+                    "Provide at least 24 hours notice for cancellations or rescheduling",
+                    "Pay cancellation fees for late cancellations or no-shows as per our policy",
+                    "Provide accurate health information required for treatment"
+                ]
+            },
+            "paymentTerms": {
+                "title": "Payment Terms",
+                "content": "Payment for services is due at the time of service unless other arrangements have been made. We accept various payment methods and work with insurance providers to process claims on your behalf."
+            },
+            "consentToTreatment": {
+                "title": "Consent to Treatment",
+                "content": "By using our services, you consent to receive physical therapy treatment and acknowledge that:",
+                "items": [
+                    "You have been informed about the nature of the treatment",
+                    "You understand the potential risks and benefits",
+                    "You have had the opportunity to ask questions",
+                    "You authorize the healthcare professionals to proceed with treatment"
+                ]
+            },
+            "limitationOfLiability": {
+                "title": "Limitation of Liability",
+                "content": "While we strive to provide the highest quality care, Holistic Physical Therapy Clinic shall not be liable for any indirect, incidental, or consequential damages arising from the use of our services, except as required by law."
+            },
+            "modifications": {
+                "title": "Modifications to Terms",
+                "content": "We reserve the right to modify these Terms and Conditions at any time. Changes will be effective immediately upon posting on our website. Continued use of our services constitutes acceptance of modified terms."
+            },
+            "contact": {
+                "title": "Contact Information",
+                "content": "If you have questions about these Terms and Conditions, please contact us through the information provided on our website."
+            }
+        }
+    },
+    "cookiePolicy": {
+        "title": "Cookie Policy",
+        "badge": "Legal Information",
+        "lastUpdated": "Last updated",
+        "sections": {
+            "introduction": {
+                "title": "What Are Cookies",
+                "content": "Cookies are small text files that are placed on your device when you visit our website. They help us provide you with a better experience by remembering your preferences and understanding how you use our site."
+            },
+            "typesOfCookies": {
+                "title": "Types of Cookies We Use",
+                "content": "We use the following types of cookies:",
+                "items": [
+                    "Essential Cookies: Required for the website to function properly",
+                    "Analytics Cookies: Help us understand how visitors interact with our website",
+                    "Functional Cookies: Remember your preferences and settings",
+                    "Marketing Cookies: Track your browsing habits to show relevant advertisements"
+                ]
+            },
+            "howWeUseCookies": {
+                "title": "How We Use Cookies",
+                "content": "We use cookies to:",
+                "items": [
+                    "Keep you signed in to your account",
+                    "Understand and improve our website performance",
+                    "Remember your language and region preferences",
+                    "Analyze website traffic and user behavior",
+                    "Provide personalized content and recommendations"
+                ]
+            },
+            "managingCookies": {
+                "title": "Managing Cookies",
+                "content": "You can control and manage cookies through your browser settings. Most browsers allow you to refuse or delete cookies. However, please note that disabling cookies may affect the functionality of our website and limit your ability to use certain features."
+            },
+            "thirdPartyCookies": {
+                "title": "Third-Party Cookies",
+                "content": "We may use third-party services such as Google Analytics and social media platforms that may set their own cookies. These third parties have their own privacy policies, and we recommend reviewing them to understand how they use cookies."
+            },
+            "updates": {
+                "title": "Updates to Cookie Policy",
+                "content": "We may update this Cookie Policy from time to time to reflect changes in our practices or legal requirements. We encourage you to review this page periodically for the latest information."
+            },
+            "contact": {
+                "title": "Contact Us",
+                "content": "If you have questions about our use of cookies, please contact us through the information provided on our website."
+            }
+        }
+    },
     "messenger": {
         "openChat": "Open Messenger Chat",
         "chatWithUs": "Chat with us on Messenger"
