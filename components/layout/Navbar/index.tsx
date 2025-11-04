@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import logo from "@/assets/images/Symbol+FullName_Variant3_Dark.png";
 import { useLocale } from "@/providers/LocaleProvider";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { FaArrowRight, FaFacebook, FaInstagram } from "react-icons/fa";
 
 import { cn } from "@/lib/utils";
 import { MobileNav } from "@/components/ui/mobile-nav";
@@ -79,13 +79,15 @@ const SocialIcons: React.FC = () => (
     </div>
 );
 
-const DesktopNavigation: React.FC<{ t: (key: string) => string | string[] }> = ({ t }) => {
+const DesktopNavigation: React.FC<{
+    t: (key: string) => string | string[];
+}> = ({ t }) => {
     // Helper to ensure we get a string from t()
     const getString = (key: string): string => {
         const value = t(key);
-        return typeof value === 'string' ? value : value[0] || key;
+        return typeof value === "string" ? value : value[0] || key;
     };
-    
+
     const services = [
         {
             title: getString("services.therapy.title"),
@@ -142,87 +144,95 @@ const DesktopNavigation: React.FC<{ t: (key: string) => string | string[] }> = (
             description: getString("treatments.dds.description"),
         },
     ];
-    
+
     return (
-    <NavigationMenu>
-        <NavigationMenuList>
-            <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text data-[active]:bg-navbar-accent-background/90 data-[state=open]:bg-navbar-accent-background/90">
-                    <Link href="/services">{getString("nav.services")}</Link>
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-primary-background">
-                    <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                        <li className="row-span-3">
-                            <NavigationMenuLink asChild>
-                                <a
-                                    className="bg-navbar-accent-background/35 from-muted/50 to-muted flex size-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none focus:shadow-md"
-                                    href="/"
+        <NavigationMenu delayDuration={0}>
+            <NavigationMenuList>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text data-[active]:bg-navbar-accent-background/90 data-[state=open]:bg-navbar-accent-background/90">
+                        {getString("nav.services")}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="bg-primary-background">
+                        <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                            <li className="row-span-3">
+                                <NavigationMenuLink asChild>
+                                    <a
+                                        className="bg-navbar-accent-background/35 from-muted/50 to-muted flex size-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none focus:shadow-md"
+                                        href="/"
+                                    >
+                                        <div className="text-primary-text mb-2 mt-4 text-lg font-medium">
+                                            {services[0].title}
+                                        </div>
+                                        <p className="text-primary-text/50 text-xs leading-tight">
+                                            {services[0].description}
+                                        </p>
+                                    </a>
+                                </NavigationMenuLink>
+                            </li>
+                            {services.slice(1).map(service => (
+                                <NavItem
+                                    key={service.title}
+                                    href="/services"
+                                    title={service.title}
                                 >
-                                    <div className="text-primary-text mb-2 mt-4 text-lg font-medium">
-                                        {services[0].title}
-                                    </div>
-                                    <p className="text-primary-text/50 text-xs leading-tight">
-                                        {services[0].description}
-                                    </p>
-                                </a>
-                            </NavigationMenuLink>
-                        </li>
-                        {services.slice(1).map(service => (
-                            <NavItem
-                                key={service.title}
+                                    {service.description}
+                                </NavItem>
+                            ))}
+                            <ViewAllNavItem
                                 href="/services"
-                                title={service.title}
-                            >
-                                {service.description}
-                            </NavItem>
-                        ))}
-                    </ul>
-                </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-                <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text data-[active]:bg-navbar-accent-background/90 data-[state=open]:bg-navbar-accent-background/90">
-                    {getString("nav.treatments")}
-                </NavigationMenuTrigger>
-                <NavigationMenuContent className="bg-primary-background">
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
-                        {methods.map(method => (
-                            <NavItem
-                                key={method.title}
-                                title={method.title}
-                                href={method.href}
-                            >
-                                {method.description}
-                            </NavItem>
-                        ))}
-                    </ul>
-                </NavigationMenuContent>
-            </NavigationMenuItem>
+                                label={getString("nav.viewAllServices")}
+                            />
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuTrigger className="bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text data-[active]:bg-navbar-accent-background/90 data-[state=open]:bg-navbar-accent-background/90">
+                        {getString("nav.treatments")}
+                    </NavigationMenuTrigger>
+                    <NavigationMenuContent className="bg-primary-background">
+                        <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+                            {methods.map(method => (
+                                <NavItem
+                                    key={method.title}
+                                    title={method.title}
+                                    href={method.href}
+                                >
+                                    {method.description}
+                                </NavItem>
+                            ))}
+                            <ViewAllNavItem
+                                href="/treatments"
+                                label={getString("nav.viewAllTreatments")}
+                            />
+                        </ul>
+                    </NavigationMenuContent>
+                </NavigationMenuItem>
 
-            <NavigationMenuItem>
-                <NavigationMenuLink
-                    asChild
-                    className={cn(
-                        navigationMenuTriggerStyle(),
-                        "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
-                    )}
-                >
-                    <Link href="/about">{getString("nav.about")}</Link>
-                </NavigationMenuLink>
-            </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuLink
+                        asChild
+                        className={cn(
+                            navigationMenuTriggerStyle(),
+                            "bg-navbar-background hover:bg-navbar-accent-background/90 hover:text-navbar-text focus:bg-navbar-accent-background/90 focus:text-navbar-text",
+                        )}
+                    >
+                        <Link href="/about">{getString("nav.about")}</Link>
+                    </NavigationMenuLink>
+                </NavigationMenuItem>
 
-            <NavigationMenuItem>
-                <NavigationMenuLink
-                    asChild
-                    className={cn(
-                        navigationMenuTriggerStyle(),
-                        "bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text",
-                    )}
-                >
-                    <Link href="/blog">{getString("nav.blog")}</Link>
-                </NavigationMenuLink>
-            </NavigationMenuItem>
-        </NavigationMenuList>
-    </NavigationMenu>
+                <NavigationMenuItem>
+                    <NavigationMenuLink
+                        asChild
+                        className={cn(
+                            navigationMenuTriggerStyle(),
+                            "bg-navbar-background hover:bg-navbar-accent-background/25 hover:text-navbar-text focus:bg-navbar-accent-background/35 focus:text-navbar-text",
+                        )}
+                    >
+                        <Link href="/blog">{getString("nav.blog")}</Link>
+                    </NavigationMenuLink>
+                </NavigationMenuItem>
+            </NavigationMenuList>
+        </NavigationMenu>
     );
 };
 
@@ -251,5 +261,29 @@ const NavItem = React.forwardRef<
     </li>
 ));
 NavItem.displayName = "NavItem";
+
+const ViewAllNavItem = React.forwardRef<
+    React.ElementRef<"a">,
+    { href: string; label: string; listClassName?: string }
+>(({ href, label, listClassName }, ref) => (
+    <li className={cn("col-span-full", listClassName)}>
+        <NavigationMenuLink asChild>
+            <a
+                ref={ref}
+                href={href}
+                className="hover:text-navbar-accent-text focus-visible:text-navbar-accent-text text-primary-text/70 group inline-flex items-center gap-1.5 px-2 py-1 text-sm font-medium outline-none transition-all duration-300 ease-in-out focus-visible:outline-none"
+            >
+                <span className="transition-all duration-300 group-hover:underline group-hover:underline-offset-2">
+                    {label}
+                </span>
+                <FaArrowRight
+                    className="text-navbar-accent-text/60 -translate-x-2 opacity-0 transition-all duration-300 ease-out group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100"
+                    size={10}
+                />
+            </a>
+        </NavigationMenuLink>
+    </li>
+));
+ViewAllNavItem.displayName = "ViewAllNavItem";
 
 export default MainNavBar;

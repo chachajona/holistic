@@ -5,7 +5,11 @@
         "treatments": "Treatments",
         "about": "About",
         "events": "Events",
-        "blog": "Blog"
+        "blog": "Blog",
+        "viewAllServices": "View All Services",
+        "viewAllServicesDescription": "Explore our complete range of physical therapy services",
+        "viewAllTreatments": "View All Treatments",
+        "viewAllTreatmentsDescription": "Discover all available treatment methods"
     },
     "common": {
         "readMore": "Read more",

@@ -5,7 +5,11 @@
         "treatments": "Phương pháp",
         "about": "Giới thiệu",
         "events": "Sự kiện",
-        "blog": "Blog"
+        "blog": "Blog",
+        "viewAllServices": "Xem tất cả dịch vụ",
+        "viewAllServicesDescription": "Khám phá toàn bộ các dịch vụ vật lý trị liệu của chúng tôi",
+        "viewAllTreatments": "Xem tất cả phương pháp",
+        "viewAllTreatmentsDescription": "Khám phá tất cả các phương pháp điều trị có sẵn"
     },
     "common": {
         "readMore": "Xem thêm",

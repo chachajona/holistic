@@ -130,11 +130,11 @@ const SubLink: React.FC<SubLinkProps> = ({ href, title, description }) => (
 export const MobileNav: React.FC = () => {
     const { t } = useLocale();
     const [open, setOpen] = useState<boolean>(false);
-    
+
     // Helper to ensure we get a string from t()
     const getString = (key: string): string => {
         const value = t(key);
-        return typeof value === 'string' ? value : value[0] || key;
+        return typeof value === "string" ? value : value[0] || key;
     };
 
     return (
@@ -170,68 +170,130 @@ export const MobileNav: React.FC = () => {
                     <ScrollArea className="flex-1">
                         <div className="grid gap-2 py-4">
                             <NavLink href="/">{getString("nav.home")}</NavLink>
-                            <CollapsibleNavItem title={getString("nav.services")}>
+                            <CollapsibleNavItem
+                                title={getString("nav.services")}
+                            >
                                 <SubLink
                                     href="/services"
                                     title={getString("services.therapy.title")}
-                                    description={getString("services.therapy.description")}
+                                    description={getString(
+                                        "services.therapy.description",
+                                    )}
                                 />
                                 <SubLink
                                     href="/services"
-                                    title={getString("services.consultation.title")}
-                                    description={getString("services.consultation.description")}
+                                    title={getString(
+                                        "services.consultation.title",
+                                    )}
+                                    description={getString(
+                                        "services.consultation.description",
+                                    )}
                                 />
                                 <SubLink
                                     href="/services"
-                                    title={getString("services.muscleRelaxation.title")}
-                                    description={getString("services.muscleRelaxation.description")}
+                                    title={getString(
+                                        "services.muscleRelaxation.title",
+                                    )}
+                                    description={getString(
+                                        "services.muscleRelaxation.description",
+                                    )}
                                 />
                                 <SubLink
                                     href="/services"
-                                    title={getString("services.basicTraining.title")}
-                                    description={getString("services.basicTraining.description")}
+                                    title={getString(
+                                        "services.basicTraining.title",
+                                    )}
+                                    description={getString(
+                                        "services.basicTraining.description",
+                                    )}
+                                />
+                                <SubLink
+                                    href="/services"
+                                    title={getString("nav.viewAllServices")}
+                                    description={getString(
+                                        "nav.viewAllServicesDescription",
+                                    )}
                                 />
                             </CollapsibleNavItem>
-                            <CollapsibleNavItem title={getString("nav.treatments")}>
+                            <CollapsibleNavItem
+                                title={getString("nav.treatments")}
+                            >
                                 <SubLink
                                     href="/treatments/cupping"
-                                    title={getString("treatments.cupping.title")}
-                                    description={getString("treatments.cupping.description")}
+                                    title={getString(
+                                        "treatments.cupping.title",
+                                    )}
+                                    description={getString(
+                                        "treatments.cupping.description",
+                                    )}
                                 />
                                 <SubLink
                                     href="/treatments/tapping"
-                                    title={getString("treatments.tapping.title")}
-                                    description={getString("treatments.tapping.description")}
+                                    title={getString(
+                                        "treatments.tapping.title",
+                                    )}
+                                    description={getString(
+                                        "treatments.tapping.description",
+                                    )}
                                 />
                                 <SubLink
                                     href="/treatments/heat-light"
-                                    title={getString("treatments.heatLight.title")}
-                                    description={getString("treatments.heatLight.description")}
+                                    title={getString(
+                                        "treatments.heatLight.title",
+                                    )}
+                                    description={getString(
+                                        "treatments.heatLight.description",
+                                    )}
                                 />
                                 <SubLink
                                     href="/treatments/iastm"
                                     title={getString("treatments.iastm.title")}
-                                    description={getString("treatments.iastm.description")}
+                                    description={getString(
+                                        "treatments.iastm.description",
+                                    )}
                                 />
                                 <SubLink
                                     href="/treatments/cold-plunge"
-                                    title={getString("treatments.coldPlunge.title")}
-                                    description={getString("treatments.coldPlunge.description")}
+                                    title={getString(
+                                        "treatments.coldPlunge.title",
+                                    )}
+                                    description={getString(
+                                        "treatments.coldPlunge.description",
+                                    )}
                                 />
                                 <SubLink
                                     href="/treatments/dry-needling"
-                                    title={getString("treatments.dryNeedling.title")}
-                                    description={getString("treatments.dryNeedling.description")}
+                                    title={getString(
+                                        "treatments.dryNeedling.title",
+                                    )}
+                                    description={getString(
+                                        "treatments.dryNeedling.description",
+                                    )}
                                 />
                                 <SubLink
                                     href="/treatments/dds"
                                     title={getString("treatments.dds.title")}
-                                    description={getString("treatments.dds.description")}
+                                    description={getString(
+                                        "treatments.dds.description",
+                                    )}
+                                />
+                                <SubLink
+                                    href="/treatments"
+                                    title={getString("nav.viewAllTreatments")}
+                                    description={getString(
+                                        "nav.viewAllTreatmentsDescription",
+                                    )}
                                 />
                             </CollapsibleNavItem>
-                            <NavLink href="/about">{getString("nav.about")}</NavLink>
-                            <NavLink href="/events">{getString("nav.events")}</NavLink>
-                            <NavLink href="/blog">{getString("nav.blog")}</NavLink>
+                            <NavLink href="/about">
+                                {getString("nav.about")}
+                            </NavLink>
+                            <NavLink href="/events">
+                                {getString("nav.events")}
+                            </NavLink>
+                            <NavLink href="/blog">
+                                {getString("nav.blog")}
+                            </NavLink>
                         </div>
                     </ScrollArea>
 
