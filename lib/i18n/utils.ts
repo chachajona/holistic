@@ -36,18 +36,16 @@ export function getLocalizedString(
     locale: Locale,
 ): string | null {
     if (!localizedContent) return null;
-    
+
     // If it's already a string (for backward compatibility with non-localized content)
     if (typeof localizedContent === "string") {
         return localizedContent;
     }
-    
+
     // If it's a localized object, get the value for the current locale
     // Falls back to base language if locale not available
     return (
-        localizedContent[locale] ||
-        localizedContent[baseLanguage.id] ||
-        null
+        localizedContent[locale] || localizedContent[baseLanguage.id] || null
     );
 }
 

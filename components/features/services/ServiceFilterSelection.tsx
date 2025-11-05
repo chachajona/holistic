@@ -1,12 +1,12 @@
 "use client";
 
 import { memo, useCallback, useMemo } from "react";
-import { motion } from "framer-motion";
 import { customIcons, isCustomIcon } from "@/assets/icons/custom";
+import { useLocale } from "@/providers/LocaleProvider";
+import { motion } from "framer-motion";
 import * as Icons from "lucide-react";
 
 import { Service } from "@/types/services";
-import { useLocale } from "@/providers/LocaleProvider";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -119,17 +119,23 @@ export const ServiceFilterSelection = memo(
             return (
                 <div className="mb-10 text-center">
                     <h2 className="text-primary-text font-robotoSerif mb-3 text-2xl font-bold">
-                        {t("servicesPage.problemSelection.stepTitle", "Choose Your Problem")}
+                        {t(
+                            "servicesPage.problemSelection.stepTitle",
+                            "Choose Your Problem",
+                        )}
                     </h2>
                     <p className="text-primary-text/60">
-                        {t("servicesPage.problemSelection.emptyState", "No problem categories found. Please add categories in Sanity Studio.")}
+                        {t(
+                            "servicesPage.problemSelection.emptyState",
+                            "No problem categories found. Please add categories in Sanity Studio.",
+                        )}
                     </p>
                 </div>
             );
         }
 
         return (
-            <motion.div 
+            <motion.div
                 className="mb-10"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -139,7 +145,10 @@ export const ServiceFilterSelection = memo(
                     <span className="bg-primary-text mr-2 inline-flex size-8 items-center justify-center rounded-full text-lg text-white">
                         1
                     </span>
-                    {t("servicesPage.problemSelection.stepTitle", "Choose Your Problem")}
+                    {t(
+                        "servicesPage.problemSelection.stepTitle",
+                        "Choose Your Problem",
+                    )}
                 </h2>
                 <ScrollArea className="pb-4">
                     <div className="flex flex-wrap gap-3 sm:flex-row md:grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
@@ -163,23 +172,31 @@ export const ServiceFilterSelection = memo(
                                             aria-label={`${t("servicesPage.problemSelection.ariaLabel", "Problem:")} ${category.label}`}
                                             initial={{ opacity: 0, scale: 0.9 }}
                                             animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ 
+                                            transition={{
                                                 delay: 0.3 + index * 0.05,
-                                                duration: 0.3 
+                                                duration: 0.3,
                                             }}
                                             whileTap={{ scale: 0.95 }}
                                         >
                                             <motion.div
-                                                animate={isProblemSelected(category) ? {
-                                                    scale: [1, 1.1, 1],
-                                                } : {}}
+                                                animate={
+                                                    isProblemSelected(category)
+                                                        ? {
+                                                              scale: [
+                                                                  1, 1.1, 1,
+                                                              ],
+                                                          }
+                                                        : {}
+                                                }
                                                 transition={{ duration: 0.3 }}
                                             >
                                                 {getIcon(
                                                     category.icon,
                                                     cn(
                                                         "size-10 sm:size-12",
-                                                        isProblemSelected(category)
+                                                        isProblemSelected(
+                                                            category,
+                                                        )
                                                             ? "text-white"
                                                             : "text-primary-text",
                                                     ),

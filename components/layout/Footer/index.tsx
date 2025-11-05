@@ -197,7 +197,10 @@ const FooterBottom = ({
             <div className="mt-4 flex flex-col items-start gap-0 sm:mt-0 md:flex-row md:items-center md:gap-3">
                 {[
                     { key: "footer.privacyPolicy", href: "/privacy-policy" },
-                    { key: "footer.termsConditions", href: "/terms-conditions" },
+                    {
+                        key: "footer.termsConditions",
+                        href: "/terms-conditions",
+                    },
                     { key: "footer.cookiePolicy", href: "/cookie-policy" },
                 ].map(({ key, href }) => (
                     <Link key={key} href={href} className="hover:underline">

@@ -212,15 +212,9 @@ export function ContactsTableEnhanced() {
                         <SelectContent>
                             <SelectItem value="all">All Status</SelectItem>
                             <SelectItem value="pending">Pending</SelectItem>
-                            <SelectItem value="contacted">
-                                Contacted
-                            </SelectItem>
-                            <SelectItem value="confirmed">
-                                Confirmed
-                            </SelectItem>
-                            <SelectItem value="cancelled">
-                                Cancelled
-                            </SelectItem>
+                            <SelectItem value="contacted">Contacted</SelectItem>
+                            <SelectItem value="confirmed">Confirmed</SelectItem>
+                            <SelectItem value="cancelled">Cancelled</SelectItem>
                         </SelectContent>
                     </Select>
                     <Button
@@ -289,12 +283,13 @@ export function ContactsTableEnhanced() {
                                             <TableCell>
                                                 <Badge
                                                     variant={
-                                                        contactType === "booking"
+                                                        contactType ===
+                                                        "booking"
                                                             ? "default"
                                                             : contactType ===
-                                                              "newsletter"
-                                                            ? "secondary"
-                                                            : "outline"
+                                                                "newsletter"
+                                                              ? "secondary"
+                                                              : "outline"
                                                     }
                                                 >
                                                     {contactType}
@@ -309,12 +304,12 @@ export function ContactsTableEnhanced() {
                                                         status === "confirmed"
                                                             ? "default"
                                                             : status ===
-                                                              "contacted"
-                                                            ? "secondary"
-                                                            : status ===
-                                                              "cancelled"
-                                                            ? "destructive"
-                                                            : "outline"
+                                                                "contacted"
+                                                              ? "secondary"
+                                                              : status ===
+                                                                  "cancelled"
+                                                                ? "destructive"
+                                                                : "outline"
                                                     }
                                                 >
                                                     {status}
@@ -397,7 +392,10 @@ export function ContactsTableEnhanced() {
                                         Treatment
                                     </p>
                                     <p className="text-primary-text text-base">
-                                        {(selectedContact as any).treatment_name}
+                                        {
+                                            (selectedContact as any)
+                                                .treatment_name
+                                        }
                                     </p>
                                 </div>
                             )}
@@ -411,9 +409,9 @@ export function ContactsTableEnhanced() {
                                         "confirmed"
                                             ? "default"
                                             : (selectedContact as any)
-                                                  .status === "contacted"
-                                            ? "secondary"
-                                            : "outline"
+                                                    .status === "contacted"
+                                              ? "secondary"
+                                              : "outline"
                                     }
                                 >
                                     {(selectedContact as any).status ||

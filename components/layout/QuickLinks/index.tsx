@@ -94,7 +94,7 @@ export default function QuickLinkSection({
     // Helper to ensure we get a string from t()
     const getString = (key: string): string => {
         const value = t(key);
-        return typeof value === 'string' ? value : value[0] || key;
+        return typeof value === "string" ? value : value[0] || key;
     };
 
     // Fallback hardcoded data with translations

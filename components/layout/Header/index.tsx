@@ -18,13 +18,13 @@ const Header: React.FC<HeaderProps> = async ({ header }) => {
     // Get locale from headers (set by middleware)
     const headersList = await headers();
     const localeHeader = headersList.get("x-locale");
-    const locale: Locale = 
-        localeHeader && isValidLocale(localeHeader) 
-            ? localeHeader 
+    const locale: Locale =
+        localeHeader && isValidLocale(localeHeader)
+            ? localeHeader
             : baseLanguage.id;
 
     // Extract localized strings
-    const heading = header?.heading 
+    const heading = header?.heading
         ? (getLocalizedString(header.heading, locale) ?? defaultHeading)
         : defaultHeading;
     const subheading = header?.subheading

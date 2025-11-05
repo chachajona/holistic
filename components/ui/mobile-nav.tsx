@@ -9,6 +9,7 @@ import {
 } from "@radix-ui/react-collapsible";
 import { ChevronRight } from "lucide-react";
 
+import type { ServiceSummary } from "@/lib/api";
 import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -127,7 +128,11 @@ const SubLink: React.FC<SubLinkProps> = ({ href, title, description }) => (
     </MobileLink>
 );
 
-export const MobileNav: React.FC = () => {
+interface MobileNavProps {
+    services?: ServiceSummary[];
+}
+
+export const MobileNav: React.FC<MobileNavProps> = ({ services = [] }) => {
     const { t } = useLocale();
     const [open, setOpen] = useState<boolean>(false);
 
@@ -173,40 +178,14 @@ export const MobileNav: React.FC = () => {
                             <CollapsibleNavItem
                                 title={getString("nav.services")}
                             >
-                                <SubLink
-                                    href="/services"
-                                    title={getString("services.therapy.title")}
-                                    description={getString(
-                                        "services.therapy.description",
-                                    )}
-                                />
-                                <SubLink
-                                    href="/services"
-                                    title={getString(
-                                        "services.consultation.title",
-                                    )}
-                                    description={getString(
-                                        "services.consultation.description",
-                                    )}
-                                />
-                                <SubLink
-                                    href="/services"
-                                    title={getString(
-                                        "services.muscleRelaxation.title",
-                                    )}
-                                    description={getString(
-                                        "services.muscleRelaxation.description",
-                                    )}
-                                />
-                                <SubLink
-                                    href="/services"
-                                    title={getString(
-                                        "services.basicTraining.title",
-                                    )}
-                                    description={getString(
-                                        "services.basicTraining.description",
-                                    )}
-                                />
+                                {services.map(service => (
+                                    <SubLink
+                                        key={service.id}
+                                        href="/services"
+                                        title={service.title}
+                                        description={service.description}
+                                    />
+                                ))}
                                 <SubLink
                                     href="/services"
                                     title={getString("nav.viewAllServices")}

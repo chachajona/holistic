@@ -561,3 +561,27 @@ export async function getAllServicesDetailed(
         return [];
     }
 }
+
+export interface ServiceSummary {
+    id: string;
+    title: string;
+    description: string;
+}
+
+export async function getServiceSummaries(
+    locale: Locale = baseLanguage.id,
+): Promise<ServiceSummary[]> {
+    const query = groq`*[_type == "service"] | order(isPrimary desc, title asc) {
+      "id": id.current,
+      "title": ${localizedField("title")},
+      "description": ${localizedField("description")}
+    }`;
+
+    try {
+        const result = await client.fetch<ServiceSummary[]>(query, { locale });
+        return result || [];
+    } catch (error) {
+        console.error("Error fetching service summaries:", error);
+        return [];
+    }
+}

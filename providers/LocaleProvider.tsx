@@ -72,7 +72,10 @@ export function LocaleProvider({
         if (typeof value === "string") {
             return value;
         }
-        if (Array.isArray(value) && value.every(item => typeof item === "string")) {
+        if (
+            Array.isArray(value) &&
+            value.every(item => typeof item === "string")
+        ) {
             return value as string[];
         }
         return fallback || key;

@@ -64,7 +64,10 @@ export default function DashboardLoginPage() {
                 <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-4">
                         <div className="space-y-2">
-                            <Label htmlFor="email" className="text-primary-text">
+                            <Label
+                                htmlFor="email"
+                                className="text-primary-text"
+                            >
                                 Email
                             </Label>
                             <Input

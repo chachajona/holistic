@@ -1,7 +1,12 @@
 import React from "react";
+import { headers } from "next/headers";
 
-import type { TreatmentsPageData } from "@/types/sanity";
-import { getSiteSettings, getTreatmentsPage } from "@/lib/api";
+import {
+    getServiceSummaries,
+    getSiteSettings,
+    getTreatmentsPage,
+} from "@/lib/api";
+import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";
 import Banner from "@/components/common/Banner";
 import Footer from "@/components/layout/Footer";
 import Header from "@/components/layout/Header";
@@ -12,8 +17,16 @@ export default async function TreatmentsLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const pageData: TreatmentsPageData | null = await getTreatmentsPage();
-    const siteSettings = await getSiteSettings();
+    const headersList = await headers();
+    const locale = headersList.get("x-locale");
+    const validLocale: Locale =
+        locale && isValidLocale(locale) ? locale : baseLanguage.id;
+
+    const [pageData, siteSettings, services] = await Promise.all([
+        getTreatmentsPage(),
+        getSiteSettings(),
+        getServiceSummaries(validLocale),
+    ]);
 
     return (
         <div className="bg-primary-background relative flex min-h-screen min-w-full flex-col">
@@ -21,7 +34,7 @@ export default async function TreatmentsLayout({
                 contactInfo={siteSettings?.contactInfo}
                 socialMedia={siteSettings?.socialMedia}
             />
-            <MainNavBar />
+            <MainNavBar services={services} />
             <Header slug="treatments" header={pageData?.Header} />
             <main>
                 <div className="content-normal">{children}</div>

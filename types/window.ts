@@ -7,9 +7,9 @@ export interface GtagEvent {
 }
 
 export interface Gtag {
-    (command: 'event', eventName: string, eventParams?: GtagEvent): void;
-    (command: 'config', targetId: string, config?: any): void;
-    (command: 'set', params: any): void;
+    (command: "event", eventName: string, eventParams?: GtagEvent): void;
+    (command: "config", targetId: string, config?: any): void;
+    (command: "set", params: any): void;
     (command: string, ...args: any[]): void;
 }
 

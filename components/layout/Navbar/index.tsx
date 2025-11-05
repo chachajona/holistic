@@ -7,6 +7,7 @@ import logo from "@/assets/images/Symbol+FullName_Variant3_Dark.png";
 import { useLocale } from "@/providers/LocaleProvider";
 import { FaArrowRight, FaFacebook, FaInstagram } from "react-icons/fa";
 
+import type { ServiceSummary } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { MobileNav } from "@/components/ui/mobile-nav";
 import {
@@ -20,9 +21,11 @@ import {
 } from "@/components/ui/navigation-menu";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 
-// Services and methods data moved inside DesktopNavigation to use translations
+interface MainNavBarProps {
+    services?: ServiceSummary[];
+}
 
-const MainNavBar: React.FC = () => {
+const MainNavBar: React.FC<MainNavBarProps> = ({ services = [] }) => {
     const { t } = useLocale();
 
     return (
@@ -39,7 +42,7 @@ const MainNavBar: React.FC = () => {
                             />
                         </Link>
                         <div className="hidden items-center space-x-4 md:flex">
-                            <DesktopNavigation t={t} />
+                            <DesktopNavigation t={t} services={services} />
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -48,7 +51,7 @@ const MainNavBar: React.FC = () => {
                             <SocialIcons />
                         </div>
                         <div className="md:hidden">
-                            <MobileNav />
+                            <MobileNav services={services} />
                         </div>
                     </div>
                 </div>
@@ -81,31 +84,13 @@ const SocialIcons: React.FC = () => (
 
 const DesktopNavigation: React.FC<{
     t: (key: string) => string | string[];
-}> = ({ t }) => {
+    services: ServiceSummary[];
+}> = ({ t, services }) => {
     // Helper to ensure we get a string from t()
     const getString = (key: string): string => {
         const value = t(key);
         return typeof value === "string" ? value : value[0] || key;
     };
-
-    const services = [
-        {
-            title: getString("services.therapy.title"),
-            description: getString("services.therapy.description"),
-        },
-        {
-            title: getString("services.consultation.title"),
-            description: getString("services.consultation.description"),
-        },
-        {
-            title: getString("services.muscleRelaxation.title"),
-            description: getString("services.muscleRelaxation.description"),
-        },
-        {
-            title: getString("services.basicTraining.title"),
-            description: getString("services.basicTraining.description"),
-        },
-    ];
 
     const methods = [
         {
@@ -154,30 +139,34 @@ const DesktopNavigation: React.FC<{
                     </NavigationMenuTrigger>
                     <NavigationMenuContent className="bg-primary-background">
                         <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                            <li className="row-span-3">
-                                <NavigationMenuLink asChild>
-                                    <a
-                                        className="bg-navbar-accent-background/35 from-muted/50 to-muted flex size-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none focus:shadow-md"
-                                        href="/"
-                                    >
-                                        <div className="text-primary-text mb-2 mt-4 text-lg font-medium">
-                                            {services[0].title}
-                                        </div>
-                                        <p className="text-primary-text/50 text-xs leading-tight">
-                                            {services[0].description}
-                                        </p>
-                                    </a>
-                                </NavigationMenuLink>
-                            </li>
-                            {services.slice(1).map(service => (
-                                <NavItem
-                                    key={service.title}
-                                    href="/services"
-                                    title={service.title}
-                                >
-                                    {service.description}
-                                </NavItem>
-                            ))}
+                            {services.length > 0 && (
+                                <>
+                                    <li className="row-span-3">
+                                        <NavigationMenuLink asChild>
+                                            <a
+                                                className="bg-navbar-accent-background/35 from-muted/50 to-muted flex size-full select-none flex-col justify-end rounded-md p-6 no-underline outline-none focus:shadow-md"
+                                                href="/services"
+                                            >
+                                                <div className="text-primary-text mb-2 mt-4 text-lg font-medium">
+                                                    {services[0].title}
+                                                </div>
+                                                <p className="text-primary-text/50 text-xs leading-tight">
+                                                    {services[0].description}
+                                                </p>
+                                            </a>
+                                        </NavigationMenuLink>
+                                    </li>
+                                    {services.slice(1).map(service => (
+                                        <NavItem
+                                            key={service.id}
+                                            href="/services"
+                                            title={service.title}
+                                        >
+                                            {service.description}
+                                        </NavItem>
+                                    ))}
+                                </>
+                            )}
                             <ViewAllNavItem
                                 href="/services"
                                 label={getString("nav.viewAllServices")}

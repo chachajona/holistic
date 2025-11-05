@@ -39,10 +39,7 @@ const bookingFormSchema = z.object({
         .string()
         .min(2, "Tên phải có ít nhất 2 ký tự")
         .max(100, "Tên không được quá 100 ký tự")
-        .regex(
-            /^[a-zA-ZÀ-ỹ\s]+$/,
-            "Tên chỉ được chứa chữ cái và khoảng trắng",
-        ),
+        .regex(/^[a-zA-ZÀ-ỹ\s]+$/, "Tên chỉ được chứa chữ cái và khoảng trắng"),
     phone: z
         .string()
         .regex(/^0[0-9]{9,10}$/, "Số điện thoại không hợp lệ")
@@ -158,7 +155,8 @@ export function QuickBookingDialog({
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel className="font-robotoSlab">
-                                Họ và tên <span className="text-red-500">*</span>
+                                Họ và tên{" "}
+                                <span className="text-red-500">*</span>
                             </FormLabel>
                             <FormControl>
                                 <Input

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useLocale } from "@/providers/LocaleProvider";
 import { ChevronRight } from "lucide-react";
 
+import type { ServiceSummary } from "@/lib/api";
 import {
     ContactInfo,
     CTAData,
@@ -41,6 +42,7 @@ interface HomeClientProps {
     ctaData?: CTAData | null;
     contactInfo?: ContactInfo | null;
     socialMedia?: SocialMedia | null;
+    services?: ServiceSummary[];
 }
 
 export default function HomeClient({
@@ -50,6 +52,7 @@ export default function HomeClient({
     ctaData = null,
     contactInfo = null,
     socialMedia = null,
+    services = [],
 }: HomeClientProps) {
     const { t } = useLocale();
     const [heroLoaded, setHeroLoaded] = useState(false);
@@ -86,7 +89,7 @@ export default function HomeClient({
         <PageLoaderWrapper isContentLoaded={isContentLoaded}>
             <main className="bg-primary-background flex min-h-screen flex-col">
                 <Banner contactInfo={contactInfo} socialMedia={socialMedia} />
-                <Navbar />
+                <Navbar services={services} />
                 <HeroContainer
                     onImageLoaded={handleHeroLoaded}
                     heroData={heroData}

@@ -49,12 +49,13 @@ export const headerType = defineType({
         },
         prepare({ heading, image }) {
             // Extract the Vietnamese heading from localeString object
-            const title = typeof heading === 'object' && heading?.vi 
-                ? heading.vi 
-                : typeof heading === 'string' 
-                    ? heading 
-                    : "Untitled";
-            
+            const title =
+                typeof heading === "object" && heading?.vi
+                    ? heading.vi
+                    : typeof heading === "string"
+                      ? heading
+                      : "Untitled";
+
             return {
                 title,
                 subtitle: "Header",

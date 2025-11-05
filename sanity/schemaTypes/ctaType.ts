@@ -38,9 +38,10 @@ export const ctaType = defineType({
             name: "primaryButtonUrl",
             type: "string",
             title: "Primary Button URL",
-            description: "Internal path the button links to (e.g., /booking, /services)",
+            description:
+                "Internal path the button links to (e.g., /booking, /services)",
             validation: Rule =>
-                Rule.required().custom((value) => {
+                Rule.required().custom(value => {
                     if (!value) return true;
                     // Allow internal paths starting with /
                     const isValidPath = /^\/[a-z0-9\-\/]*$/i.test(value);
@@ -76,7 +77,8 @@ export const ctaType = defineType({
         prepare({ heading, description, image }) {
             // Extract Vietnamese text from localeString for preview
             const title = heading?.vi || heading || "Untitled CTA";
-            const subtitle = description?.vi || description || "Call to Action Section";
+            const subtitle =
+                description?.vi || description || "Call to Action Section";
             return {
                 title,
                 subtitle,

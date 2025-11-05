@@ -17,7 +17,6 @@ import { Toaster } from "sonner";
 import { getSiteSettings } from "@/lib/api";
 import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";
 import { buildMetadata } from "@/lib/seo";
-import ChatWidgets from "@/components/common/ChatWidgets";
 
 const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],
@@ -60,12 +59,12 @@ export async function generateMetadata(): Promise<Metadata> {
             ogImage: undefined,
             siteUrl,
         },
-        path: "/",
+        path: "/studio",
         docSeo: settings?.defaultSeo ?? null,
     });
 }
 
-export default async function RootLayout({
+export default async function StudioLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
@@ -89,7 +88,6 @@ export default async function RootLayout({
             >
                 <LocaleProvider initialLocale={locale}>
                     <main>{children}</main>
-                    <ChatWidgets />
                     <Toaster />
                     <SpeedInsights />
                     <Analytics />

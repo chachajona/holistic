@@ -40,23 +40,23 @@ export function WellnessCTA({
 
 export function StaticCTA({ onImageLoaded, ctaData }: StaticCTAProps) {
     const { locale } = useLocale();
-    
+
     // Use Sanity localized data if available, otherwise fallback to hardcoded defaults
     const heading = ctaData?.heading
-        ? getLocalizedString(ctaData.heading, locale) ??
-          "Bắt đầu hành trình sức khỏe của bạn ngay hôm nay!"
+        ? (getLocalizedString(ctaData.heading, locale) ??
+          "Bắt đầu hành trình sức khỏe của bạn ngay hôm nay!")
         : "Bắt đầu hành trình sức khỏe của bạn ngay hôm nay!";
-    
+
     const description = ctaData?.description
-        ? getLocalizedString(ctaData.description, locale) ??
-          "Bắt đầu hành trình cải thiện sức khỏe cùng dịch vụ vật lý trị liệu chuyên gia của chúng tôi. Lên lịch hẹn ngay để phục hồi nhanh chóng."
+        ? (getLocalizedString(ctaData.description, locale) ??
+          "Bắt đầu hành trình cải thiện sức khỏe cùng dịch vụ vật lý trị liệu chuyên gia của chúng tôi. Lên lịch hẹn ngay để phục hồi nhanh chóng.")
         : "Bắt đầu hành trình cải thiện sức khỏe cùng dịch vụ vật lý trị liệu chuyên gia của chúng tôi. Lên lịch hẹn ngay để phục hồi nhanh chóng.";
-    
+
     const primaryButtonText = ctaData?.primaryButtonText
-        ? getLocalizedString(ctaData.primaryButtonText, locale) ??
-          "Đặt lịch ngay với chúng tôi"
+        ? (getLocalizedString(ctaData.primaryButtonText, locale) ??
+          "Đặt lịch ngay với chúng tôi")
         : "Đặt lịch ngay với chúng tôi";
-    
+
     const primaryButtonUrl = ctaData?.primaryButtonUrl ?? "/booking";
     const theme = (ctaData?.theme as "blue" | "light" | "dark") ?? "blue";
 

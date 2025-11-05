@@ -1,7 +1,12 @@
 import { Metadata } from "next";
+import { headers } from "next/headers";
 
-import type { ServicesPageData } from "@/types/sanity";
-import { getServicesPage, getSiteSettings } from "@/lib/api";
+import {
+    getServiceSummaries,
+    getServicesPage,
+    getSiteSettings,
+} from "@/lib/api";
+import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";
 import { buildMetadata } from "@/lib/seo";
 import Banner from "@/components/common/Banner";
 import Footer from "@/components/layout/Footer";
@@ -36,8 +41,16 @@ export default async function ServicesLayout({
 }: {
     children: React.ReactNode;
 }) {
-    const pageData: ServicesPageData | null = await getServicesPage();
-    const siteSettings = await getSiteSettings();
+    const headersList = await headers();
+    const locale = headersList.get("x-locale");
+    const validLocale: Locale =
+        locale && isValidLocale(locale) ? locale : baseLanguage.id;
+
+    const [pageData, siteSettings, services] = await Promise.all([
+        getServicesPage(),
+        getSiteSettings(),
+        getServiceSummaries(validLocale),
+    ]);
 
     return (
         <ServicesPageWrapper>
@@ -46,7 +59,7 @@ export default async function ServicesLayout({
                     contactInfo={siteSettings?.contactInfo}
                     socialMedia={siteSettings?.socialMedia}
                 />
-                <MainNavBar />
+                <MainNavBar services={services} />
                 <Header slug="services" header={pageData?.Header} />
                 <main>
                     <div className="content-normal">{children}</div>

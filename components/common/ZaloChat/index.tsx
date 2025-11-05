@@ -1,8 +1,11 @@
 "use client";
 
 import React from "react";
+import { useLocale } from "@/providers/LocaleProvider";
 import { SiZalo } from "react-icons/si";
 
+import { getTranslationString } from "@/lib/i18n/utils";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
     Tooltip,
@@ -10,9 +13,6 @@ import {
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { getTranslationString } from "@/lib/i18n/utils";
-import { cn } from "@/lib/utils";
-import { useLocale } from "@/providers/LocaleProvider";
 
 /**
  * ZaloChat component props

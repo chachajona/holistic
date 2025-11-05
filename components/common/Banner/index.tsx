@@ -17,7 +17,7 @@ interface BannerProps {
 
 const Banner: React.FC<BannerProps> = ({ contactInfo, socialMedia }) => {
     const { t } = useLocale();
-    
+
     // Find the primary location for the banner
     const primaryLocation = contactInfo?.locations?.find(loc => loc.isPrimary);
 
@@ -45,7 +45,9 @@ const Banner: React.FC<BannerProps> = ({ contactInfo, socialMedia }) => {
                                 size={14}
                                 className="mr-2 hidden md:block"
                             />
-                            <span>{t("banner.address")}: {primaryLocation.address}</span>
+                            <span>
+                                {t("banner.address")}: {primaryLocation.address}
+                            </span>
                         </Link>
                     )}
                     {contactInfo?.phone && (
