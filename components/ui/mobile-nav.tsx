@@ -265,13 +265,10 @@ export const MobileNav: React.FC<MobileNavProps> = ({ services = [] }) => {
                                 />
                             </CollapsibleNavItem>
                             <NavLink href="/about">
-                                {getString("nav.about")}
-                            </NavLink>
-                            <NavLink href="/events">
-                                {getString("nav.events")}
+                            {getString("nav.about")}
                             </NavLink>
                             <NavLink href="/blog">
-                                {getString("nav.blog")}
+                            {getString("nav.blog")}
                             </NavLink>
                         </div>
                     </ScrollArea>

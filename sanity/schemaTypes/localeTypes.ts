@@ -1,5 +1,6 @@
 import { defineType } from "sanity";
-import { languages, baseLanguage } from "@/lib/i18n/languages";
+
+import { baseLanguage, languages } from "@/lib/i18n/languages";
 
 // Localized string field - object-based approach (recommended for 2-3 languages)
 // See: https://www.sanity.io/docs/studio/localization
