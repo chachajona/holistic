@@ -67,8 +67,8 @@ export const problemCategoryType = defineType({
     ],
     preview: {
         select: {
-            title: "title",
-            subtitle: "description",
+            title: "title.vi",
+            subtitle: "description.vi",
             media: "icon",
         },
         prepare({ title, subtitle, media }) {
