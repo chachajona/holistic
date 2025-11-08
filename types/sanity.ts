@@ -3,14 +3,16 @@
 import { SanityImageSource } from "@sanity/image-url/lib/types/types";
 import type { ImageCrop, ImageHotspot, PortableTextBlock } from "@sanity/types";
 
-// Localized content type for Sanity
-export type LocalizedString =
-    | {
-          vi?: string;
-          en?: string;
-      }
-    | string
-    | null;
+// Localized content types for Sanity
+export type LocalizedString = {
+    vi?: string;
+    en?: string;
+} | null;
+
+export type LocalizedText = {
+    vi?: string;
+    en?: string;
+} | null;
 
 export interface HeroData {
     _id: string;
@@ -118,35 +120,73 @@ export interface AboutPageData {
     } | null;
 }
 
-// Interface for data fetched by the optimized getAllTreatments
-export interface TreatmentSummary {
-    _id: string;
-    title: string | null;
-    slug: { current: string } | null;
-    shortDescription: string | null;
-    image: {
-        asset: {
-            _id: string;
-            _ref: string;
-            url: string | null;
-            metadata?: {
-                lqip?: string;
-                dimensions?: {
-                    width: number;
-                    height: number;
-                    aspectRatio: number;
-                };
-            };
-        } | null;
-        alt?: string | null;
-        hotspot?: ImageHotspot;
-        crop?: ImageCrop;
+// --- Image Type (Reusable) ---
+export interface SanityImage {
+    _type?: string;
+    asset?: {
+        _ref: string;
+        _type: string;
     } | null;
-    icon: { title?: string } | null;
+    alt?: string | null;
+    hotspot?: ImageHotspot;
+    crop?: ImageCrop;
 }
 
-// You can add other Sanity types here later
-// e.g., Treatment, Testimonial, FAQ, etc.
+// --- Treatment Benefit Type ---
+export interface TreatmentBenefit {
+    _key: string;
+    id?: {
+        _type: string;
+        current: string;
+    };
+    title: LocalizedString;
+    description: LocalizedText;
+}
+
+// --- Treatment Protocol Type ---
+export interface TreatmentProtocol {
+    _key: string;
+    id?: {
+        _type: string;
+        current: string;
+    };
+    step: number;
+    title: LocalizedString;
+    description?: LocalizedText;
+}
+
+// --- Treatment Booking Option Type ---
+export interface TreatmentBooking {
+    _key?: string;
+    title: LocalizedString;
+    price: number;
+    duration: string;
+    description: LocalizedText;
+}
+
+// Interface for data fetched by the optimized getAllTreatments (summary view)
+// Uses localized strings that are coalesced to single string values via GROQ
+export interface TreatmentSummary {
+    _id: string;
+    title: string; // Coalesced via localizedField() GROQ helper
+    slug: { current: string } | null;
+    shortDescription: string; // Coalesced via localizedField() GROQ helper
+    image: SanityImage | null;
+    icon: string | null;
+}
+
+// Full Treatment interface (complete document with all fields)
+export interface Treatment extends TreatmentSummary {
+    fullDescription: LocalizedText;
+    benefits?: TreatmentBenefit[];
+    protocols: TreatmentProtocol[];
+    duration: string;
+    price: number;
+    isPopular?: boolean;
+    booking?: TreatmentBooking[] | null;
+    content?: PortableTextBlock[];
+    seo?: Seo | null;
+}
 
 // --- Page Specific Data Interfaces ---
 
@@ -262,18 +302,14 @@ export interface SeoImageAssetMeta {
 }
 
 export interface Seo {
+    _type?: string;
     title?: string | null;
     description?: string | null;
     canonicalUrl?: string | null;
     noindex?: boolean | null;
     nofollow?: boolean | null;
     twitterCard?: "summary" | "summary_large_image" | null;
-    ogImage?: {
-        asset?: {
-            url?: string | null;
-            metadata?: SeoImageAssetMeta | null;
-        } | null;
-    } | null;
+    ogImage?: SanityImage | null;
 }
 
 // --- Site Settings Types ---

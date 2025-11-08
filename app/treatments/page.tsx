@@ -38,9 +38,9 @@ export default async function TreatmentsPage() {
                       quality: 85,
                   }) || "/placeholder-image.jpg"
                 : "/placeholder-image.jpg",
-            icon: treatment.icon?.title,
+            icon: treatment.icon ?? undefined,
             slug: treatment.slug!.current,
-            category: treatment.icon?.title ?? "General",
+            category: treatment.icon ?? "General",
         }));
 
     return (

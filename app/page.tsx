@@ -33,9 +33,9 @@ export default async function Home() {
             ? getSanityImageUrl(treatment.image, { width: 600, quality: 85 }) ||
               "/placeholder-image.jpg"
             : "/placeholder-image.jpg",
-        icon: treatment.icon?.title,
+        icon: treatment.icon ?? undefined,
         slug: treatment.slug?.current ?? "",
-        category: treatment.icon?.title ?? "General",
+        category: treatment.icon ?? "General",
     }));
 
     const validTreatments = mappedTreatments;

@@ -1,11 +1,22 @@
 import { type SchemaTypeDefinition } from "sanity";
 
+// Locale types for internationalization
+import { localeBlock, localeString, localeText } from "./localeTypes";
+
+// Reusable object types (must be registered before documents that use them)
+import {
+  sanityImage,
+  treatmentBenefit,
+  treatmentBooking,
+  treatmentProtocol,
+} from "./objects";
+
+// Document types
 import { ctaType } from "./ctaType";
 import { faqType } from "./faqType";
 import { formType } from "./formType";
 import { headerType } from "./headerType";
 import { heroType } from "./heroType";
-import { localeBlock, localeString, localeText } from "./localeTypes";
 import { pageType } from "./pageType";
 import { problemCategoryType } from "./problemCategoryType";
 import { quickLinkType } from "./quickLinkType";
@@ -16,24 +27,29 @@ import { testimonialType } from "./testimonialType";
 import { treatmentType } from "./treatmentType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-    types: [
-        // Locale types for internationalization
-        localeString,
-        localeText,
-        localeBlock,
-        // Schema types
-        seoType,
-        siteSettingsType,
-        pageType,
-        testimonialType,
-        headerType,
-        heroType,
-        ctaType,
-        quickLinkType,
-        faqType,
-        formType,
-        serviceType,
-        treatmentType,
-        problemCategoryType,
-    ],
+  types: [
+    // Locale types for internationalization
+    localeString,
+    localeText,
+    localeBlock,
+    // Reusable object types (must be before documents)
+    sanityImage,
+    treatmentBenefit,
+    treatmentProtocol,
+    treatmentBooking,
+    // Document types
+    seoType,
+    siteSettingsType,
+    pageType,
+    testimonialType,
+    headerType,
+    heroType,
+    ctaType,
+    quickLinkType,
+    faqType,
+    formType,
+    serviceType,
+    treatmentType,
+    problemCategoryType,
+  ],
 };
