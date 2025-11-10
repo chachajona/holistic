@@ -27,7 +27,8 @@ export function translate(
         }
     }
 
-    return typeof value === "string" ? value : fallback || key;
+    const result = typeof value === "string" ? value : fallback || key;
+    return result || fallback || key;
 }
 
 // Helper to extract localized string from Sanity localeString/localeText objects

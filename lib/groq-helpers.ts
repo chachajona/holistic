@@ -7,11 +7,7 @@ import { baseLanguage, type Locale } from "./i18n/languages";
  * @returns GROQ query fragment with coalesce fallback
  */
 export function localizedField(fieldName: string): string {
-    return `coalesce(
-        ${fieldName}[$locale],
-        ${fieldName}.${baseLanguage.id},
-        ""
-    )`;
+    return `select($locale == "vi" => ${fieldName}.vi, coalesce(${fieldName}.en, ${fieldName}.vi))`;
 }
 
 /**
@@ -24,11 +20,15 @@ export function localizedArray(
     nestedFields: string[],
 ): string {
     const nestedQueries = nestedFields.map(field => {
-        if (field === "id" || field === "step") {
-            // Non-localized fields
-            return `"${field}": ${field}.current`;
+        if (field === "id") {
+            // Slug field with fallback
+            return `"${field}": coalesce(id.current, _key, "")`;
         }
-        return `"${field}": coalesce(${field}[$locale], ${field}.${baseLanguage.id}, "")`;
+        if (field === "step") {
+            // Step is a number, not a slug
+            return `"${field}": step`;
+        }
+        return `"${field}": select($locale == "vi" => ${field}.vi, coalesce(${field}.en, ${field}.vi))`;
     });
 
     return `${fieldName}[] {
@@ -44,7 +44,7 @@ export function localizedBlock(fieldName: string): string {
     return `coalesce(
         ${fieldName}[language == $locale][0].content,
         ${fieldName}[language == "${baseLanguage.id}"][0].content,
-        []
+        ""
     )`;
 }
 

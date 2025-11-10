@@ -375,6 +375,7 @@ export async function getTreatmentBySlug(
 ) {
     try {
         const query = groq`*[_type == "treatment" && slug.current == $slug][0]{
+            _id,
             "id": id.current,
             "title": ${localizedField("title")},
             "slug": slug.current,
@@ -408,6 +409,12 @@ export async function getTreatmentBySlug(
             duration,
             price,
             isPopular,
+            booking[]{
+                "title": ${localizedField("title")},
+                price,
+                duration,
+                "description": ${localizedField("description")}
+            },
             "content": ${localizedBlock("content")}
         }`;
 

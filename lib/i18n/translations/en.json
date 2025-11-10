@@ -42,6 +42,37 @@
             "description": "Our physical therapy treatment methods include a range of solutions to meet your individual needs."
         }
     },
+    "treatmentsPage": {
+        "badge": "Discover",
+        "title": "Treatment Methods",
+        "description": "Our physical therapy treatment methods include a range of solutions to meet your individual needs.",
+        "bookAppointment": "Book Appointment"
+    },
+    "treatmentDetail": {
+        "notFound": {
+            "title": "Treatment Not Found",
+            "description": "The requested treatment does not exist."
+        },
+        "breadcrumb": {
+            "treatments": "Treatments"
+        },
+        "protocol": {
+            "title": "Treatment Protocol"
+        },
+        "sidebar": {
+            "title": "Treatment Methods"
+        },
+        "booking": {
+            "title": "Book Consultation",
+            "subtitle": "Free consultation"
+        },
+        "sections": {
+            "method": "Method",
+            "effectiveTreatment": "Effective Treatment Method",
+            "benefits": "Key Benefits",
+            "bookTreatment": "Book Treatment"
+        }
+    },
     "hero": {
         "mainHeading": "Help people improve their movement health in a",
         "rotatingWords": ["comprehensiveness", "sustainability"],

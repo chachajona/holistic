@@ -1,5 +1,6 @@
 import React from "react";
 import { Metadata } from "next";
+import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -18,6 +19,8 @@ import {
     getSiteSettings,
     getTreatmentBySlug,
 } from "@/lib/api";
+import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";
+import { getTranslations, translate } from "@/lib/i18n/utils";
 import { getSanityImageUrl } from "@/lib/sanity-image";
 import { buildMetadata } from "@/lib/seo";
 import {
@@ -38,15 +41,30 @@ export async function generateMetadata({
     params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
     const { slug } = await params;
+    const headersList = await headers();
+    const locale = headersList.get("x-locale");
+    const validLocale: Locale =
+        locale && isValidLocale(locale) ? locale : baseLanguage.id;
+
+    const translations = getTranslations(validLocale);
+
     const [treatment, settings] = await Promise.all([
-        getTreatmentBySlug(slug),
+        getTreatmentBySlug(slug, validLocale),
         getSiteSettings(),
     ]);
 
     if (!treatment) {
         return {
-            title: "Phương pháp không tồn tại",
-            description: "Phương pháp yêu cầu không tồn tại.",
+            title: translate(
+                translations,
+                "treatmentDetail.notFound.title",
+                "Treatment Not Found",
+            ),
+            description: translate(
+                translations,
+                "treatmentDetail.notFound.description",
+                "The requested treatment does not exist.",
+            ),
         };
     }
 
@@ -58,7 +76,7 @@ export async function generateMetadata({
         docSeo: treatment.seo ?? null,
         defaults: {
             title: treatment.title
-                ? `${treatment.title} | Phương pháp`
+                ? `${treatment.title} | ${translate(translations, "treatmentDetail.sections.method", "Method")}`
                 : (settings?.defaultSeo?.title ?? undefined),
             description:
                 treatment.shortDescription ??
@@ -98,13 +116,25 @@ function generateBookingOptions(treatment: Treatment) {
 }
 
 // Protocol section component
-function ProtocolSection({ protocols }: { protocols: TreatmentProtocol[] }) {
+function ProtocolSection({
+    protocols,
+    translations,
+}: {
+    protocols: TreatmentProtocol[];
+    translations: any;
+}) {
     if (!protocols || protocols.length === 0) return null;
+
+    const title = translate(
+        translations,
+        "treatmentDetail.protocol.title",
+        "Treatment Protocol",
+    );
 
     return (
         <div className="my-8">
             <h3 className="font-robotoSerif text-primary-text mb-4 text-xl font-semibold">
-                Quy trình điều trị
+                {title}
             </h3>
             <div className="space-y-4">
                 {protocols.map(protocol => (
@@ -136,14 +166,22 @@ function ProtocolSection({ protocols }: { protocols: TreatmentProtocol[] }) {
 function TreatmentsSidebar({
     treatments,
     currentSlug,
+    translations,
 }: {
     treatments: TreatmentSummary[];
     currentSlug: string;
+    translations: any;
 }) {
+    const title = translate(
+        translations,
+        "treatmentDetail.sidebar.title",
+        "Treatment Methods",
+    );
+
     return (
         <div className="bg-brown-50/80 mb-6 rounded-xl p-4">
             <h3 className="font-robotoSerif text-primary-text mb-3 text-lg font-semibold">
-                Phương pháp điều trị
+                {title}
             </h3>
             <ul className="space-y-2">
                 {treatments
@@ -168,11 +206,23 @@ function TreatmentsSidebar({
 }
 
 // BookingForm component (server component)
-function BookingForm({ treatment }: { treatment: Treatment }) {
+function BookingForm({
+    treatment,
+    translations,
+}: {
+    treatment: Treatment;
+    translations: any;
+}) {
+    const title = translate(
+        translations,
+        "treatmentDetail.booking.title",
+        "Book Consultation",
+    );
+
     return (
         <div className="bg-brown-50/80 sticky top-6 rounded-xl p-5">
             <h3 className="font-robotoSerif text-primary-text mb-4 text-lg font-semibold">
-                Đặt lịch tư vấn
+                {title}
             </h3>
             <BookingFormClient treatment={treatment} />
         </div>
@@ -185,14 +235,59 @@ export default async function TreatmentPage({
     params: Promise<{ slug: string }>;
 }) {
     const { slug } = await params;
-    const treatment = await getTreatmentBySlug(slug);
-    const allTreatments = await getAllTreatments();
+    const headersList = await headers();
+    const locale = headersList.get("x-locale");
+    const validLocale: Locale =
+        locale && isValidLocale(locale) ? locale : baseLanguage.id;
+
+    const translations = getTranslations(validLocale);
+
+    const treatment = await getTreatmentBySlug(slug, validLocale);
+    const allTreatments = await getAllTreatments(validLocale);
 
     if (!treatment) {
         notFound();
     }
 
     const bookingOptions = generateBookingOptions(treatment);
+    const content = typeof treatment.content === "string" ? treatment.content.trim() : "";
+
+    // Translation keys
+    const breadcrumbTreatments = translate(
+        translations,
+        "treatmentDetail.breadcrumb.treatments",
+        "Treatments",
+    );
+    const method = translate(
+        translations,
+        "treatmentDetail.sections.method",
+        "Method",
+    );
+    const effectiveTreatment = translate(
+        translations,
+        "treatmentDetail.sections.effectiveTreatment",
+        "Effective Treatment Method",
+    );
+    const benefits = translate(
+        translations,
+        "treatmentDetail.sections.benefits",
+        "Key Benefits",
+    );
+    const bookTreatment = translate(
+        translations,
+        "treatmentDetail.sections.bookTreatment",
+        "Book Treatment",
+    );
+    const bookingSubtitle = translate(
+        translations,
+        "treatmentDetail.booking.subtitle",
+        "Free consultation",
+    );
+    const bookAppointment = translate(
+        translations,
+        "treatmentsPage.bookAppointment",
+        "Book Appointment",
+    );
 
     return (
         <div className="bg-primary-background relative w-full scroll-smooth py-16 sm:px-16">
@@ -205,7 +300,7 @@ export default async function TreatmentPage({
                                     href="/treatments"
                                     className="hover:text-primary-text flex items-center hover:underline"
                                 >
-                                    Phương pháp
+                                    {breadcrumbTreatments}
                                 </Link>
                             </BreadcrumbLink>
                         </BreadcrumbItem>
@@ -225,7 +320,7 @@ export default async function TreatmentPage({
                         <div className="order-2 mt-6 md:order-1 md:mt-0 md:flex-1">
                             <div className="space-y-6">
                                 <div className="text-primary-text font-robotoMono text-sm uppercase tracking-wide">
-                                    Phương pháp
+                                    {method}
                                 </div>
                                 <h1 className="font-robotoSerif text-primary-text text-4xl font-semibold md:text-5xl">
                                     {treatment.title}
@@ -239,7 +334,7 @@ export default async function TreatmentPage({
                                     asChild
                                 >
                                     <Link href="#book">
-                                        Đặt lịch hẹn
+                                        {bookAppointment}
                                         <ArrowDown className="ml-2 size-4" />
                                     </Link>
                                 </Button>
@@ -276,15 +371,15 @@ export default async function TreatmentPage({
                             <Card className="w-full border-gray-400 bg-transparent">
                                 <CardContent className="bg-transparent p-10">
                                     <div className="prose prose-lg font-robotoSlab text-primary-text prose-strong:text-primary-text prose-strong:font-robotoSerif prose-headings:font-robotoSerif prose-headings:text-primary-text max-w-none">
-                                        {treatment.content ? (
+                                        {content ? (
                                             <Markdown>
-                                                {treatment.content}
+                                                {content}
                                             </Markdown>
                                         ) : (
                                             <div>
                                                 <h2 className="font-robotoSerif text-primary-text mb-6 text-2xl font-semibold">
-                                                    {treatment.title} - Phương
-                                                    pháp điều trị hiệu quả
+                                                    {treatment.title} -{" "}
+                                                    {effectiveTreatment}
                                                 </h2>
                                                 <p>
                                                     {treatment.fullDescription}
@@ -296,7 +391,7 @@ export default async function TreatmentPage({
                                                         0 && (
                                                         <div className="my-8">
                                                             <h3 className="font-robotoSerif text-primary-text mb-4 text-xl font-semibold">
-                                                                Lợi ích chính
+                                                                {benefits}
                                                             </h3>
                                                             <ul className="list-disc space-y-3 pl-5">
                                                                 {treatment.benefits.map(
@@ -330,6 +425,7 @@ export default async function TreatmentPage({
                                                     protocols={
                                                         treatment.protocols
                                                     }
+                                                    translations={translations}
                                                 />
                                             </div>
                                         )}
@@ -341,9 +437,9 @@ export default async function TreatmentPage({
                         {/* Booking Cards */}
                         <div className="px-4 py-8 md:py-12" id="book">
                             <h2 className="font-robotoSerif text-primary-text border-b border-gray-400 pb-4 text-3xl font-bold">
-                                Đặt lịch điều trị
+                                {bookTreatment}
                                 <p className="font-robotoSlab text-primary-text/70 mt-2 text-base font-normal">
-                                    Tư vấn miễn phí
+                                    {bookingSubtitle}
                                 </p>
                             </h2>
                             <div className="bg-primary-text mb-5 h-0.5 w-64 -translate-y-0.5"></div>
@@ -384,7 +480,7 @@ export default async function TreatmentPage({
                                                 asChild
                                             >
                                                 <Link href="/booking">
-                                                    Đặt lịch hẹn
+                                                    {bookAppointment}
                                                 </Link>
                                             </Button>
                                         </div>
@@ -401,10 +497,14 @@ export default async function TreatmentPage({
                             <TreatmentsSidebar
                                 treatments={allTreatments ?? []}
                                 currentSlug={treatment.slug}
+                                translations={translations}
                             />
 
                             {/* Booking form */}
-                            <BookingForm treatment={treatment} />
+                            <BookingForm
+                                treatment={treatment}
+                                translations={translations}
+                            />
                         </div>
                     </div>
                 </div>

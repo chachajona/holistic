@@ -42,6 +42,37 @@
             "description": "Các phương pháp điều trị vật lý trị liệu của chúng tôi bao gồm một loạt các giải pháp để đáp ứng nhu cầu riêng của bạn."
         }
     },
+    "treatmentsPage": {
+        "badge": "Khám phá",
+        "title": "Phương pháp trị liệu",
+        "description": "Các phương pháp điều trị vật lý trị liệu của chúng tôi bao gồm một loạt các giải pháp để đáp ứng nhu cầu riêng của bạn.",
+        "bookAppointment": "Đặt lịch hẹn"
+    },
+    "treatmentDetail": {
+        "notFound": {
+            "title": "Phương pháp không tồn tại",
+            "description": "Phương pháp yêu cầu không tồn tại."
+        },
+        "breadcrumb": {
+            "treatments": "Phương pháp"
+        },
+        "protocol": {
+            "title": "Quy trình điều trị"
+        },
+        "sidebar": {
+            "title": "Phương pháp điều trị"
+        },
+        "booking": {
+            "title": "Đặt lịch tư vấn",
+            "subtitle": "Tư vấn miễn phí"
+        },
+        "sections": {
+            "method": "Phương pháp",
+            "effectiveTreatment": "Phương pháp điều trị hiệu quả",
+            "benefits": "Lợi ích chính",
+            "bookTreatment": "Đặt lịch điều trị"
+        }
+    },
     "hero": {
         "mainHeading": "Giúp mọi người cải thiện sức khoẻ vận động một cách",
         "rotatingWords": ["toàn diện", "bền vững"],
