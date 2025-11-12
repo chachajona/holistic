@@ -21,6 +21,15 @@
         "search": "Tìm kiếm",
         "exportCSV": "Xuất CSV"
     },
+    "cookieConsent": {
+        "title": "Đồng ý sử dụng Cookie",
+        "description": "Chúng tôi sử dụng cookie để nâng cao trải nghiệm của bạn và phân tích lưu lượng truy cập. Bằng cách nhấp vào \"Chấp nhận tất cả\", bạn đồng ý với việc sử dụng cookie của chúng tôi.",
+        "gdprCompliant": "Tuân thủ GDPR",
+        "cookiePolicy": "Chính sách Cookie",
+        "privacyPolicy": "Chính sách Bảo mật",
+        "reject": "Từ chối",
+        "acceptAll": "Chấp nhận tất cả"
+    },
     "footer": {
         "contactInfo": "Thông tin liên hệ",
         "quickLinks": "Liên kết nhanh",

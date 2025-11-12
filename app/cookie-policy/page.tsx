@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { useCookieConsent } from "@/providers/CookieConsentProvider";
 import { useLocale } from "@/providers/LocaleProvider";
+import { RefreshCw, Settings } from "lucide-react";
 
 import { getTranslations } from "@/lib/i18n/utils";
+import { Button } from "@/components/ui/button";
 import PageLoaderWrapper from "@/components/common/PageLoaderWrapper";
 
 interface CookieSection {
@@ -22,6 +25,7 @@ interface CookiePolicy {
 export default function CookiePolicyPage() {
     const [isContentLoaded, setIsContentLoaded] = useState(false);
     const { locale } = useLocale();
+    const { settings, resetConsent } = useCookieConsent();
     const translations = getTranslations(locale);
     const cookiePolicy = translations.cookiePolicy as CookiePolicy;
 
@@ -40,9 +44,31 @@ export default function CookiePolicyPage() {
                 <section className="my-6">
                     {/* Header */}
                     <div className="mb-8 max-w-4xl">
-                        <span className="bg-primary-text/10 font-robotoMono text-primary-text mb-4 inline-block rounded-lg px-3 py-1 text-base font-light">
-                            {cookiePolicy.badge}
-                        </span>
+                        <div className="mb-4 flex items-start justify-between">
+                            <span className="bg-primary-text/10 font-robotoMono text-primary-text inline-block rounded-lg px-3 py-1 text-base font-light">
+                                {cookiePolicy.badge}
+                            </span>
+                            <div className="flex gap-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={resetConsent}
+                                    className="gap-2"
+                                >
+                                    <RefreshCw className="size-4" />
+                                    Reset Consent
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => (window.location.href = "/")}
+                                    className="gap-2"
+                                >
+                                    <Settings className="size-4" />
+                                    Manage Cookies
+                                </Button>
+                            </div>
+                        </div>
                         <h1 className="font-robotoSerif text-primary-text mb-4 text-3xl font-bold capitalize md:text-5xl">
                             {cookiePolicy.title}
                         </h1>
@@ -57,6 +83,26 @@ export default function CookiePolicyPage() {
                                 },
                             )}
                         </p>
+                        {settings.hasConsented && (
+                            <div className="mt-4 rounded-lg border border-green-200 bg-green-50 p-3">
+                                <p className="text-sm text-green-800">
+                                    <strong>Current Consent Status:</strong> You
+                                    have consented to{" "}
+                                    {settings.consent.analytics
+                                        ? "Analytics"
+                                        : "no"}{" "}
+                                    cookies,
+                                    {settings.consent.marketing
+                                        ? " Marketing"
+                                        : " no"}{" "}
+                                    cookies, and
+                                    {settings.consent.functional
+                                        ? " Functional"
+                                        : " no"}{" "}
+                                    cookies.
+                                </p>
+                            </div>
+                        )}
                     </div>
 
                     {/* Content */}

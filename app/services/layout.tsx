@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import { headers } from "next/headers";
 
 import {
-    getServiceSummaries,
     getServicesPage,
+    getServiceSummaries,
     getSiteSettings,
 } from "@/lib/api";
 import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";

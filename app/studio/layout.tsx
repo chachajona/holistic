@@ -9,7 +9,6 @@ import {
 } from "next/font/google";
 import { headers } from "next/headers";
 import { LocaleProvider } from "@/providers/LocaleProvider";
-import { GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "sonner";
@@ -69,9 +68,6 @@ export default async function StudioLayout({
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const gtmId = process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID;
-    const isProduction = process.env.NODE_ENV === "production";
-
     // Get locale from middleware header
     const headersList = await headers();
     const localeHeader = headersList.get("x-locale");
@@ -82,7 +78,6 @@ export default async function StudioLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning>
-            {gtmId && isProduction && <GoogleTagManager gtmId={gtmId} />}
             <body
                 className={`${roboto.variable} ${robotoSerif.variable} ${robotoSlab.variable} ${robotoMono.variable} bg-primary-background overflow-x-hidden overflow-y-scroll`}
             >

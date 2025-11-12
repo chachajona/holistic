@@ -8,8 +8,8 @@ import {
     Roboto_Slab,
 } from "next/font/google";
 import { headers } from "next/headers";
+import { CookieConsentProvider } from "@/providers/CookieConsentProvider";
 import { LocaleProvider } from "@/providers/LocaleProvider";
-import { GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "sonner";
@@ -18,6 +18,7 @@ import { getSiteSettings } from "@/lib/api";
 import { baseLanguage, isValidLocale, type Locale } from "@/lib/i18n/languages";
 import { buildMetadata } from "@/lib/seo";
 import ChatWidgets from "@/components/common/ChatWidgets";
+import { CookieConsentBanner } from "@/components/common/CookieConsentBanner";
 
 const roboto = Roboto({
     weight: ["100", "300", "400", "500", "700", "900"],
@@ -83,17 +84,48 @@ export default async function RootLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning>
-            {gtmId && isProduction && <GoogleTagManager gtmId={gtmId} />}
+            {gtmId && isProduction && (
+                <>
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gtmId}', {
+    'anonymize_ip': true,
+    'cookie_flags': 'SameSite=Lax;Secure'
+});`,
+                        }}
+                    />
+                    <script
+                        dangerouslySetInnerHTML={{
+                            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','${gtmId}');`,
+                        }}
+                    />
+                    <noscript
+                        dangerouslySetInnerHTML={{
+                            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+                        }}
+                    />
+                </>
+            )}
             <body
                 className={`${roboto.variable} ${robotoSerif.variable} ${robotoSlab.variable} ${robotoMono.variable} bg-primary-background overflow-x-hidden overflow-y-scroll`}
             >
-                <LocaleProvider initialLocale={locale}>
-                    <main>{children}</main>
-                    <ChatWidgets />
-                    <Toaster />
-                    <SpeedInsights />
-                    <Analytics />
-                </LocaleProvider>
+                <CookieConsentProvider>
+                    <LocaleProvider initialLocale={locale}>
+                        <main>{children}</main>
+                        <ChatWidgets />
+                        <CookieConsentBanner />
+                        <Toaster />
+                        <SpeedInsights />
+                        <Analytics />
+                    </LocaleProvider>
+                </CookieConsentProvider>
             </body>
         </html>
     );

@@ -250,7 +250,8 @@ export default async function TreatmentPage({
     }
 
     const bookingOptions = generateBookingOptions(treatment);
-    const content = typeof treatment.content === "string" ? treatment.content.trim() : "";
+    const content =
+        typeof treatment.content === "string" ? treatment.content.trim() : "";
 
     // Translation keys
     const breadcrumbTreatments = translate(
@@ -372,9 +373,7 @@ export default async function TreatmentPage({
                                 <CardContent className="bg-transparent p-10">
                                     <div className="prose prose-lg font-robotoSlab text-primary-text prose-strong:text-primary-text prose-strong:font-robotoSerif prose-headings:font-robotoSerif prose-headings:text-primary-text max-w-none">
                                         {content ? (
-                                            <Markdown>
-                                                {content}
-                                            </Markdown>
+                                            <Markdown>{content}</Markdown>
                                         ) : (
                                             <div>
                                                 <h2 className="font-robotoSerif text-primary-text mb-6 text-2xl font-semibold">

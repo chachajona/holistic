@@ -21,6 +21,15 @@
         "search": "Search",
         "exportCSV": "Export CSV"
     },
+    "cookieConsent": {
+        "title": "Cookie Consent",
+        "description": "We use cookies to enhance your experience and analyze site traffic. By clicking \"Accept All\", you consent to our use of cookies.",
+        "gdprCompliant": "GDPR Compliant",
+        "cookiePolicy": "Cookie Policy",
+        "privacyPolicy": "Privacy Policy",
+        "reject": "Reject",
+        "acceptAll": "Accept All"
+    },
     "footer": {
         "contactInfo": "Contact Information",
         "quickLinks": "Quick Links",
