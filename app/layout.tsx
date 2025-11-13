@@ -10,6 +10,7 @@ import {
 import { headers } from "next/headers";
 import { CookieConsentProvider } from "@/providers/CookieConsentProvider";
 import { LocaleProvider } from "@/providers/LocaleProvider";
+import { GoogleTagManager } from "@next/third-parties/google";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "sonner";
@@ -74,7 +75,6 @@ export default async function RootLayout({
     const gtmId = process.env.NEXT_PUBLIC_GOOGLE_TAG_MANAGER_ID;
     const isProduction = process.env.NODE_ENV === "production";
 
-    // Get locale from middleware header
     const headersList = await headers();
     const localeHeader = headersList.get("x-locale");
     const locale: Locale =
@@ -84,38 +84,25 @@ export default async function RootLayout({
 
     return (
         <html lang={locale} suppressHydrationWarning>
-            {gtmId && isProduction && (
-                <>
-                    <script
-                        dangerouslySetInnerHTML={{
-                            __html: `window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${gtmId}', {
-    'anonymize_ip': true,
-    'cookie_flags': 'SameSite=Lax;Secure'
-});`,
-                        }}
-                    />
-                    <script
-                        dangerouslySetInnerHTML={{
-                            __html: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-})(window,document,'script','dataLayer','${gtmId}');`,
-                        }}
-                    />
-                    <noscript
-                        dangerouslySetInnerHTML={{
-                            __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
-                        }}
-                    />
-                </>
-            )}
             <body
                 className={`${roboto.variable} ${robotoSerif.variable} ${robotoSlab.variable} ${robotoMono.variable} bg-primary-background overflow-x-hidden overflow-y-scroll`}
             >
+                {gtmId && isProduction && (
+                    <>
+                        <GoogleTagManager
+                            gtmId={gtmId}
+                            dataLayer={{
+                                anonymize_ip: true,
+                                cookie_flags: "SameSite=Lax;Secure",
+                            }}
+                        />
+                        <noscript
+                            dangerouslySetInnerHTML={{
+                                __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+                            }}
+                        />
+                    </>
+                )}
                 <CookieConsentProvider>
                     <LocaleProvider initialLocale={locale}>
                         <main>{children}</main>
