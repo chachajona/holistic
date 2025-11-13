@@ -1,27 +1,63 @@
 "use client";
 
 import React, { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 import { trackFormError, trackFormSubmit } from "@/lib/gtm";
+import { formatPhoneNumber } from "@/lib/utils";
+import {
+    messageSchema,
+    vietnameseNameSchema,
+    vietnamesePhoneSchema,
+} from "@/lib/validations";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-type SubmissionStatus = "idle" | "loading" | "success" | "error";
+const contactFormSchema = z.object({
+    name: vietnameseNameSchema,
+    phone: vietnamesePhoneSchema,
+    message: messageSchema,
+});
+
+type ContactFormData = z.infer<typeof contactFormSchema>;
 
 export function ContactFormClient() {
-    const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [message, setMessage] = useState("");
-    const [status, setStatus] = useState<SubmissionStatus>("idle");
-    const [feedbackMessage, setFeedbackMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { toast } = useToast();
 
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setStatus("loading");
-        setFeedbackMessage("");
+    const form = useForm<ContactFormData>({
+        resolver: zodResolver(contactFormSchema),
+        defaultValues: {
+            name: "",
+            phone: "",
+            message: "",
+        },
+        mode: "onChange", // Enable real-time validation
+    });
+
+    const handlePhoneChange = (
+        value: string,
+        onChange: (value: string) => void,
+    ) => {
+        const formatted = formatPhoneNumber(value);
+        onChange(formatted);
+    };
+
+    const onSubmit = async (data: ContactFormData) => {
+        setIsSubmitting(true);
 
         try {
             const response = await fetch("/api/contact", {
@@ -29,7 +65,11 @@ export function ContactFormClient() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ name, phone, message }),
+                body: JSON.stringify({
+                    name: data.name.trim(),
+                    phone: data.phone.replace(/\s/g, ""), // Remove spaces for API
+                    message: data.message.trim(),
+                }),
             });
 
             const result = await response.json();
@@ -40,23 +80,34 @@ export function ContactFormClient() {
                 );
             }
 
-            setStatus("success");
-            setFeedbackMessage(result.message || "Gửi thành công!");
-            setName("");
-            setPhone("");
-            setMessage("");
+            // Show success toast
+            toast({
+                title: "✓ Gửi thành công",
+                description:
+                    "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất!",
+            });
+
+            // Reset form
+            form.reset();
 
             // Track successful form submission
             trackFormSubmit("contact_form", "contact");
         } catch (error) {
             console.error("Submission error:", error);
-            setStatus("error");
             const errorMessage =
                 error instanceof Error ? error.message : "Không thể gửi form.";
-            setFeedbackMessage(`Lỗi: ${errorMessage}`);
+
+            // Show error toast
+            toast({
+                title: "✗ Có lỗi xảy ra",
+                description: errorMessage,
+                variant: "destructive",
+            });
 
             // Track form submission error
             trackFormError("contact_form", "contact", errorMessage);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -68,77 +119,97 @@ export function ContactFormClient() {
                 </CardTitle>
             </CardHeader>
             <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <Label
-                            htmlFor="name"
-                            className="text-brown-700 block text-sm font-medium"
-                        >
-                            Họ và tên
-                        </Label>
-                        <Input
-                            id="name"
-                            value={name}
-                            onChange={e => setName(e.target.value)}
-                            className="mt-1"
-                            required
-                            disabled={status === "loading"}
-                        />
-                    </div>
-                    <div>
-                        <Label
-                            htmlFor="phone"
-                            className="text-brown-700 block text-sm font-medium"
-                        >
-                            Số điện thoại
-                        </Label>
-                        <Input
-                            id="phone"
-                            type="tel"
-                            value={phone}
-                            onChange={e => setPhone(e.target.value)}
-                            className="mt-1"
-                            placeholder="Nhập số điện thoại của bạn"
-                            required
-                            disabled={status === "loading"}
-                        />
-                    </div>
-                    <div>
-                        <Label
-                            htmlFor="message"
-                            className="text-brown-700 block text-sm font-medium"
-                        >
-                            Tin nhắn đính kèm
-                        </Label>
-                        <Textarea
-                            id="message"
-                            value={message}
-                            onChange={e => setMessage(e.target.value)}
-                            className="mt-1"
-                            placeholder="Điền tin nhắn của bạn"
-                            required
-                            disabled={status === "loading"}
-                        />
-                    </div>
-                    {feedbackMessage && (
-                        <p
-                            className={`text-sm ${
-                                status === "error"
-                                    ? "text-red-600"
-                                    : "text-green-600"
-                            }`}
-                        >
-                            {feedbackMessage}
-                        </p>
-                    )}
-                    <Button
-                        type="submit"
-                        className="bg-primary-text hover:bg-brown-800 w-full text-white"
-                        disabled={status === "loading"}
+                <Form {...form}>
+                    <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-4"
                     >
-                        {status === "loading" ? "Đang gửi..." : "Gửi"}
-                    </Button>
-                </form>
+                        {/* Name Field */}
+                        <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-brown-700 text-sm font-medium">
+                                        Họ và tên{" "}
+                                        <span className="text-red-500">*</span>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="Nguyễn Văn A"
+                                            {...field}
+                                            disabled={isSubmitting}
+                                            className="font-robotoSlab"
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="font-robotoSlab text-xs" />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Phone Field */}
+                        <FormField
+                            control={form.control}
+                            name="phone"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-brown-700 text-sm font-medium">
+                                        Số điện thoại{" "}
+                                        <span className="text-red-500">*</span>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            type="tel"
+                                            placeholder="0901 234 567"
+                                            {...field}
+                                            onChange={e =>
+                                                handlePhoneChange(
+                                                    e.target.value,
+                                                    field.onChange,
+                                                )
+                                            }
+                                            disabled={isSubmitting}
+                                            className="font-robotoSlab"
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="font-robotoSlab text-xs" />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Message Field */}
+                        <FormField
+                            control={form.control}
+                            name="message"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-brown-700 text-sm font-medium">
+                                        Tin nhắn đính kèm{" "}
+                                        <span className="text-red-500">*</span>
+                                    </FormLabel>
+                                    <FormControl>
+                                        <Textarea
+                                            placeholder="Vui lòng mô tả chi tiết yêu cầu của bạn..."
+                                            {...field}
+                                            disabled={isSubmitting}
+                                            className="font-robotoSlab min-h-[120px] resize-none"
+                                        />
+                                    </FormControl>
+                                    <FormMessage className="font-robotoSlab text-xs" />
+                                </FormItem>
+                            )}
+                        />
+
+                        {/* Submit Button */}
+                        <Button
+                            type="submit"
+                            className="bg-primary-text hover:bg-brown-800 w-full text-white"
+                            disabled={isSubmitting}
+                        >
+                            {isSubmitting ? "Đang gửi..." : "Gửi yêu cầu"}
+                        </Button>
+                    </form>
+                </Form>
             </CardContent>
         </Card>
     );

@@ -11,6 +11,8 @@ import { HeroData } from "@/types/sanity";
 import { trackFormError, trackFormSubmit } from "@/lib/gtm";
 import { getLocalizedString } from "@/lib/i18n/utils";
 import { getSanityBlurUrl, getSanityImageUrl } from "@/lib/sanity-image";
+import { formatPhoneNumber } from "@/lib/utils";
+import { vietnamesePhoneSchema } from "@/lib/validations";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,7 +43,7 @@ const HeroClient: React.FC<HeroProps> = ({ onImageLoaded, heroData }) => {
 
     // Create form schema with translated validation message
     const formSchema = z.object({
-        phoneNumber: z.string().min(10, {
+        phoneNumber: vietnamesePhoneSchema.refine(() => true, {
             message: getString("hero.form.phoneValidation"),
         }),
     });
@@ -50,7 +52,16 @@ const HeroClient: React.FC<HeroProps> = ({ onImageLoaded, heroData }) => {
         defaultValues: {
             phoneNumber: "",
         },
+        mode: "onChange", // Enable real-time validation
     });
+
+    const handlePhoneChange = (
+        value: string,
+        onChange: (value: string) => void,
+    ) => {
+        const formatted = formatPhoneNumber(value);
+        onChange(formatted);
+    };
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
@@ -60,7 +71,7 @@ const HeroClient: React.FC<HeroProps> = ({ onImageLoaded, heroData }) => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    phoneNumber: values.phoneNumber,
+                    phoneNumber: values.phoneNumber.replace(/\s/g, ""), // Remove spaces for API
                 }),
             });
 
@@ -206,8 +217,15 @@ const HeroClient: React.FC<HeroProps> = ({ onImageLoaded, heroData }) => {
                                                                 placeholder={getString(
                                                                     "hero.form.phonePlaceholder",
                                                                 )}
-                                                                className="bg-brown-50/70 font-robotoSlab text-primary-text caret-primary-text focus:border-primary-text focus:bg-brown-50 focus-visible:ring-primary-text w-full border-gray-300 px-5 py-2 outline-none transition-all focus-visible:ring-1 focus-visible:ring-offset-0"
                                                                 {...field}
+                                                                onChange={e =>
+                                                                    handlePhoneChange(
+                                                                        e.target
+                                                                            .value,
+                                                                        field.onChange,
+                                                                    )
+                                                                }
+                                                                className="bg-brown-50/70 font-robotoSlab text-primary-text caret-primary-text focus:border-primary-text focus:bg-brown-50 focus-visible:ring-primary-text w-full border-gray-300 px-5 py-2 outline-none transition-all focus-visible:ring-1 focus-visible:ring-offset-0"
                                                             />
                                                         </FormControl>
                                                         <FormMessage className="font-robotoSlab text-sm" />

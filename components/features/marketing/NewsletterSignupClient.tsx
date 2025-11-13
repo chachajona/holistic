@@ -2,27 +2,52 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 
 import { trackFormError, trackFormSubmit } from "@/lib/gtm";
+import { formatPhoneNumber } from "@/lib/utils";
+import { vietnamesePhoneSchema } from "@/lib/validations";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-type SubmissionStatus = "idle" | "loading" | "success" | "error";
+const newsletterFormSchema = z.object({
+    phoneNumber: vietnamesePhoneSchema,
+});
+
+type NewsletterFormData = z.infer<typeof newsletterFormSchema>;
 
 export function NewsletterSignupClient() {
-    const [phoneNumber, setPhoneNumber] = useState("");
-    const [status, setStatus] = useState<SubmissionStatus>("idle");
-    const [feedbackMessage, setFeedbackMessage] = useState("");
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const { toast } = useToast();
 
-    const handleSubscribe = async () => {
-        if (!phoneNumber.trim()) {
-            setFeedbackMessage("Vui lòng nhập số điện thoại.");
-            setStatus("error");
-            trackFormError("newsletter_signup", "newsletter", "empty_phone");
-            return;
-        }
-        setStatus("loading");
-        setFeedbackMessage("");
+    const form = useForm<NewsletterFormData>({
+        resolver: zodResolver(newsletterFormSchema),
+        defaultValues: {
+            phoneNumber: "",
+        },
+        mode: "onChange", // Enable real-time validation
+    });
+
+    const handlePhoneChange = (
+        value: string,
+        onChange: (value: string) => void,
+    ) => {
+        const formatted = formatPhoneNumber(value);
+        onChange(formatted);
+    };
+
+    const onSubmit = async (data: NewsletterFormData) => {
+        setIsSubmitting(true);
 
         try {
             const response = await fetch("/api/newsletter", {
@@ -30,7 +55,9 @@ export function NewsletterSignupClient() {
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ phoneNumber }),
+                body: JSON.stringify({
+                    phoneNumber: data.phoneNumber.replace(/\s/g, ""), // Remove spaces for API
+                }),
             });
 
             const result = await response.json();
@@ -41,34 +68,33 @@ export function NewsletterSignupClient() {
                 );
             }
 
-            setStatus("success");
-            setFeedbackMessage(result.message || "Đăng ký thành công!");
-            setPhoneNumber("");
+            // Show success toast
+            toast({
+                title: "✓ Đăng ký thành công",
+                description: "Cảm ơn bạn đã đăng ký nhận tin tức từ chúng tôi!",
+            });
+
+            // Reset form
+            form.reset();
 
             // Track successful newsletter subscription
             trackFormSubmit("newsletter_signup", "newsletter");
         } catch (error) {
             console.error("Subscription error:", error);
-            setStatus("error");
             const errorMessage =
                 error instanceof Error ? error.message : "Không thể đăng ký.";
-            setFeedbackMessage(`Lỗi: ${errorMessage}`);
+
+            // Show error toast
+            toast({
+                title: "✗ Có lỗi xảy ra",
+                description: errorMessage,
+                variant: "destructive",
+            });
 
             // Track newsletter subscription error
             trackFormError("newsletter_signup", "newsletter", errorMessage);
         } finally {
-            setTimeout(() => {
-                if (status !== "loading") setStatus("idle");
-            }, 4000);
-        }
-    };
-
-    // Handle input change and clear error messages
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPhoneNumber(e.target.value);
-        if (status === "error") {
-            setStatus("idle"); // Reset status if user starts typing after an error
-            setFeedbackMessage("");
+            setIsSubmitting(false);
         }
     };
 
@@ -84,42 +110,51 @@ export function NewsletterSignupClient() {
                         Đăng ký blog hàng tuần của chúng tôi để nhận thông tin
                         cập nhật thường xuyên về các chủ đề sức khỏe.
                     </p>
-                    {/* Input and Button */}
-                    <div className="flex flex-col gap-4 sm:flex-row">
-                        <Input
-                            type="tel" // Use tel for phone numbers
-                            value={phoneNumber}
-                            onChange={handleInputChange} // Use updated handler
-                            placeholder="Nhập số điện thoại của bạn"
-                            className="font-robotoSlab grow text-sm"
-                            aria-label="Số điện thoại đăng ký nhận tin" // Accessibility
-                            disabled={status === "loading"}
-                            aria-invalid={status === "error"} // Accessibility
-                            aria-describedby="newsletter-feedback" // Accessibility
-                        />
-                        <Button
-                            onClick={handleSubscribe}
-                            className="bg-primary-text font-robotoSerif hover:bg-brown-950 text-base text-white"
-                            disabled={status === "loading"}
+
+                    {/* Form */}
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-4"
                         >
-                            {status === "loading"
-                                ? "Đang đăng ký..."
-                                : "Đăng ký"}
-                        </Button>
-                    </div>
-                    {/* Feedback Message */}
-                    {feedbackMessage && (
-                        <p
-                            id="newsletter-feedback" // For aria-describedby
-                            className={`mt-2 text-sm ${
-                                status === "error"
-                                    ? "text-red-600"
-                                    : "text-green-600"
-                            }`}
-                        >
-                            {feedbackMessage}
-                        </p>
-                    )}
+                            <div className="flex flex-col gap-4 sm:flex-row">
+                                <FormField
+                                    control={form.control}
+                                    name="phoneNumber"
+                                    render={({ field }) => (
+                                        <FormItem className="grow">
+                                            <FormControl>
+                                                <Input
+                                                    type="tel"
+                                                    placeholder="0901 234 567"
+                                                    {...field}
+                                                    onChange={e =>
+                                                        handlePhoneChange(
+                                                            e.target.value,
+                                                            field.onChange,
+                                                        )
+                                                    }
+                                                    disabled={isSubmitting}
+                                                    className="font-robotoSlab text-sm"
+                                                    aria-label="Số điện thoại đăng ký nhận tin"
+                                                />
+                                            </FormControl>
+                                            <FormMessage className="font-robotoSlab text-xs" />
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button
+                                    type="submit"
+                                    className="bg-primary-text font-robotoSerif hover:bg-brown-950 text-base text-white"
+                                    disabled={isSubmitting}
+                                >
+                                    {isSubmitting
+                                        ? "Đang đăng ký..."
+                                        : "Đăng ký"}
+                                </Button>
+                            </div>
+                        </form>
+                    </Form>
                 </div>
                 {/* Image */}
                 <div className="relative h-64 w-full overflow-hidden md:h-auto md:w-1/2 md:self-stretch">
@@ -128,7 +163,7 @@ export function NewsletterSignupClient() {
                         alt="Abstract image representing newsletter signup"
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="rounded-r-lg object-cover" // Ensure image covers the container
+                        className="rounded-r-lg object-cover"
                     />
                 </div>
             </div>
