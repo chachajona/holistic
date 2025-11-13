@@ -5,6 +5,7 @@ import { FormEvent, useState } from "react";
 import { Mail, Phone, User } from "lucide-react";
 
 import { Treatment } from "@/types/treatments";
+import { trackBookingStart, trackFormError, trackFormSubmit } from "@/lib/gtm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -26,9 +27,39 @@ export function BookingFormClient({ treatment }: BookingFormClientProps) {
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // Handle form submission logic here
-        console.log("Form submitted:", formData);
-        // You could make an API call here
+
+        // Validate required fields
+        if (!formData.name.trim()) {
+            trackFormError("booking_form", "booking", "missing_name");
+            return;
+        }
+        if (!formData.email.trim()) {
+            trackFormError("booking_form", "booking", "missing_email");
+            return;
+        }
+        if (!formData.phone.trim()) {
+            trackFormError("booking_form", "booking", "missing_phone");
+            return;
+        }
+        if (!formData.date) {
+            trackFormError("booking_form", "booking", "missing_date");
+            return;
+        }
+
+        // Track booking start
+        trackBookingStart("booking_form", treatment.title);
+
+        try {
+            // Handle form submission logic here
+            console.log("Form submitted:", formData);
+            // You could make an API call here
+            // After successful submission:
+            trackFormSubmit("booking_form", "booking");
+        } catch (error) {
+            const errorMessage =
+                error instanceof Error ? error.message : "Unknown error";
+            trackFormError("booking_form", "booking", errorMessage);
+        }
     };
 
     return (

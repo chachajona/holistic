@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useLocale } from "@/providers/LocaleProvider";
 import { ChevronRight } from "lucide-react";
 
-import type { ServiceSummary } from "@/lib/api";
 import {
     ContactInfo,
     CTAData,
@@ -13,6 +12,7 @@ import {
     QuickLinkData,
     SocialMedia,
 } from "@/types/sanity";
+import type { ServiceSummary } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 import { CarouselApi } from "@/components/ui/carousel";
 import Banner from "@/components/common/Banner";

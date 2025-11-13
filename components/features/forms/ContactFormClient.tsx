@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 
+import { trackFormError, trackFormSubmit } from "@/lib/gtm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -44,12 +45,18 @@ export function ContactFormClient() {
             setName("");
             setPhone("");
             setMessage("");
+
+            // Track successful form submission
+            trackFormSubmit("contact_form", "contact");
         } catch (error) {
             console.error("Submission error:", error);
             setStatus("error");
             const errorMessage =
                 error instanceof Error ? error.message : "Không thể gửi form.";
             setFeedbackMessage(`Lỗi: ${errorMessage}`);
+
+            // Track form submission error
+            trackFormError("contact_form", "contact", errorMessage);
         }
     };
 

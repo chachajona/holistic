@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import { trackCTAClick } from "@/lib/gtm";
 import { cn } from "@/lib/utils";
 import { OptimizedImage } from "@/components/ui/optimized-image";
 
@@ -82,6 +85,12 @@ export function StaticCta({
                         {/* Static button instead of magnetic spin button */}
                         <Link
                             href={primaryButtonUrl}
+                            onClick={() =>
+                                trackCTAClick(
+                                    "static_cta_button",
+                                    primaryButtonUrl,
+                                )
+                            }
                             className="bg-brown-900 hover:bg-brown-950 focus:ring-brown-700 inline-flex items-center justify-center rounded-full px-6 py-3 text-base font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 md:text-lg"
                         >
                             {primaryButtonText}

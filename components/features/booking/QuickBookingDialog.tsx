@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
+import { trackBookingStart, trackFormError, trackFormSubmit } from "@/lib/gtm";
 import { cn } from "@/lib/utils";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useToast } from "@/hooks/use-toast";
@@ -84,6 +85,9 @@ export function QuickBookingDialog({
     const onSubmit = async (data: BookingFormData) => {
         if (!treatment) return;
 
+        // Track booking start
+        trackBookingStart(treatment.name, treatment.name);
+
         setIsSubmitting(true);
 
         try {
@@ -112,20 +116,28 @@ export function QuickBookingDialog({
                     "Chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất. Cảm ơn!",
             });
 
+            // Track successful booking submission
+            trackFormSubmit("quick_booking_dialog", "booking");
+
             // Close dialog after a short delay
             setTimeout(() => {
                 handleClose();
             }, 500);
         } catch (error) {
             console.error("Booking submission error:", error);
+            const errorMessage =
+                error instanceof Error
+                    ? error.message
+                    : "Vui lòng kiểm tra lại thông tin hoặc thử lại sau.";
+
             toast({
                 title: "✗ Có lỗi xảy ra",
-                description:
-                    error instanceof Error
-                        ? error.message
-                        : "Vui lòng kiểm tra lại thông tin hoặc thử lại sau.",
+                description: errorMessage,
                 variant: "destructive",
             });
+
+            // Track booking submission error
+            trackFormError("quick_booking_dialog", "booking", errorMessage);
         } finally {
             setIsSubmitting(false);
         }

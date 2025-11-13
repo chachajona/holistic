@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 
+import { trackFormError, trackFormSubmit } from "@/lib/gtm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -17,6 +18,7 @@ export function NewsletterSignupClient() {
         if (!phoneNumber.trim()) {
             setFeedbackMessage("Vui lòng nhập số điện thoại.");
             setStatus("error");
+            trackFormError("newsletter_signup", "newsletter", "empty_phone");
             return;
         }
         setStatus("loading");
@@ -42,12 +44,18 @@ export function NewsletterSignupClient() {
             setStatus("success");
             setFeedbackMessage(result.message || "Đăng ký thành công!");
             setPhoneNumber("");
+
+            // Track successful newsletter subscription
+            trackFormSubmit("newsletter_signup", "newsletter");
         } catch (error) {
             console.error("Subscription error:", error);
             setStatus("error");
             const errorMessage =
                 error instanceof Error ? error.message : "Không thể đăng ký.";
             setFeedbackMessage(`Lỗi: ${errorMessage}`);
+
+            // Track newsletter subscription error
+            trackFormError("newsletter_signup", "newsletter", errorMessage);
         } finally {
             setTimeout(() => {
                 if (status !== "loading") setStatus("idle");

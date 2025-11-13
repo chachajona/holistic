@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { HeroData } from "@/types/sanity";
+import { trackFormError, trackFormSubmit } from "@/lib/gtm";
 import { getLocalizedString } from "@/lib/i18n/utils";
 import { getSanityBlurUrl, getSanityImageUrl } from "@/lib/sanity-image";
 import { useToast } from "@/hooks/use-toast";
@@ -69,16 +70,25 @@ const HeroClient: React.FC<HeroProps> = ({ onImageLoaded, heroData }) => {
                     description: getString("hero.form.successMessage"),
                 });
                 form.reset();
+
+                // Track successful hero newsletter submission
+                trackFormSubmit("hero_newsletter", "newsletter");
             } else {
                 throw new Error("Failed to submit form");
             }
         } catch (error) {
             console.error("Error submitting form:", error);
+            const errorMessage =
+                error instanceof Error ? error.message : "Unknown error";
+
             toast({
                 title: getString("hero.form.errorTitle"),
                 description: getString("hero.form.errorMessage"),
                 variant: "destructive",
             });
+
+            // Track hero newsletter submission error
+            trackFormError("hero_newsletter", "newsletter", errorMessage);
         }
     }
 

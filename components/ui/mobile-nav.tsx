@@ -9,8 +9,8 @@ import {
 } from "@radix-ui/react-collapsible";
 import { ChevronRight } from "lucide-react";
 
-import type { ServiceSummary } from "@/lib/api";
 import { siteConfig } from "@/config/site";
+import type { ServiceSummary } from "@/lib/api";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Icons } from "@/components/ui/icons";
@@ -265,10 +265,10 @@ export const MobileNav: React.FC<MobileNavProps> = ({ services = [] }) => {
                                 />
                             </CollapsibleNavItem>
                             <NavLink href="/about">
-                            {getString("nav.about")}
+                                {getString("nav.about")}
                             </NavLink>
                             <NavLink href="/blog">
-                            {getString("nav.blog")}
+                                {getString("nav.blog")}
                             </NavLink>
                         </div>
                     </ScrollArea>

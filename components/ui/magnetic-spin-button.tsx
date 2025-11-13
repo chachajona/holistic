@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useInView } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 
+import { trackCTAClick } from "@/lib/gtm";
 import { cn } from "@/lib/utils";
 
 import { Magnetic } from "./magnetic";
@@ -87,6 +88,9 @@ export function MagneticSpinButton({
                     <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                         <Link
                             href={href}
+                            onClick={() =>
+                                trackCTAClick("magnetic_spin_button", href)
+                            }
                             className={cn(
                                 buttonSize,
                                 "bg-brown-900 flex scale-110 items-center justify-center rounded-full md:scale-100 md:bg-transparent",

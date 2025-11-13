@@ -1,3 +1,5 @@
+"use client";
+
 import { cn } from "@/lib/utils";
 import { MagneticSpinButton } from "@/components/ui/magnetic-spin-button";
 import { OptimizedImage } from "@/components/ui/optimized-image";
